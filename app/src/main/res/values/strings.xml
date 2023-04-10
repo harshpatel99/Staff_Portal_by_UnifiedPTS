@@ -2,11 +2,25 @@
     <string name="app_name">Staff Portal</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="signin">Signin</string>
-    <string name="signup">Signup</string>
+    <string name="signin">Sign In</string>
+    <string name="signup">Sign Up</string>
     <string name="auth_select_sign_up_secondary_text">New? Send it for an approval</string>
     <string name="auth_select_sign_up_primary_text">Already have an account?</string>
     <string name="sign_in_secondary_text">Welcome Back</string>
     <string name="sign_in_sign_up">Don\'t have an account? Signup</string>
     <string name="phone_number">Phone Number</string>
+    <string name="otp">OTP</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="already_have_an_account_sign_in">Already have an account? Sign In</string>
+    <string name="send_a_reminder">Send a reminder</string>
+    <string name="attendance">Attendance</string>
+    <string name="leave_application">Leave Application</string>
+    <string name="hr_documents">HR Documents</string>
+    <string name="expense_details">Expense Details</string>
+    <string name="leave_type">Leave Type</string>
+    <string name="total">Total</string>
+    <string name="sick_leave">Sick Leave</string>
+    <string name="casual_leave">Casual Leave</string>
+    <string name="privilege_leave">Privilege Leave</string>
 </resources>

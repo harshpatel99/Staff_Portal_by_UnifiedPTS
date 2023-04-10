@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="corner_radius">24dp</dimen>
+    <dimen name="corner_radius_text_input_layout">20dp</dimen>
+    <dimen name="corner_radius_card_button">20dp</dimen>
+    <dimen name="margin_home_corner_card">104dp</dimen>
 </resources>
