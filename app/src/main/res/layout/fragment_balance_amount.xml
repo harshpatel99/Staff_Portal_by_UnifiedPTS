@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_color_home"
+    tools:context=".fragment.BalanceAmountFragment">
+
+    <ImageView
+        android:id="@+id/balanceAmountBackImageView"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/round_arrow_back_24"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/balanceAmountPrimaryTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/balance_amount"
+        android:textSize="@dimen/app_title_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/balanceAmountBackImageView"
+        app:layout_constraintStart_toEndOf="@id/balanceAmountBackImageView"
+        app:layout_constraintTop_toTopOf="@id/balanceAmountBackImageView" />
+
+    <ImageView
+        android:id="@+id/balanceAmountCornerImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/top_rounded_corners"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toEndOf="@id/balanceAmountPrimaryTextView"
+        app:layout_constraintTop_toBottomOf="@id/balanceAmountPrimaryTextView" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/balanceAmountDetailsCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="32dp"
+        app:cardBackgroundColor="@color/primary_color_leave_home"
+        app:cardCornerRadius="@dimen/corner_radius_card_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/black"
+        app:strokeWidth="2dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/balanceAmountDetailsCardHeaderTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/balance_details"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/balanceAmountDetailsCardHeaderTotalTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/amount"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/balanceAmountDetailsCardHeaderDivider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="20dp"
+                app:dividerColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsCardHeaderTitleTextView" />
+
+            <TextView
+                android:id="@+id/balanceAmountDetailsAgainstExpensesTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="Against Expenses"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsCardHeaderDivider" />
+
+            <TextView
+                android:id="@+id/balanceAmountDetailsAgainstTotalTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="20000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
+                app:layout_constraintStart_toStartOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
+                app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsCardHeaderDivider" />
+
+            <TextView
+                android:id="@+id/balanceAmountDetailsGratuityTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="Gratuity"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsAgainstExpensesTitleTextView" />
+
+            <TextView
+                android:id="@+id/balanceAmountDetailsGratuityTotalTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="7000"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
+                app:layout_constraintStart_toStartOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
+                app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsAgainstExpensesTitleTextView" />
+
+            <TextView
+                android:id="@+id/balanceAmountDetailsBonusTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="Bonus"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsGratuityTitleTextView" />
+
+            <TextView
+                android:id="@+id/balanceAmountDetailsBonusTotalTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="2000"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
+                app:layout_constraintStart_toStartOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
+                app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsGratuityTotalTextView" />
+
+            <TextView
+                android:id="@+id/balanceAmountDetailsLoanLeaveTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="20dp"
+                android:text="Loan"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsBonusTitleTextView" />
+
+            <TextView
+                android:id="@+id/balanceAmountDetailsBLLeaveTotalTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="5000"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
+                app:layout_constraintStart_toStartOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
+                app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsBonusTotalTextView" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

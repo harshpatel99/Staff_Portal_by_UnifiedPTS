@@ -23,4 +23,8 @@
     <string name="sick_leave">Sick Leave</string>
     <string name="casual_leave">Casual Leave</string>
     <string name="privilege_leave">Privilege Leave</string>
+    <string name="balance_amount">Balance Amount</string>
+    <string name="balance_details">Balance Details</string>
+    <string name="amount">Amount</string>
+    <string name="apply_for_leave">Apply for Leave</string>
 </resources>

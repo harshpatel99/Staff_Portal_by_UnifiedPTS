@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_color_home"
+    tools:context=".fragment.AttendanceFragment">
+
+    <ImageView
+        android:id="@+id/attendanceBackImageView"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/round_arrow_back_24"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/attendancePrimaryTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/attendance"
+        android:textSize="@dimen/app_title_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/attendanceBackImageView"
+        app:layout_constraintStart_toEndOf="@id/attendanceBackImageView"
+        app:layout_constraintTop_toTopOf="@id/attendanceBackImageView" />
+
+    <ImageView
+        android:id="@+id/attendanceCornerImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/top_rounded_corners"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toEndOf="@id/attendancePrimaryTextView"
+        app:layout_constraintTop_toBottomOf="@id/attendancePrimaryTextView" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/attendanceCheckDetailsCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="32dp"
+        app:cardBackgroundColor="@color/primary_color_leave_home"
+        app:cardCornerRadius="@dimen/corner_radius_card_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/black"
+        app:strokeWidth="2dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/attendanceCheckInCardTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Working Hours"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/attendanceCheckInCardCheckInTimeTextView"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/rounded_corners"
+                android:backgroundTint="@color/card_button_bg_color"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="Check In"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/attendanceCheckInCardCheckOutTimeTextView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/attendanceCheckInCardTitleTextView" />
+
+            <TextView
+                android:id="@+id/attendanceCheckInCardCheckOutTimeTextView"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/rounded_corners"
+                android:gravity="center"
+                android:backgroundTint="@color/card_button_bg_color"
+                android:padding="12dp"
+                android:text="Check Out"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/attendanceCheckInCardCheckInTimeTextView"
+                app:layout_constraintTop_toBottomOf="@id/attendanceCheckInCardTitleTextView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/attendanceDetailsCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        app:cardBackgroundColor="@color/primary_color_leave_home"
+        app:cardCornerRadius="@dimen/corner_radius_card_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/attendanceCheckDetailsCardView"
+        app:strokeColor="@color/black"
+        app:strokeWidth="2dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/attendanceDetailsCardHeaderTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="16dp"
+                android:text="Type"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/attendanceDetailsCardHeaderTotalTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/total"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/attendanceDetailsCardHeaderDivider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="20dp"
+                app:dividerColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/attendanceDetailsCardHeaderTitleTextView" />
+
+            <TextView
+                android:id="@+id/attendanceDetailsWorkerTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="Worker"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/attendanceDetailsCardHeaderDivider" />
+
+            <TextView
+                android:id="@+id/attendanceDetailsWorkerTotalTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="18"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@id/attendanceDetailsCardHeaderTotalTextView"
+                app:layout_constraintStart_toStartOf="@id/attendanceDetailsCardHeaderTotalTextView"
+                app:layout_constraintTop_toBottomOf="@id/attendanceDetailsCardHeaderDivider" />
+
+            <TextView
+                android:id="@+id/attendanceDetailsDetailsOutsideWorkerTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="20dp"
+                android:text="Outside Worker"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/attendanceDetailsWorkerTitleTextView" />
+
+            <TextView
+                android:id="@+id/balanceAmountDetailsOutsideWorkerTotalTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="20dp"
+                android:text="8"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/attendanceDetailsCardHeaderTotalTextView"
+                app:layout_constraintStart_toStartOf="@id/attendanceDetailsCardHeaderTotalTextView"
+                app:layout_constraintTop_toBottomOf="@id/attendanceDetailsWorkerTitleTextView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/attendanceAttachWorkerTextView"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/rounded_corners"
+        android:backgroundTint="@color/card_button_bg_color"
+        android:gravity="center"
+        android:layout_marginStart="16dp"
+        android:padding="12dp"
+        android:text="Attach (Worker)"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/attendanceDetailsCardView"
+        app:layout_constraintEnd_toStartOf="@id/attendanceAttachEngineerTextView"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/attendanceAttachEngineerTextView"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_corners"
+        android:gravity="center"
+        android:backgroundTint="@color/card_button_bg_color"
+        android:padding="12dp"
+        android:text="Attach (Engineer)"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/attendanceAttachWorkerTextView"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/attendanceDetailsCardView"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

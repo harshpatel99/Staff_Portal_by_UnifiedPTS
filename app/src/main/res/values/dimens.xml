@@ -4,4 +4,5 @@
     <dimen name="corner_radius_text_input_layout">20dp</dimen>
     <dimen name="corner_radius_card_button">20dp</dimen>
     <dimen name="margin_home_corner_card">104dp</dimen>
+    <dimen name="app_title_text_size">20sp</dimen>
 </resources>
