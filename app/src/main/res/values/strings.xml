@@ -27,4 +27,9 @@
     <string name="balance_details">Balance Details</string>
     <string name="amount">Amount</string>
     <string name="apply_for_leave">Apply for Leave</string>
+    <string name="leave_policy">Leave Policy</string>
+    <string name="appointment_letter">Appointment Letter</string>
+    <string name="salary_slip">Salary Slip</string>
+    <string name="increment_letter">Increment Letter</string>
+    <string name="transfer_letter">Transfer Letter</string>
 </resources>

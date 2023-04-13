@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary_color_home"
+    tools:context=".fragment.HRDocumentsHomeFragment">
+
+    <ImageView
+        android:id="@+id/hrDocumentHomeBackImageView"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/round_arrow_back_24"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/hrDocumentHomePrimaryTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/hr_documents"
+        android:textSize="@dimen/app_title_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/hrDocumentHomeBackImageView"
+        app:layout_constraintStart_toEndOf="@id/hrDocumentHomeBackImageView"
+        app:layout_constraintTop_toTopOf="@id/hrDocumentHomeBackImageView" />
+
+    <ImageView
+        android:id="@+id/hrDocumentHomeCornerImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/top_rounded_corners"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toEndOf="@id/hrDocumentHomePrimaryTextView"
+        app:layout_constraintTop_toBottomOf="@id/hrDocumentHomePrimaryTextView" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/hrDocumentMenuLeavePolicyButtonCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="32dp"
+        app:cardBackgroundColor="@color/action_button_home"
+        app:cardCornerRadius="@dimen/corner_radius_card_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:strokeColor="@color/black"
+        app:strokeWidth="2dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/hrDocumentMenuLeavePolicyCardImageView"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/round_account_circle_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/hrDocumentMenuLeavePolicyCardTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/leave_policy"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/hrDocumentMenuLeavePolicyCardImageView"
+                app:layout_constraintStart_toEndOf="@id/hrDocumentMenuLeavePolicyCardImageView"
+                app:layout_constraintTop_toTopOf="@id/hrDocumentMenuLeavePolicyCardImageView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/hrDocumentMenuAppointmentLetterButtonCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
+        app:cardBackgroundColor="@color/action_button_home"
+        app:cardCornerRadius="@dimen/corner_radius_card_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hrDocumentMenuLeavePolicyButtonCardView"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:strokeColor="@color/black"
+        app:strokeWidth="2dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/hrDocumentMenuAppointmentLetterCardImageView"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/round_account_circle_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/hrDocumentMenuAppointmentLetterCardTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/appointment_letter"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/hrDocumentMenuAppointmentLetterCardImageView"
+                app:layout_constraintStart_toEndOf="@id/hrDocumentMenuAppointmentLetterCardImageView"
+                app:layout_constraintTop_toTopOf="@id/hrDocumentMenuAppointmentLetterCardImageView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/hrDocumentMenuSalarySlipButtonCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
+        app:cardBackgroundColor="@color/action_button_home"
+        app:cardCornerRadius="@dimen/corner_radius_card_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hrDocumentMenuAppointmentLetterButtonCardView"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:strokeColor="@color/black"
+        app:strokeWidth="2dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/hrDocumentMenuSalarySlipCardImageView"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/round_account_circle_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/hrDocumentMenuSalarySlipCardTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/salary_slip"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/hrDocumentMenuSalarySlipCardImageView"
+                app:layout_constraintStart_toEndOf="@id/hrDocumentMenuSalarySlipCardImageView"
+                app:layout_constraintTop_toTopOf="@id/hrDocumentMenuSalarySlipCardImageView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/hrDocumentMenuIncrementLetterButtonCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
+        app:cardBackgroundColor="@color/action_button_home"
+        app:cardCornerRadius="@dimen/corner_radius_card_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hrDocumentMenuSalarySlipButtonCardView"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:strokeColor="@color/black"
+        app:strokeWidth="2dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/hrDocumentMenuIncrementLetterCardImageView"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/round_account_circle_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/hrDocumentMenuIncrementLetterCardTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/increment_letter"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/hrDocumentMenuIncrementLetterCardImageView"
+                app:layout_constraintStart_toEndOf="@id/hrDocumentMenuIncrementLetterCardImageView"
+                app:layout_constraintTop_toTopOf="@id/hrDocumentMenuIncrementLetterCardImageView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/hrDocumentMenuTransferLetterButtonCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
+        app:cardBackgroundColor="@color/action_button_home"
+        app:cardCornerRadius="@dimen/corner_radius_card_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hrDocumentMenuIncrementLetterButtonCardView"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:strokeColor="@color/black"
+        app:strokeWidth="2dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/hrDocumentMenuTransferLetterCardImageView"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/round_account_circle_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/hrDocumentMenuTransferLetterCardTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/transfer_letter"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/hrDocumentMenuTransferLetterCardImageView"
+                app:layout_constraintStart_toEndOf="@id/hrDocumentMenuTransferLetterCardImageView"
+                app:layout_constraintTop_toTopOf="@id/hrDocumentMenuTransferLetterCardImageView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
