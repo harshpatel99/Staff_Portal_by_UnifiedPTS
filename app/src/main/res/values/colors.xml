@@ -7,13 +7,24 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="action_button_authentication">#E0E7EF</color>
-    <color name="action_button_leave_home">#C1C4FF</color>
-    <color name="action_button_home">#9EA9EF</color>
-    <color name="primary_color_authentication">#BFEDFF</color>
-    <color name="primary_color_leave_home">#A4C2F7</color>
-    <color name="primary_color_leave_home_list">#E0FBCF</color>
-    <color name="primary_color_home">#97C3F3</color>
-    <color name="card_button_bg_color">#E0E7EF</color>
-    <color name="leave_application_approved">#1DA613</color>
+    <color name="action_button_authentication">@color/primary</color>
+    <color name="action_button_leave_home">@color/primary</color>
+    <color name="action_button_home">@color/secondary</color>
+    <color name="primary_color_authentication">@color/primary</color>
+    <color name="primary_color_leave_home">@color/primary</color>
+    <color name="primary_color_leave_home_list">@color/accentPositiveVeryLight</color>
+    <color name="primary_color_home">@color/primary</color>
+    <color name="card_button_bg_color">@color/secondary</color>
+    <color name="leave_application_approved">@color/accentPositive</color>
+
+
+    <color name="primary">#21759b</color>
+    <color name="primaryLight">#84C2DD</color>
+    <color name="secondary">#abb8c3</color>
+    <color name="secondaryDark">#41576A</color>
+    <color name="accent">#cf2e2e</color>
+    <color name="accentVeryLight">#F6CFCF</color>
+    <color name="accentPositive">#00d084</color>
+    <color name="accentPositiveVeryLight">#D5F6EA</color>
+
 </resources>

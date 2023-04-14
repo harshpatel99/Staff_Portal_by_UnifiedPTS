@@ -28,7 +28,7 @@
         android:paddingEnd="32dp"
         android:gravity="center"
         android:layout_marginEnd="32dp"
-        android:text="Your Account is under being verified"
+        android:text="Your Account is being verified"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/waitingForApprovalRemindCardView"

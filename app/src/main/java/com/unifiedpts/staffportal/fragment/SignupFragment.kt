@@ -1,11 +1,17 @@
 package com.unifiedpts.staffportal.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import com.google.android.material.card.MaterialCardView
+import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
+import com.unifiedpts.staffportal.activity.AuthenticationActivity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +41,26 @@ class SignupFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_signup, container, false)
+        val view =  inflater.inflate(R.layout.fragment_signup, container, false)
+
+        val backButton = view.findViewById<ImageView>(R.id.signUpBackImageView)
+        val signUpButton = view.findViewById<MaterialCardView>(R.id.signUpButtonCardView)
+        val signInTextView = view.findViewById<TextView>(R.id.signUpSigninTexView)
+
+        backButton.setOnClickListener {
+            AuthenticationActivity.closeFragment(requireActivity())
+        }
+
+        signUpButton.setOnClickListener {
+            AuthenticationActivity.openFragment(requireActivity(),WaitingForApprovalFragment())
+        //requireActivity().startActivity(Intent(activity, MainActivity::class.java))
+        }
+
+        signInTextView.setOnClickListener {
+            AuthenticationActivity.openFragment(requireActivity(),SignInFragment())
+        }
+
+        return view
     }
 
     companion object {

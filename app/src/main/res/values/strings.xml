@@ -16,6 +16,7 @@
     <string name="send_a_reminder">Send a reminder</string>
     <string name="attendance">Attendance</string>
     <string name="leave_application">Leave Application</string>
+    <string name="leave_application_new_line">Leave \nApplication</string>
     <string name="hr_documents">HR Documents</string>
     <string name="expense_details">Expense Details</string>
     <string name="leave_type">Leave Type</string>

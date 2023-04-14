@@ -5,4 +5,7 @@
     <dimen name="corner_radius_card_button">20dp</dimen>
     <dimen name="margin_home_corner_card">104dp</dimen>
     <dimen name="app_title_text_size">20sp</dimen>
+    <dimen name="home_menu_text_size">18sp</dimen>
+    <dimen name="home_menu_item_small_image_size">30dp</dimen>
+    <dimen name="home_menu_item_big_image_size">40dp</dimen>
 </resources>

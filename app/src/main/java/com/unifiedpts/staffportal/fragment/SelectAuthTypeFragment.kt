@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.google.android.material.card.MaterialCardView
 import com.unifiedpts.staffportal.R
+import com.unifiedpts.staffportal.activity.AuthenticationActivity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,7 +39,16 @@ class SelectAuthTypeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_select_auth_type, container, false)
 
+        val signInCardView = view.findViewById<MaterialCardView>(R.id.selectAuthTypeSignInCardView)
+        val signUpCardView = view.findViewById<MaterialCardView>(R.id.selectAuthTypeSignUpCardView)
 
+        signInCardView.setOnClickListener {
+            AuthenticationActivity.openFragment(requireActivity(),SignInFragment())
+        }
+
+        signUpCardView.setOnClickListener {
+            AuthenticationActivity.openFragment(requireActivity(),SignupFragment())
+        }
 
         return view
     }

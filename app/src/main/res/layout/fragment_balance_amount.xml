@@ -14,9 +14,11 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="16dp"
+        android:tint="@color/white"
         android:src="@drawable/round_arrow_back_24"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
 
     <TextView
         android:id="@+id/balanceAmountPrimaryTextView"
@@ -24,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@string/balance_amount"
+        android:textColor="@color/white"
         android:textSize="@dimen/app_title_text_size"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/balanceAmountBackImageView"
@@ -47,7 +50,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="120dp"
         android:layout_marginEnd="32dp"
-        app:cardBackgroundColor="@color/primary_color_leave_home"
+        app:cardBackgroundColor="@color/secondary"
         app:cardCornerRadius="@dimen/corner_radius_card_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,6 +70,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/balance_details"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -81,6 +85,7 @@
                 android:layout_marginBottom="16dp"
                 android:text="@string/amount"
                 android:textSize="16sp"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -94,6 +99,7 @@
                 android:layout_marginEnd="20dp"
                 app:dividerColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@color/black"
                 app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsCardHeaderTitleTextView" />
 
             <TextView
@@ -105,6 +111,7 @@
                 android:layout_marginBottom="16dp"
                 android:text="Against Expenses"
                 android:textSize="16sp"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsCardHeaderDivider" />
@@ -117,6 +124,7 @@
                 android:layout_marginBottom="16dp"
                 android:text="20000"
                 android:textSize="16sp"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
                 app:layout_constraintStart_toStartOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
@@ -130,6 +138,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="Gratuity"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsAgainstExpensesTitleTextView" />
@@ -140,6 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
+                android:textColor="@color/black"
                 android:text="7000"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
@@ -154,6 +164,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="Bonus"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsGratuityTitleTextView" />
@@ -165,6 +176,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="2000"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
                 app:layout_constraintStart_toStartOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
@@ -178,6 +190,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="20dp"
                 android:text="Loan"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -189,6 +202,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
+                android:textColor="@color/black"
                 android:text="5000"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@id/balanceAmountDetailsCardHeaderTotalTextView"

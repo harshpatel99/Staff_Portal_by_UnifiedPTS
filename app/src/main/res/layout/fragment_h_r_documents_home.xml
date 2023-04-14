@@ -14,15 +14,18 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="16dp"
+        android:tint="@color/white"
         android:src="@drawable/round_arrow_back_24"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
 
     <TextView
         android:id="@+id/hrDocumentHomePrimaryTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:textColor="@color/white"
         android:text="@string/hr_documents"
         android:textSize="@dimen/app_title_text_size"
         android:textStyle="bold"
@@ -62,8 +65,8 @@
 
             <ImageView
                 android:id="@+id/hrDocumentMenuLeavePolicyCardImageView"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
+                android:layout_width="@dimen/home_menu_item_small_image_size"
+                android:layout_height="@dimen/home_menu_item_small_image_size"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
@@ -79,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@string/leave_policy"
-                android:textSize="24sp"
+                android:textSize="@dimen/home_menu_text_size"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@id/hrDocumentMenuLeavePolicyCardImageView"
                 app:layout_constraintStart_toEndOf="@id/hrDocumentMenuLeavePolicyCardImageView"
@@ -111,8 +114,8 @@
 
             <ImageView
                 android:id="@+id/hrDocumentMenuAppointmentLetterCardImageView"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
+                android:layout_width="@dimen/home_menu_item_small_image_size"
+                android:layout_height="@dimen/home_menu_item_small_image_size"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
@@ -128,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@string/appointment_letter"
-                android:textSize="24sp"
+                android:textSize="@dimen/home_menu_text_size"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@id/hrDocumentMenuAppointmentLetterCardImageView"
                 app:layout_constraintStart_toEndOf="@id/hrDocumentMenuAppointmentLetterCardImageView"
@@ -160,8 +163,8 @@
 
             <ImageView
                 android:id="@+id/hrDocumentMenuSalarySlipCardImageView"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
+                android:layout_width="@dimen/home_menu_item_small_image_size"
+                android:layout_height="@dimen/home_menu_item_small_image_size"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
@@ -177,7 +180,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@string/salary_slip"
-                android:textSize="24sp"
+                android:textSize="@dimen/home_menu_text_size"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@id/hrDocumentMenuSalarySlipCardImageView"
                 app:layout_constraintStart_toEndOf="@id/hrDocumentMenuSalarySlipCardImageView"
@@ -209,8 +212,8 @@
 
             <ImageView
                 android:id="@+id/hrDocumentMenuIncrementLetterCardImageView"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
+                android:layout_width="@dimen/home_menu_item_small_image_size"
+                android:layout_height="@dimen/home_menu_item_small_image_size"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
@@ -226,7 +229,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@string/increment_letter"
-                android:textSize="24sp"
+                android:textSize="@dimen/home_menu_text_size"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@id/hrDocumentMenuIncrementLetterCardImageView"
                 app:layout_constraintStart_toEndOf="@id/hrDocumentMenuIncrementLetterCardImageView"
@@ -258,8 +261,8 @@
 
             <ImageView
                 android:id="@+id/hrDocumentMenuTransferLetterCardImageView"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
+                android:layout_width="@dimen/home_menu_item_small_image_size"
+                android:layout_height="@dimen/home_menu_item_small_image_size"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
@@ -275,7 +278,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="@string/transfer_letter"
-                android:textSize="24sp"
+                android:textSize="@dimen/home_menu_text_size"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@id/hrDocumentMenuTransferLetterCardImageView"
                 app:layout_constraintStart_toEndOf="@id/hrDocumentMenuTransferLetterCardImageView"

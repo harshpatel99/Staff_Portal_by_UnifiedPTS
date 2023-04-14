@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import com.google.android.material.card.MaterialCardView
+import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -35,7 +39,35 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        val leaveApplicationButtonCard = view.findViewById<MaterialCardView>(R.id.homeMenuLeaveApplicationButtonCardView)
+        val attendanceButtonCard = view.findViewById<MaterialCardView>(R.id.homeMenuAttendanceButtonCardView)
+        val balanceButtonCard = view.findViewById<MaterialCardView>(R.id.homeMenuBalanceButtonCardView)
+        val expenseButtonCard = view.findViewById<MaterialCardView>(R.id.homeMenuExpenseButtonCardView)
+        val hrDocumentsButtonCard = view.findViewById<MaterialCardView>(R.id.homeMenuHRDocumentsButtonCardView)
+
+        leaveApplicationButtonCard.setOnClickListener {
+            MainActivity.openFragment(requireActivity(),LeaveHomeFragment())
+        }
+
+        attendanceButtonCard.setOnClickListener {
+            MainActivity.openFragment(requireActivity(),AttendanceFragment())
+        }
+
+        balanceButtonCard.setOnClickListener {
+            MainActivity.openFragment(requireActivity(),BalanceAmountFragment())
+        }
+
+        expenseButtonCard.setOnClickListener {
+            //MainActivity.openFragment(requireActivity(),())
+        }
+
+        hrDocumentsButtonCard.setOnClickListener {
+            MainActivity.openFragment(requireActivity(),HRDocumentsHomeFragment())
+        }
+
+        return view
     }
 
     companion object {
