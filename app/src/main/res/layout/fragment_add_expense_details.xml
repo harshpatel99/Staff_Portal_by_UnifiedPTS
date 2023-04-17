@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/primary_color_home"
+    tools:context=".fragment.AddExpenseDetailsFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/addExpenseDetailsBackImageView"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/round_arrow_back_24"
+            android:tint="@color/white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/addExpenseDetailsPrimaryTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Fill Expense Details"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/addExpenseDetailsBackImageView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toEndOf="@id/addExpenseDetailsBackImageView"
+            app:layout_constraintTop_toTopOf="@id/addExpenseDetailsBackImageView" />
+
+        <TextView
+            android:id="@+id/addExpenseDetailsEmployeeIDTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/rounded_corners"
+            android:paddingStart="8dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="4dp"
+            android:text="EID002"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/addExpenseDetailsBackImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/addExpenseDetailsBackImageView" />
+
+
+        <ImageView
+            android:id="@+id/addExpenseDetailsCornerImageView"
+            android:layout_width="match_parent"
+            android:layout_height="1500dp"
+            android:layout_marginTop="80dp"
+            android:src="@drawable/top_rounded_corners"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/addExpenseDetailsProjectDetailsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Project -> Floor -> Pour"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/addExpenseDetailsCornerImageView" />
+
+        <include
+            android:id="@+id/addExpenseDetailsLayoutCashWorker"
+            layout="@layout/layout_item_expense_details"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addExpenseDetailsProjectDetailsTextView" />
+
+        <include
+            android:id="@+id/addExpenseDetailsLayoutWorkerAuto"
+            layout="@layout/layout_item_expense_details"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addExpenseDetailsLayoutCashWorker" />
+
+        <include
+            android:id="@+id/addExpenseDetailsLayoutWorkerFood"
+            layout="@layout/layout_item_expense_details"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addExpenseDetailsLayoutWorkerAuto" />
+
+        <include
+            android:id="@+id/addExpenseDetailsLayoutEngineerFood"
+            layout="@layout/layout_item_expense_details"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addExpenseDetailsLayoutWorkerFood" />
+
+        <include
+            android:id="@+id/addExpenseDetailsLayoutEngineerAutoCab"
+            layout="@layout/layout_item_expense_details"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addExpenseDetailsLayoutEngineerFood" />
+
+        <include
+            android:id="@+id/addExpenseDetailsLayoutEngineerHotel"
+            layout="@layout/layout_item_expense_details"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addExpenseDetailsLayoutEngineerAutoCab" />
+
+        <include
+            android:id="@+id/addExpenseDetailsLayoutWorkerHotel"
+            layout="@layout/layout_item_expense_details"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addExpenseDetailsLayoutEngineerHotel" />
+
+        <include
+            android:id="@+id/addExpenseDetailsLayoutBusTrainFare"
+            layout="@layout/layout_item_expense_details"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addExpenseDetailsLayoutWorkerHotel" />
+
+        <include
+            android:id="@+id/addExpenseDetailsLayoutPetrolDiesel"
+            layout="@layout/layout_item_expense_details"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addExpenseDetailsLayoutBusTrainFare" />
+
+
+        <include
+            android:id="@+id/addExpenseDetailsLayoutMaterialTransportation"
+            layout="@layout/layout_item_expense_details"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addExpenseDetailsLayoutPetrolDiesel" />
+
+        <include
+            android:id="@+id/addExpenseDetailsLayoutPrintingStationary"
+            layout="@layout/layout_item_expense_details"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addExpenseDetailsLayoutMaterialTransportation" />
+
+        <include
+            android:id="@+id/addExpenseDetailsLayoutOther"
+            layout="@layout/layout_item_expense_details"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addExpenseDetailsLayoutPrintingStationary" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/addExpenseDetailsSubmitButtonCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="72dp"
+            app:cardBackgroundColor="@color/action_button_leave_home"
+            app:cardCornerRadius="@dimen/corner_radius_card_button"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addExpenseDetailsLayoutOther"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:strokeColor="@color/black"
+            app:strokeWidth="1dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/addExpenseDetailsSubmitCardPrimaryTexView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center"
+                    android:text="Submit"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

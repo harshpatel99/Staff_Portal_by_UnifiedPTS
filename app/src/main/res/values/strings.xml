@@ -33,4 +33,5 @@
     <string name="salary_slip">Salary Slip</string>
     <string name="increment_letter">Increment Letter</string>
     <string name="transfer_letter">Transfer Letter</string>
+    <string name="remarks">Remarks</string>
 </resources>
