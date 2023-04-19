@@ -77,6 +77,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signInPhoneNumberTextInputEditText"
             android:layout_width="match_parent"
+            android:inputType="number"
+            android:maxLength="10"
             android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -98,15 +100,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/signInPhoneNumberTextInputLayout"
-        app:startIconDrawable="@drawable/baseline_phone_24">
+        app:startIconDrawable="@drawable/round_password_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/signInOTPTextInputEditText"
             android:layout_width="match_parent"
             android:inputType="number"
+            android:maxLength="6"
             android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <ProgressBar
+        android:id="@+id/signInProgressBar"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signInOTPTextInputLayout" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/signInButtonCardView"
@@ -119,7 +133,7 @@
         app:cardCornerRadius="@dimen/corner_radius_card_button"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/signInOTPTextInputLayout"
+        app:layout_constraintTop_toBottomOf="@id/signInProgressBar"
         app:layout_constraintVertical_chainStyle="packed"
         app:strokeColor="@color/black"
         app:strokeWidth="2dp">

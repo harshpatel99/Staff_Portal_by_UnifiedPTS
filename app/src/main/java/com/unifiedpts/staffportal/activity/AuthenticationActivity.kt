@@ -1,6 +1,7 @@
 package com.unifiedpts.staffportal.activity
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -8,6 +9,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.google.firebase.auth.FirebaseAuth
+import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.fragment.SelectAuthTypeFragment
 import com.unifiedpts.staffportal.R
 
@@ -15,6 +18,10 @@ import com.unifiedpts.staffportal.R
 class AuthenticationActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val isUserSignedIn = FirebaseAuth.getInstance().currentUser != null
+        if (isUserSignedIn) startActivity(Intent(this, MainActivity::class.java))
+
         setContentView(R.layout.activity_authentication)
 
         //var fragmentContainerView = findViewById<FragmentContainerView>(R.id.fragmentContainerViewAuth)
@@ -37,5 +44,7 @@ class AuthenticationActivity : FragmentActivity() {
             activity.onBackPressedDispatcher.onBackPressed()
         }
     }
+
+
 
 }
