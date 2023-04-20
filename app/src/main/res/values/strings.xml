@@ -34,4 +34,16 @@
     <string name="increment_letter">Increment Letter</string>
     <string name="transfer_letter">Transfer Letter</string>
     <string name="remarks">Remarks</string>
+    <string name="cash_worker">Cash Worker</string>
+    <string name="worker_auto">Worker Auto</string>
+    <string name="worker_food">Worker Food</string>
+    <string name="engineer_food">Engineer Food</string>
+    <string name="engineer_auto_cab">Engineer Auto/Cab</string>
+    <string name="engineer_hotel">Engineer Hotel</string>
+    <string name="worker_hotel">Worker Hotel</string>
+    <string name="bus_train_fare">Bus/Train Fare</string>
+    <string name="material_transportation">Material Transportation</string>
+    <string name="petrol_diesel">Petrol/Diesel</string>
+    <string name="printing_stationary">Printing/Stationary</string>
+    <string name="other">Other</string>
 </resources>

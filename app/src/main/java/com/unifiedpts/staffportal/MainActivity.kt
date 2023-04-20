@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        openFragment(this, HomeFragment());
+        openFragment(this, HomeFragment())
     }
 
     companion object {

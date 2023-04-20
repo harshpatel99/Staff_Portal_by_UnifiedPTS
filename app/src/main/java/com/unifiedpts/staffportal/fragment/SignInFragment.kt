@@ -44,9 +44,7 @@ class SignInFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            auth = FirebaseAuth.getInstance()
-        }
+        auth = FirebaseAuth.getInstance()
     }
 
     override fun onCreateView(
@@ -85,6 +83,7 @@ class SignInFragment : Fragment() {
                 ).show()
                 progressBar.visibility = View.GONE
             } else {
+
                 if (otpInputLayout.visibility == View.GONE) {
                     otpInputLayout.visibility = View.VISIBLE
                     val phone = "+91$phoneNumber"

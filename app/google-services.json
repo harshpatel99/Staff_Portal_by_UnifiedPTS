@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "873145271256",
+    "project_id": "staff-portal-23c8f",
+    "storage_bucket": "staff-portal-23c8f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873145271256:android:57f683dda4262ff6a428ad",
+        "android_client_info": {
+          "package_name": "com.unifiedpts.staffportal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "873145271256-vt9rcak39t2ishd6g9vt6rlmej9u2k73.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9s9W1xigW6HkSGDm4URXtwlC8tW_pu-g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "873145271256-vt9rcak39t2ishd6g9vt6rlmej9u2k73.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

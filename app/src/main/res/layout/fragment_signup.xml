@@ -10,14 +10,14 @@
     <ImageView
         android:id="@+id/signUpBackImageView"
         android:layout_width="32dp"
-        app:tint="@color/white"
         android:layout_height="32dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="16dp"
         android:src="@drawable/round_arrow_back_24"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
 
     <TextView
         android:id="@+id/signUpPrimaryTexView"
@@ -25,9 +25,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@string/signup"
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/signUpBackImageView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toEndOf="@id/signUpBackImageView"
@@ -40,8 +40,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Sign up now to begin an amazing journey"
-        android:textSize="16sp"
         android:textColor="@color/white"
+        android:textSize="16sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/signUpBackImageView" />
@@ -157,6 +157,17 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <ProgressBar
+        android:id="@+id/signUpProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signUpOTPTextInputLayout" />
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/signUpButtonCardView"
         android:layout_width="match_parent"
@@ -168,7 +179,7 @@
         app:cardCornerRadius="@dimen/corner_radius_card_button"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/signUpOTPTextInputLayout"
+        app:layout_constraintTop_toBottomOf="@id/signUpProgressBar"
         app:layout_constraintVertical_chainStyle="packed"
         app:strokeColor="@color/black"
         app:strokeWidth="2dp">
@@ -185,8 +196,8 @@
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
                 android:text="@string/signup"
-                android:textSize="20sp"
                 android:textColor="@color/white"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
