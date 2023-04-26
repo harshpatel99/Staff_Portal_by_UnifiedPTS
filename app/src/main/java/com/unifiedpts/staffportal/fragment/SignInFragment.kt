@@ -62,7 +62,7 @@ class SignInFragment : Fragment() {
             view.findViewById<TextInputEditText>(R.id.signInPhoneNumberTextInputEditText)
         otpET = view.findViewById(R.id.signInOTPTextInputEditText)
         val otpInputLayout = view.findViewById<TextInputLayout>(R.id.signInOTPTextInputLayout)
-        val progressBar = view.findViewById<ProgressBar>(R.id.signInProgressBar)
+        progressBar = view.findViewById(R.id.signInProgressBar)
 
 
         backButton.setOnClickListener {
@@ -83,6 +83,12 @@ class SignInFragment : Fragment() {
                 ).show()
                 progressBar.visibility = View.GONE
             } else {
+
+                /*val i = Intent(activity, MainActivity::class.java)
+                startActivity(i)
+                requireActivity().finish()*/
+
+
 
                 if (otpInputLayout.visibility == View.GONE) {
                     otpInputLayout.visibility = View.VISIBLE

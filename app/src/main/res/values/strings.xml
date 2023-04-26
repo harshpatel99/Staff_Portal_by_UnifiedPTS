@@ -46,4 +46,5 @@
     <string name="petrol_diesel">Petrol/Diesel</string>
     <string name="printing_stationary">Printing/Stationary</string>
     <string name="other">Other</string>
+    <string name="your_account_is_being_verified">Your account is being verified</string>
 </resources>

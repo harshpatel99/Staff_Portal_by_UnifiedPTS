@@ -33,18 +33,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/homeAppNameTexView" />
 
-    <ImageView
-        android:id="@+id/homeProfileImageView"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+    <TextView
+        android:id="@+id/homeProfileTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corners"
         android:layout_marginTop="36dp"
-        app:tint="@color/white"
-        android:tint="@color/white"
         android:layout_marginEnd="20dp"
-        android:src="@drawable/round_account_circle_24"
+        android:paddingStart="36dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="8dp"
+        android:text="EID002"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@id/homeAppCompanyNameTexView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/homeProfileImageView"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/round_settings_24"
+        android:tint="@color/black"
+        app:layout_constraintStart_toStartOf="@id/homeProfileTextView"
+        app:layout_constraintBottom_toBottomOf="@id/homeProfileTextView"
+        app:layout_constraintTop_toTopOf="@id/homeProfileTextView"
+        app:tint="@color/black" />
 
     <ImageView
         android:id="@+id/homeCornerImageView"
@@ -55,101 +71,110 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/homeAppCompanyNameTexView" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/homeMenuAttendanceButtonCardView"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="140dp"
-        android:layout_marginEnd="16dp"
-        app:cardBackgroundColor="@color/action_button_home"
-        app:cardCornerRadius="@dimen/corner_radius_card_button"
-        app:layout_constraintEnd_toStartOf="@id/homeMenuLeaveApplicationButtonCardView"
+
+    <LinearLayout
+        android:id="@+id/homeMenuAttendanceButtonGridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:strokeColor="@color/black"
-        app:strokeWidth="2dp">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/homeMenuAttendanceCardImageView"
-                android:layout_width="@dimen/home_menu_item_big_image_size"
-                android:layout_height="@dimen/home_menu_item_big_image_size"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:src="@drawable/round_account_circle_24"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/homeMenuAttendanceCardTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="20dp"
-                android:text="@string/attendance"
-                android:textSize="@dimen/home_menu_text_size"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/homeMenuAttendanceCardImageView" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/homeMenuLeaveApplicationButtonCardView"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_marginStart="16dp"
+        android:orientation="horizontal"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="140dp"
         android:layout_marginEnd="32dp"
-        app:cardBackgroundColor="@color/action_button_home"
-        app:cardCornerRadius="@dimen/corner_radius_card_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/homeMenuAttendanceButtonCardView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:strokeColor="@color/black"
-        app:strokeWidth="2dp">
+        app:layout_constraintVertical_chainStyle="packed">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/homeMenuAttendanceButtonCardView"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_weight="1"
+            app:cardBackgroundColor="@color/action_button_home"
+            app:cardCornerRadius="@dimen/corner_radius_card_button"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toStartOf="@id/homeMenuLeaveApplicationButtonCardView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed">
 
-            <ImageView
-                android:id="@+id/homeMenuLeaveApplicationCardImageView"
-                android:layout_width="@dimen/home_menu_item_big_image_size"
-                android:layout_height="@dimen/home_menu_item_big_image_size"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:src="@drawable/round_account_circle_24"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/homeMenuLeaveApplicationCardTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="20dp"
-                android:text="@string/leave_application_new_line"
-                android:textSize="@dimen/home_menu_text_size"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/homeMenuLeaveApplicationCardImageView" />
+                <ImageView
+                    android:id="@+id/homeMenuAttendanceCardImageView"
+                    android:layout_width="@dimen/home_menu_item_big_image_size"
+                    android:layout_height="@dimen/home_menu_item_big_image_size"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/round_playlist_add_check_circle_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/homeMenuAttendanceCardTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/attendance"
+                    android:textSize="@dimen/home_menu_text_size"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/homeMenuAttendanceCardImageView" />
 
-    </com.google.android.material.card.MaterialCardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/homeMenuLeaveApplicationButtonCardView"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="16dp"
+            app:cardBackgroundColor="@color/action_button_home"
+            app:cardCornerRadius="@dimen/corner_radius_card_button"
+            android:layout_weight="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/homeMenuAttendanceButtonCardView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/homeMenuLeaveApplicationCardImageView"
+                    android:layout_width="@dimen/home_menu_item_big_image_size"
+                    android:layout_height="@dimen/home_menu_item_big_image_size"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/round_timelapse_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/homeMenuLeaveApplicationCardTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="@string/leave_application_new_line"
+                    android:textSize="@dimen/home_menu_text_size"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/homeMenuLeaveApplicationCardImageView" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/homeMenuBalanceButtonCardView"
@@ -162,10 +187,8 @@
         app:cardCornerRadius="@dimen/corner_radius_card_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/homeMenuAttendanceButtonCardView"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:strokeColor="@color/black"
-        app:strokeWidth="2dp">
+        app:layout_constraintTop_toBottomOf="@id/homeMenuAttendanceButtonGridLayout"
+        app:layout_constraintVertical_chainStyle="packed">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -179,7 +202,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
-                android:src="@drawable/round_account_circle_24"
+                android:src="@drawable/round_account_balance_wallet_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -212,9 +235,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/homeMenuBalanceButtonCardView"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:strokeColor="@color/black"
-        app:strokeWidth="2dp">
+        app:layout_constraintVertical_chainStyle="packed">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -228,7 +249,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
-                android:src="@drawable/round_account_circle_24"
+                android:src="@drawable/round_monetization_on_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -261,9 +282,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/homeMenuExpenseButtonCardView"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:strokeColor="@color/black"
-        app:strokeWidth="2dp">
+        app:layout_constraintVertical_chainStyle="packed">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -277,7 +296,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
-                android:src="@drawable/round_account_circle_24"
+                android:src="@drawable/round_document_scanner_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

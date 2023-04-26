@@ -6,13 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
 import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
+import com.unifiedpts.staffportal.activity.AuthenticationActivity
 import com.unifiedpts.staffportal.model.ExpenseDetails
 
 
@@ -48,7 +51,9 @@ class AddExpenseMainFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_add_expense_main, container, false)
 
-        expenseDetails = ExpenseDetails(System.currentTimeMillis())
+        val auth = FirebaseAuth.getInstance().currentUser
+
+        expenseDetails = ExpenseDetails(auth!!.uid, System.currentTimeMillis())
 
         val cityList = arrayOf("Pune", "Mumbai", "Ahmedabad")
         val state = arrayOf("Maharashtra", "Gujarat")
@@ -56,6 +61,13 @@ class AddExpenseMainFragment : Fragment() {
         val floor = arrayOf("Floor 1", "Floor 2", "Floor 3")
         val pour = arrayOf("Pour 1", "Pour 2")
         val work = arrayOf("Installation", "Stressing", "Cable Cutting", "Site Visit", "Marketing")
+
+
+        val backButton = view.findViewById<ImageView>(R.id.addExpenseMainBackImageView)
+
+        backButton.setOnClickListener {
+            MainActivity.closeFragment(requireActivity())
+        }
 
         val cityACTView =
             view.findViewById<AppCompatAutoCompleteTextView>(R.id.addExpenseMainCityACTView)
@@ -75,9 +87,29 @@ class AddExpenseMainFragment : Fragment() {
         val fillExpenseButtonCardView =
             view.findViewById<MaterialCardView>(R.id.addExpenseMainFillExpensesButtonCardView)
 
-        val adapter =
-            ArrayAdapter<Any?>(requireContext(), android.R.layout.simple_spinner_item, cityList)
+        var adapter = ArrayAdapter<Any?>(requireContext(), R.layout.item_drop_down, cityList)
         cityACTView.setAdapter(adapter)
+
+        adapter =
+            ArrayAdapter<Any?>(requireContext(), R.layout.item_drop_down, state)
+        stateACTView.setAdapter(adapter)
+
+        adapter =
+            ArrayAdapter<Any?>(requireContext(), R.layout.item_drop_down, project)
+        projectACTView.setAdapter(adapter)
+
+        adapter =
+            ArrayAdapter<Any?>(requireContext(), R.layout.item_drop_down, floor)
+        floorACTView.setAdapter(adapter)
+
+        adapter =
+            ArrayAdapter<Any?>(requireContext(), R.layout.item_drop_down, pour)
+        pourACTView.setAdapter(adapter)
+
+        adapter =
+            ArrayAdapter<Any?>(requireContext(), R.layout.item_drop_down, work)
+        workACTView.setAdapter(adapter)
+
 
         cityACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
             val text = parent.getItemAtPosition(position).toString()
@@ -114,7 +146,7 @@ class AddExpenseMainFragment : Fragment() {
 
         }
 
-        projectACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
+        floorACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
             val text = parent.getItemAtPosition(position).toString()
             Toast.makeText(
                 context,
@@ -126,7 +158,7 @@ class AddExpenseMainFragment : Fragment() {
 
         }
 
-        projectACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
+        pourACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
             val text = parent.getItemAtPosition(position).toString()
             Toast.makeText(
                 context,
@@ -138,7 +170,7 @@ class AddExpenseMainFragment : Fragment() {
 
         }
 
-        projectACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
+        workACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
             val text = parent.getItemAtPosition(position).toString()
             Toast.makeText(
                 context,
@@ -165,7 +197,7 @@ class AddExpenseMainFragment : Fragment() {
                     "Please select City",
                     Toast.LENGTH_SHORT
                 ).show()
-            } else if (expenseDetails.projectName == null) {
+            } else if (expenseDetails.projectNumber == null) {
                 Toast.makeText(
                     context,
                     "Please select Project",
@@ -185,7 +217,7 @@ class AddExpenseMainFragment : Fragment() {
                 ).show()
             } else {
                 val bundle = Bundle()
-                bundle.putSerializable("expenseData", expenseDetails)
+                bundle.putSerializable("expenseDetails", expenseDetails)
 
                 val fragment = AddExpenseDetailsFragment()
                 fragment.arguments = bundle

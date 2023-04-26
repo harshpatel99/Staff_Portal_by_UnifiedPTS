@@ -41,8 +41,7 @@ class AddExpenseDetailsFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_add_expense_details, container, false)
@@ -166,9 +165,7 @@ class AddExpenseDetailsFragment : Fragment() {
 
         cashWorkerAttachImageView.setOnClickListener {
             Toast.makeText(
-                context,
-                "Attachment Dialog will Open",
-                Toast.LENGTH_SHORT
+                context, "Attachment Dialog will Open", Toast.LENGTH_SHORT
             ).show()
             if (expenseDetails.attachmentUrls!!.isNotEmpty()) {
                 expenseDetails.attachmentUrls!!["cashWorkerUrl"] = "www.thisistest.com"
@@ -179,45 +176,55 @@ class AddExpenseDetailsFragment : Fragment() {
             expenseDetails.isDocAttached = true
             cashWorkerAttachImageView.setColorFilter(
                 ContextCompat.getColor(
-                    requireContext(),
-                    R.color.black
+                    requireContext(), R.color.black
                 ), android.graphics.PorterDuff.Mode.MULTIPLY
             );
         }
 
         submitButtonCardView.setOnClickListener {
-            expenseDetails.cashWorker = cashWorkerET.text.toString().toFloat()
-            expenseDetails.workerAuto = workerAutoET.text.toString().toFloat()
-            expenseDetails.workerFood = workerFoodET.text.toString().toFloat()
-            expenseDetails.engineerFood = engineerFoodET.text.toString().toFloat()
-            expenseDetails.engineerAutoCab = engineerAutoCabET.text.toString().toFloat()
-            expenseDetails.engineerHotel = engineerHotelET.text.toString().toFloat()
-            expenseDetails.workerHotel = workerHotelET.text.toString().toFloat()
-            expenseDetails.busTrainFare = busTrainFareET.text.toString().toFloat()
-            expenseDetails.fuel = fuelET.text.toString().toFloat()
-            expenseDetails.materialTransportation =
-                materialTransportationET.text.toString().toFloat()
-            expenseDetails.printingStationary = printingET.text.toString().toFloat()
-            expenseDetails.otherExpenses = otherET.text.toString().toFloat()
-            expenseDetails.totalSpent =
-                cashWorkerET.text.toString().toFloat() + workerAutoET.text.toString()
-                    .toFloat() + workerFoodET.text.toString()
-                    .toFloat() + engineerFoodET.text.toString()
-                    .toFloat() + engineerAutoCabET.text.toString()
-                    .toFloat() + engineerHotelET.text.toString()
-                    .toFloat() + workerHotelET.text.toString()
-                    .toFloat() + busTrainFareET.text.toString()
-                    .toFloat() + busTrainFareET.text.toString()
-                    .toFloat() + fuelET.text.toString()
-                    .toFloat() + materialTransportationET.text.toString()
-                    .toFloat() + printingET.text.toString()
-                    .toFloat() + otherET.text.toString()
+
+            expenseDetails.cashWorker = if (cashWorkerET.text.toString()
+                    .isEmpty()
+            ) 0.0.toFloat() else cashWorkerET.text.toString().toFloat()
+            expenseDetails.workerAuto = if (workerAutoET.text.toString()
+                    .isEmpty()
+            ) 0.0.toFloat() else workerAutoET.text.toString().toFloat()
+            expenseDetails.workerFood = if (workerFoodET.text.toString()
+                    .isEmpty()
+            ) 0.0.toFloat() else workerFoodET.text.toString().toFloat()
+            expenseDetails.engineerFood = if (engineerFoodET.text.toString()
+                    .isEmpty()
+            ) 0.0.toFloat() else engineerFoodET.text.toString().toFloat()
+            expenseDetails.engineerAutoCab = if (engineerAutoCabET.text.toString()
+                    .isEmpty()
+            ) 0.0.toFloat() else engineerAutoCabET.text.toString().toFloat()
+            expenseDetails.engineerHotel = if (engineerHotelET.text.toString()
+                    .isEmpty()
+            ) 0.0.toFloat() else engineerHotelET.text.toString().toFloat()
+            expenseDetails.workerHotel = if (workerHotelET.text.toString()
+                    .isEmpty()
+            ) 0.0.toFloat() else workerHotelET.text.toString().toFloat()
+            expenseDetails.busTrainFare = if (busTrainFareET.text.toString()
+                    .isEmpty()
+            ) 0.0.toFloat() else busTrainFareET.text.toString().toFloat()
+            expenseDetails.fuel =
+                if (fuelET.text.toString().isEmpty()) 0.0.toFloat() else fuelET.text.toString()
                     .toFloat()
+            expenseDetails.materialTransportation = if (materialTransportationET.text.toString()
+                    .isEmpty()
+            ) 0.0.toFloat() else materialTransportationET.text.toString().toFloat()
+            expenseDetails.printingStationary = if (printingET.text.toString()
+                    .isEmpty()
+            ) 0.0.toFloat() else printingET.text.toString().toFloat()
+            expenseDetails.otherExpenses =
+                if (otherET.text.toString().isEmpty()) 0.0.toFloat() else otherET.text.toString()
+                    .toFloat()
+            expenseDetails.totalSpent =
+                expenseDetails.cashWorker!! + expenseDetails.workerAuto!! + expenseDetails.workerFood!! + expenseDetails.engineerFood!! + expenseDetails.engineerAutoCab!! + expenseDetails.engineerHotel!! + expenseDetails.workerHotel!! + expenseDetails.busTrainFare!! + expenseDetails.fuel!! + expenseDetails.materialTransportation!! + expenseDetails.printingStationary!! + expenseDetails.otherExpenses!!
+
 
             Toast.makeText(
-                context,
-                "Data: $expenseDetails",
-                Toast.LENGTH_SHORT
+                context, "Data: $expenseDetails", Toast.LENGTH_SHORT
             ).show()
         }
 
@@ -235,12 +242,11 @@ class AddExpenseDetailsFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AddExpenseDetailsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        fun newInstance(param1: String, param2: String) = AddExpenseDetailsFragment().apply {
+            arguments = Bundle().apply {
+                putString(ARG_PARAM1, param1)
+                putString(ARG_PARAM2, param2)
             }
+        }
     }
 }

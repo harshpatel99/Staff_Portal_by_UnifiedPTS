@@ -8,43 +8,52 @@
 
     <ImageView
         android:id="@+id/selectAuthTypeBrandLogoImageView"
-        android:layout_width="200dp"
-        android:layout_height="130dp"
-        android:src="@color/black"
-        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:src="@drawable/logo_unified_pts"
+        app:layout_constraintBottom_toTopOf="@id/selectAuthTypeBrandLogo2ImageView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <ImageView
+        android:id="@+id/selectAuthTypeBrandLogo2ImageView"
+        android:layout_width="138dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/logo_pramush"
         app:layout_constraintBottom_toTopOf="@id/selectAuthTypPeopleImageView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selectAuthTypeBrandLogoImageView"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <ImageView
         android:id="@+id/selectAuthTypPeopleImageView"
         android:layout_width="300dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="32dp"
-        android:src="@color/black"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_height="300dp"
+        android:src="@drawable/select_auth"
         app:layout_constraintBottom_toTopOf="@id/selectAuthTypeSignInCardView"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selectAuthTypeBrandLogoImageView" />
+        app:layout_constraintTop_toBottomOf="@id/selectAuthTypeBrandLogo2ImageView"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/selectAuthTypeSignInCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="64dp"
-        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="32dp"
         app:cardBackgroundColor="@color/primary_color_home"
-        app:layout_constraintBottom_toTopOf="@id/selectAuthTypeSignUpCardView"
         app:cardCornerRadius="@dimen/corner_radius_card_button"
+        app:layout_constraintBottom_toTopOf="@id/selectAuthTypeSignUpCardView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/selectAuthTypPeopleImageView"
-        app:strokeColor="@color/black"
-        app:strokeWidth="2dp">
+        app:layout_constraintVertical_chainStyle="packed">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -57,10 +66,12 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
+                android:src="@drawable/round_person_24"
+                android:tint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:src="@color/white"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/selectAuthTypeSignInCardPrimaryTexView"
@@ -70,12 +81,12 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="2dp"
                 android:text="@string/signin"
+                android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="@color/white"
-                app:layout_constraintStart_toEndOf="@id/selectAuthTypeSignInCardImageView"
                 app:layout_constraintBottom_toTopOf="@id/selectAuthTypeSignInCardSecondaryTextView"
                 app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toEndOf="@id/selectAuthTypeSignInCardImageView"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -85,8 +96,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="16dp"
-                android:textColor="@color/white"
                 android:text="@string/auth_select_sign_up_primary_text"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -104,15 +115,13 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        app:layout_constraintVertical_chainStyle="packed"
         app:cardBackgroundColor="@color/primary_color_home"
         app:cardCornerRadius="@dimen/corner_radius_card_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/selectAuthTypeSignInCardView"
-        app:strokeColor="@color/black"
-        app:strokeWidth="2dp">
+        app:layout_constraintVertical_chainStyle="packed">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -125,10 +134,12 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
+                android:src="@drawable/round_person_add_alt_1_24"
+                android:tint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:src="@color/white"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/white" />
 
             <TextView
                 android:id="@+id/selectAuthTypeSignUpCardPrimaryTexView"
@@ -137,13 +148,13 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="2dp"
-                android:textColor="@color/white"
                 android:text="@string/signup"
+                android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/selectAuthTypeSignUpCardImageView"
                 app:layout_constraintBottom_toTopOf="@id/selectAuthTypeSignUpCardSecondaryTextView"
                 app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toEndOf="@id/selectAuthTypeSignUpCardImageView"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -152,9 +163,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="2dp"
-                android:textColor="@color/white"
                 android:layout_marginBottom="16dp"
                 android:text="@string/auth_select_sign_up_secondary_text"
+                android:textColor="@color/white"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"

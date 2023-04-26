@@ -1,6 +1,7 @@
 package com.unifiedpts.staffportal.model
 
 data class ExpenseDetails(
+    val uid: String,
     val date: Long,
     var state: String? = null,
     var city: String? = null,

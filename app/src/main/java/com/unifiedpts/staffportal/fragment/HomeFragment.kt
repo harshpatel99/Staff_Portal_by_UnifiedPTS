@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.material.card.MaterialCardView
+import com.google.firebase.auth.FirebaseAuth
 import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
 
@@ -46,6 +47,12 @@ class HomeFragment : Fragment() {
         val balanceButtonCard = view.findViewById<MaterialCardView>(R.id.homeMenuBalanceButtonCardView)
         val expenseButtonCard = view.findViewById<MaterialCardView>(R.id.homeMenuExpenseButtonCardView)
         val hrDocumentsButtonCard = view.findViewById<MaterialCardView>(R.id.homeMenuHRDocumentsButtonCardView)
+        val homeProfileImageView = view.findViewById<ImageView>(R.id.homeProfileImageView)
+
+        homeProfileImageView.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            requireActivity().finish()
+        }
 
         leaveApplicationButtonCard.setOnClickListener {
             MainActivity.openFragment(requireActivity(),LeaveHomeFragment())
@@ -61,6 +68,7 @@ class HomeFragment : Fragment() {
 
         expenseButtonCard.setOnClickListener {
             //MainActivity.openFragment(requireActivity(),())
+            MainActivity.openFragment(requireActivity(),AddExpenseMainFragment())
         }
 
         hrDocumentsButtonCard.setOnClickListener {

@@ -1,12 +1,12 @@
 package com.unifiedpts.staffportal.model
 
 data class User(
-    val firstName: String,
-    val lastName: String,
-    val phoneNumber: String,
-    val empID: String,
-    val userType: String,
-    val isVerified: Boolean,
-    val createdOn: Long,
-    val hireDate: Long
+    var uid:String? = null,
+    val firstName: String? = null,
+    val lastName: String? = null,
+    val phoneNumber: String? = null,
+    val empID: String? = null,
+    val userType: String? = null,
+    val verifiedUser: String? = null,
+    val createdOn: Long? = null
 )
