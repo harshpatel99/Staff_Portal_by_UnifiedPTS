@@ -182,19 +182,31 @@ class SignupFragment : Fragment() {
 
                     user.uid = auth.uid
 
-                    db.collection("users").document(auth.uid!!)
-                        .set(user)
-                        .addOnSuccessListener {
+                    db.collection("users").document(auth.uid!!).get().addOnCompleteListener {
+                        if (it.isSuccessful) {
 
-                            AuthenticationActivity.openFragment(
-                                requireActivity(),
-                                WaitingForApprovalFragment()
-                            )
+                            Toast.makeText(activity, "Welcome Back!", Toast.LENGTH_LONG).show()
+
+                            val i = Intent(activity, MainActivity::class.java)
+                            startActivity(i)
+                            requireActivity().finish()
+                        } else {
+                            db.collection("users").document(auth.uid!!)
+                                .set(user)
+                                .addOnSuccessListener {
+
+                                    AuthenticationActivity.openFragment(
+                                        requireActivity(),
+                                        WaitingForApprovalFragment()
+                                    )
+                                }
+                                .addOnFailureListener {
+                                    Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
+                                        .show()
+                                }
                         }
-                        .addOnFailureListener {
-                            Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
-                                .show()
-                        }
+                    }
+
                 } else {
                     Toast.makeText(activity, task.exception!!.message, Toast.LENGTH_LONG)
                         .show()

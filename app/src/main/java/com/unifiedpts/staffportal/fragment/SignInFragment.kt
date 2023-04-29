@@ -17,6 +17,8 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
 import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
 import com.unifiedpts.staffportal.activity.AuthenticationActivity
@@ -94,7 +96,21 @@ class SignInFragment : Fragment() {
                 if (otpInputLayout.visibility == View.GONE) {
                     otpInputLayout.visibility = View.VISIBLE
                     val phone = "+91$phoneNumber"
-                    sendVerificationCode(phone)
+
+                    Firebase.firestore.collection("users").whereEqualTo("phoneNumber",phone).get()
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                sendVerificationCode(phone)
+                            }else{
+                                Toast.makeText(
+                                    activity,
+                                    "New User? Please sign up first",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+
+
                 } else if (otp.isEmpty()) {
                     otpET.error = "Required"
                     Toast.makeText(
@@ -169,12 +185,18 @@ class SignInFragment : Fragment() {
     private fun signInWithCredential(credential: PhoneAuthCredential) {
         auth.signInWithCredential(credential)
             .addOnCompleteListener { task ->
-                progressBar.visibility = View.GONE
+
                 if (task.isSuccessful) {
+
+                    progressBar.visibility = View.GONE
+
                     val i = Intent(activity, MainActivity::class.java)
                     startActivity(i)
                     requireActivity().finish()
+
+
                 } else {
+                    progressBar.visibility = View.GONE
                     Toast.makeText(activity, task.exception!!.message, Toast.LENGTH_LONG)
                         .show()
                 }

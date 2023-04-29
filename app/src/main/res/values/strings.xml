@@ -47,4 +47,6 @@
     <string name="printing_stationary">Printing/Stationary</string>
     <string name="other">Other</string>
     <string name="your_account_is_being_verified">Your account is being verified</string>
+    <string name="back">Back</string>
+    <string name="under_development">Under Development</string>
 </resources>

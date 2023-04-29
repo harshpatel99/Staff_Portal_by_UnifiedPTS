@@ -55,11 +55,13 @@ class HomeFragment : Fragment() {
         }
 
         leaveApplicationButtonCard.setOnClickListener {
-            MainActivity.openFragment(requireActivity(),LeaveHomeFragment())
+            MainActivity.openFragment(requireActivity(),UnderDevelopmentFragment())
+            //MainActivity.openFragment(requireActivity(),LeaveHomeFragment())
         }
 
         attendanceButtonCard.setOnClickListener {
-            MainActivity.openFragment(requireActivity(),AttendanceFragment())
+            //MainActivity.openFragment(requireActivity(),AttendanceFragment())
+            MainActivity.openFragment(requireActivity(),UnderDevelopmentFragment())
         }
 
         balanceButtonCard.setOnClickListener {
@@ -72,7 +74,8 @@ class HomeFragment : Fragment() {
         }
 
         hrDocumentsButtonCard.setOnClickListener {
-            MainActivity.openFragment(requireActivity(),HRDocumentsHomeFragment())
+            MainActivity.openFragment(requireActivity(),UnderDevelopmentFragment())
+            //MainActivity.openFragment(requireActivity(),HRDocumentsHomeFragment())
         }
 
         return view
