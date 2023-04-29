@@ -40,6 +40,7 @@ class SignInFragment : Fragment() {
     private var verificationId: String? = null
 
     private lateinit var otpET: TextInputEditText
+    private lateinit var otpInputLayout: TextInputLayout
     private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +62,7 @@ class SignInFragment : Fragment() {
         val phoneNumberET =
             view.findViewById<TextInputEditText>(R.id.signInPhoneNumberTextInputEditText)
         otpET = view.findViewById(R.id.signInOTPTextInputEditText)
-        val otpInputLayout = view.findViewById<TextInputLayout>(R.id.signInOTPTextInputLayout)
+        otpInputLayout = view.findViewById(R.id.signInOTPTextInputLayout)
         progressBar = view.findViewById(R.id.signInProgressBar)
 
 
@@ -160,6 +161,7 @@ class SignInFragment : Fragment() {
             // sends our OTP code due to any error or issue.
             override fun onVerificationFailed(e: FirebaseException) {
                 progressBar.visibility = View.GONE
+                otpInputLayout.visibility = View.GONE
                 Toast.makeText(activity, e.message, Toast.LENGTH_LONG).show()
             }
         }

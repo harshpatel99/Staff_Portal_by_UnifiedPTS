@@ -60,7 +60,7 @@
         <ImageView
             android:id="@+id/addExpenseMainCornerImageView"
             android:layout_width="match_parent"
-            android:layout_height="1500dp"
+            android:layout_height="800dp"
             android:layout_marginTop="80dp"
             android:src="@drawable/top_rounded_corners"
             app:layout_constraintEnd_toEndOf="parent"

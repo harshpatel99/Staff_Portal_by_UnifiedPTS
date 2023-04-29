@@ -1,19 +1,39 @@
 package com.unifiedpts.staffportal.fragment
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.OpenableColumns
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
+import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
+import com.unifiedpts.staffportal.activity.AuthenticationActivity
+import com.unifiedpts.staffportal.model.AgainstExpenses
 import com.unifiedpts.staffportal.model.ExpenseDetails
+import kotlinx.coroutines.selects.select
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,6 +48,11 @@ private const val ARG_PARAM2 = "param2"
 class AddExpenseDetailsFragment : Fragment() {
 
     private lateinit var expenseDetails: ExpenseDetails
+
+    private lateinit var storageRef: StorageReference
+    private lateinit var selectedImage: String
+    private lateinit var submitButtonCardView: MaterialCardView
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,8 +86,8 @@ class AddExpenseDetailsFragment : Fragment() {
         val layoutPrinting = view.findViewById<View>(R.id.addExpenseDetailsLayoutPrintingStationary)
         val layoutOther = view.findViewById<View>(R.id.addExpenseDetailsLayoutOther)
 
-        val submitButtonCardView =
-            view.findViewById<MaterialCardView>(R.id.addExpenseDetailsSubmitButtonCardView)
+        submitButtonCardView = view.findViewById(R.id.addExpenseDetailsSubmitButtonCardView)
+        progressBar = view.findViewById(R.id.signInProgressBar)
 
 
         val cashWorkerTextView =
@@ -163,69 +188,120 @@ class AddExpenseDetailsFragment : Fragment() {
         printingTextView.text = getString(R.string.printing_stationary)
         otherTextView.text = getString(R.string.other)
 
-        cashWorkerAttachImageView.setOnClickListener {
-            Toast.makeText(
-                context, "Attachment Dialog will Open", Toast.LENGTH_SHORT
-            ).show()
-            if (expenseDetails.attachmentUrls!!.isNotEmpty()) {
-                expenseDetails.attachmentUrls!!["cashWorkerUrl"] = "www.thisistest.com"
-            } else {
-                expenseDetails.attachmentUrls = HashMap()
-                expenseDetails.attachmentUrls!!["cashWorkerUrl"] = "www.thisistest.com"
-            }
-            expenseDetails.isDocAttached = true
-            cashWorkerAttachImageView.setColorFilter(
-                ContextCompat.getColor(
-                    requireContext(), R.color.black
-                ), android.graphics.PorterDuff.Mode.MULTIPLY
-            );
-        }
+
+
+        storageRef = Firebase.storage.reference
+
+        uploadImage(cashWorkerAttachImageView, "cashWorker")
+        uploadImage(workerAutoAttachImageView, "workerAuto")
+        uploadImage(workerFoodAttachImageView, "workerFood")
+        uploadImage(engineerFoodAttachImageView, "engineerFood")
+        uploadImage(engineerAutoCabAttachImageView, "engineerAutoCab")
+        uploadImage(engineerHotelAttachImageView, "engineerHotel")
+        uploadImage(workerHotelAttachImageView, "workerHotel")
+        uploadImage(busTrainFareAttachImageView, "busTrainFare")
+        uploadImage(fuelAttachImageView, "fuel")
+        uploadImage(materialTransportationAttachImageView, "materialTransportation")
+        uploadImage(printingAttachImageView, "printingAttach")
+        uploadImage(otherAttachImageView, "other")
+
 
         submitButtonCardView.setOnClickListener {
 
+            progressBar.visibility = View.VISIBLE
+
             expenseDetails.cashWorker = if (cashWorkerET.text.toString()
                     .isEmpty()
-            ) 0.0.toFloat() else cashWorkerET.text.toString().toFloat()
+            ) 0.0 else cashWorkerET.text.toString().toDouble()
             expenseDetails.workerAuto = if (workerAutoET.text.toString()
                     .isEmpty()
-            ) 0.0.toFloat() else workerAutoET.text.toString().toFloat()
+            ) 0.0 else workerAutoET.text.toString().toDouble()
             expenseDetails.workerFood = if (workerFoodET.text.toString()
                     .isEmpty()
-            ) 0.0.toFloat() else workerFoodET.text.toString().toFloat()
+            ) 0.0 else workerFoodET.text.toString().toDouble()
             expenseDetails.engineerFood = if (engineerFoodET.text.toString()
                     .isEmpty()
-            ) 0.0.toFloat() else engineerFoodET.text.toString().toFloat()
+            ) 0.0 else engineerFoodET.text.toString().toDouble()
             expenseDetails.engineerAutoCab = if (engineerAutoCabET.text.toString()
                     .isEmpty()
-            ) 0.0.toFloat() else engineerAutoCabET.text.toString().toFloat()
+            ) 0.0 else engineerAutoCabET.text.toString().toDouble()
             expenseDetails.engineerHotel = if (engineerHotelET.text.toString()
                     .isEmpty()
-            ) 0.0.toFloat() else engineerHotelET.text.toString().toFloat()
+            ) 0.0 else engineerHotelET.text.toString().toDouble()
             expenseDetails.workerHotel = if (workerHotelET.text.toString()
                     .isEmpty()
-            ) 0.0.toFloat() else workerHotelET.text.toString().toFloat()
+            ) 0.0 else workerHotelET.text.toString().toDouble()
             expenseDetails.busTrainFare = if (busTrainFareET.text.toString()
                     .isEmpty()
-            ) 0.0.toFloat() else busTrainFareET.text.toString().toFloat()
-            expenseDetails.fuel =
-                if (fuelET.text.toString().isEmpty()) 0.0.toFloat() else fuelET.text.toString()
-                    .toFloat()
+            ) 0.0 else busTrainFareET.text.toString().toDouble()
+            expenseDetails.fuel = if (fuelET.text.toString()
+                    .isEmpty()
+            ) 0.0 else fuelET.text.toString()
+                .toDouble()
             expenseDetails.materialTransportation = if (materialTransportationET.text.toString()
                     .isEmpty()
-            ) 0.0.toFloat() else materialTransportationET.text.toString().toFloat()
+            ) 0.0 else materialTransportationET.text.toString().toDouble()
             expenseDetails.printingStationary = if (printingET.text.toString()
                     .isEmpty()
-            ) 0.0.toFloat() else printingET.text.toString().toFloat()
+            ) 0.0 else printingET.text.toString().toDouble()
             expenseDetails.otherExpenses =
-                if (otherET.text.toString().isEmpty()) 0.0.toFloat() else otherET.text.toString()
-                    .toFloat()
+                if (otherET.text.toString().isEmpty()) 0.0 else otherET.text.toString().toDouble()
             expenseDetails.totalSpent =
                 expenseDetails.cashWorker!! + expenseDetails.workerAuto!! + expenseDetails.workerFood!! + expenseDetails.engineerFood!! + expenseDetails.engineerAutoCab!! + expenseDetails.engineerHotel!! + expenseDetails.workerHotel!! + expenseDetails.busTrainFare!! + expenseDetails.fuel!! + expenseDetails.materialTransportation!! + expenseDetails.printingStationary!! + expenseDetails.otherExpenses!!
 
+            val db = Firebase.firestore
 
-            Toast.makeText(
-                context, "Data: $expenseDetails", Toast.LENGTH_SHORT
-            ).show()
+            val timeInMillis = System.currentTimeMillis().toString()
+
+            submitButtonCardView.isClickable = false
+            submitButtonCardView.isEnabled = false
+
+            db.collection("expenseDetails").document(timeInMillis)
+                .set(expenseDetails)
+                .addOnSuccessListener {
+
+                    db.collection("balanceDetails").document("againstExpenses")
+                        .update("total", FieldValue.increment(expenseDetails.totalSpent!!))
+                        .addOnSuccessListener {
+
+                            Toast.makeText(
+                                context, "Balances Updated!", Toast.LENGTH_SHORT
+                            ).show()
+
+                            MainActivity.closeFragment(requireActivity())
+
+                            progressBar.visibility = View.GONE
+
+                        }
+                        .addOnFailureListener {
+
+                            Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
+                                .show()
+
+                            progressBar.visibility = View.GONE
+
+                            db.collection("expenseDetails").document(timeInMillis)
+                                .delete().addOnSuccessListener {
+                                    submitButtonCardView.isClickable = true
+                                    submitButtonCardView.isEnabled = true
+
+                                    Toast.makeText(activity, "Please try again!", Toast.LENGTH_LONG)
+                                        .show()
+                                }
+
+                        }
+
+                    Toast.makeText(
+                        context, "Data is updated: $expenseDetails", Toast.LENGTH_SHORT
+                    ).show()
+
+                }
+                .addOnFailureListener {
+                    Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
+                        .show()
+                    progressBar.visibility = View.GONE
+                }
+
         }
 
         return view
@@ -247,6 +323,69 @@ class AddExpenseDetailsFragment : Fragment() {
                 putString(ARG_PARAM1, param1)
                 putString(ARG_PARAM2, param2)
             }
+        }
+    }
+
+
+    private var imagePickerActivityResult: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result != null) {
+                // getting URI of selected Image
+                val imageUri: Uri? = result.data?.data
+
+                // val fileName = imageUri?.pathSegments?.last()
+
+                // extract the file name with extension
+                val sd = getFileName(requireContext(), imageUri!!)
+
+                val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.US)
+                val currentDate = sdf.format(Date())
+
+                val directoryPath = "expenses/$currentDate/$selectedImage"
+
+                // Upload Task with upload to directory 'file'
+                // and name of the file remains same
+                storageRef.child(directoryPath).putFile(imageUri).addOnSuccessListener {
+
+                    storageRef.child(directoryPath).downloadUrl.addOnSuccessListener {
+                        expenseDetails.attachmentUrls!![selectedImage] = it.toString()
+                    }
+
+                    expenseDetails.isDocAttached = true
+
+                }
+
+
+            }
+        }
+
+    private fun getFileName(context: Context, uri: Uri): String? {
+        if (uri.scheme == "content") {
+            val cursor = context.contentResolver.query(uri, null, null, null, null)
+            cursor.use {
+                if (cursor != null) {
+                    if (cursor.moveToFirst()) {
+                        return cursor.getString(cursor.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME))
+                    }
+                }
+            }
+        }
+        return uri.path?.lastIndexOf('/')?.let { uri.path?.substring(it) }
+    }
+
+    private fun uploadImage(imageView: ImageView, selection: String) {
+        imageView.setOnClickListener {
+
+            selectedImage = selection
+
+            val galleryIntent = Intent(Intent.ACTION_PICK)
+            galleryIntent.type = "image/*"
+            imagePickerActivityResult.launch(galleryIntent)
+
+            Toast.makeText(
+                context, "Attachment is being Uploaded", Toast.LENGTH_SHORT
+            ).show()
+
         }
     }
 }

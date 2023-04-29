@@ -15,7 +15,6 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
-import com.unifiedpts.staffportal.activity.AuthenticationActivity
 import com.unifiedpts.staffportal.model.ExpenseDetails
 
 
@@ -113,33 +112,18 @@ class AddExpenseMainFragment : Fragment() {
 
         cityACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
             val text = parent.getItemAtPosition(position).toString()
-            Toast.makeText(
-                context,
-                text,
-                Toast.LENGTH_SHORT
-            ).show()
 
             expenseDetails.city = text
         }
 
         stateACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
             val text = parent.getItemAtPosition(position).toString()
-            Toast.makeText(
-                context,
-                text,
-                Toast.LENGTH_SHORT
-            ).show()
 
             expenseDetails.state = text
         }
 
         projectACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
             val text = parent.getItemAtPosition(position).toString()
-            Toast.makeText(
-                context,
-                text,
-                Toast.LENGTH_SHORT
-            ).show()
 
             expenseDetails.projectName = text
             expenseDetails.projectNumber = text
@@ -148,11 +132,6 @@ class AddExpenseMainFragment : Fragment() {
 
         floorACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
             val text = parent.getItemAtPosition(position).toString()
-            Toast.makeText(
-                context,
-                text,
-                Toast.LENGTH_SHORT
-            ).show()
 
             expenseDetails.floor = text
 
@@ -160,11 +139,6 @@ class AddExpenseMainFragment : Fragment() {
 
         pourACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
             val text = parent.getItemAtPosition(position).toString()
-            Toast.makeText(
-                context,
-                text,
-                Toast.LENGTH_SHORT
-            ).show()
 
             expenseDetails.pour = text
 
@@ -172,12 +146,6 @@ class AddExpenseMainFragment : Fragment() {
 
         workACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
             val text = parent.getItemAtPosition(position).toString()
-            Toast.makeText(
-                context,
-                text,
-                Toast.LENGTH_SHORT
-            ).show()
-
             expenseDetails.work = text
 
         }
@@ -216,6 +184,7 @@ class AddExpenseMainFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
+                expenseDetails.attachmentUrls = HashMap()
                 val bundle = Bundle()
                 bundle.putSerializable("expenseDetails", expenseDetails)
 
