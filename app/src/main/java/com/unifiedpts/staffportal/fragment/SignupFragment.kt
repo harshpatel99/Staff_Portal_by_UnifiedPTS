@@ -127,7 +127,9 @@ class SignupFragment : Fragment() {
                         "",
                         "engineer",
                         "false",
-                        System.currentTimeMillis()
+                        System.currentTimeMillis(),
+                        0.0, 0.0, 0.0,
+                        0, 0, 0, 0
                     )
                     verifyCode(otp)
                 }
@@ -186,6 +188,34 @@ class SignupFragment : Fragment() {
                         if (it.isSuccessful) {
 
                             Toast.makeText(activity, "Welcome Back!", Toast.LENGTH_LONG).show()
+
+                            if (user.verifiedUser!!.compareTo("true") == 0) {
+                                val sp = requireActivity().getSharedPreferences(
+                                    "user",
+                                    Context.MODE_PRIVATE
+                                )
+                                val editor = sp.edit()
+                                editor.putString("userEmployeeID", user.empID)
+                                editor.apply()
+
+                                val i = Intent(activity, MainActivity::class.java)
+                                startActivity(i)
+                                requireActivity().finish()
+                            } else {
+
+                                val sp = requireActivity().getSharedPreferences(
+                                    "user",
+                                    Context.MODE_PRIVATE
+                                )
+                                val editor = sp.edit()
+                                editor.putString("userEmployeeID", user.empID)
+                                editor.apply()
+
+                                AuthenticationActivity.openFragment(
+                                    requireActivity(),
+                                    WaitingForApprovalFragment()
+                                )
+                            }
 
                             val i = Intent(activity, MainActivity::class.java)
                             startActivity(i)

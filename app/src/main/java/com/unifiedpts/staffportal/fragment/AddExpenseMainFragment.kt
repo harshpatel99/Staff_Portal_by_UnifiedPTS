@@ -1,5 +1,6 @@
 package com.unifiedpts.staffportal.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,15 +8,20 @@ import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
 import com.unifiedpts.staffportal.model.ExpenseDetails
+import com.unifiedpts.staffportal.model.Project
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -29,17 +35,23 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class AddExpenseMainFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var adapter: ArrayAdapter<Any?>
+
+    private lateinit var listOfProjects: List<Project>
+    private lateinit var stateList: Set<String>
+    private lateinit var cityList: Set<String>
+    private lateinit var projectNameList: Set<String>
+    private lateinit var projectNumberList: Set<String>
+    private lateinit var floorList: Set<String>
+    private lateinit var pourList: Set<String>
 
     private lateinit var expenseDetails: ExpenseDetails
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+
         }
     }
 
@@ -54,11 +66,12 @@ class AddExpenseMainFragment : Fragment() {
 
         expenseDetails = ExpenseDetails(auth!!.uid, System.currentTimeMillis())
 
-        val cityList = arrayOf("Pune", "Mumbai", "Ahmedabad")
-        val state = arrayOf("Maharashtra", "Gujarat")
-        val project = arrayOf("Project 1", "Project 2", "Project 3")
-        val floor = arrayOf("Floor 1", "Floor 2", "Floor 3")
-        val pour = arrayOf("Pour 1", "Pour 2")
+
+        //val cityList = arrayOf("Pune", "Mumbai", "Ahmedabad")
+        //val state = arrayOf("Maharashtra", "Gujarat")
+        //val project = arrayOf("Project 1", "Project 2", "Project 3")
+        //val floor = arrayOf("Floor 1", "Floor 2", "Floor 3")
+        //val pour = arrayOf("Pour 1", "Pour 2")
         val work = arrayOf("Installation", "Stressing", "Cable Cutting", "Site Visit", "Marketing")
 
 
@@ -67,6 +80,23 @@ class AddExpenseMainFragment : Fragment() {
         backButton.setOnClickListener {
             MainActivity.closeFragment(requireActivity())
         }
+
+        val loadingView = view.findViewById<View>(R.id.addExpenseMainLoadingView)
+
+        val stateSpinnerLayout =
+            view.findViewById<TextInputLayout>(R.id.addExpenseMainStateSpinnerLayout)
+        val citySpinnerLayout =
+            view.findViewById<TextInputLayout>(R.id.addExpenseMainCitySpinnerLayout)
+        val projectSpinnerLayout =
+            view.findViewById<TextInputLayout>(R.id.addExpenseMainProjectSpinnerLayout)
+        val floorSpinnerLayout =
+            view.findViewById<TextInputLayout>(R.id.addExpenseMainFloorSpinnerLayout)
+        val pourSpinnerLayout =
+            view.findViewById<TextInputLayout>(R.id.addExpenseMainPourSpinnerLayout)
+        val workSpinnerLayout =
+            view.findViewById<TextInputLayout>(R.id.addExpenseMainWorkSpinnerLayout)
+        val remarkTextInputLayout =
+            view.findViewById<TextInputLayout>(R.id.addExpenseMainRemarksTextInputLayout)
 
         val cityACTView =
             view.findViewById<AppCompatAutoCompleteTextView>(R.id.addExpenseMainCityACTView)
@@ -86,14 +116,45 @@ class AddExpenseMainFragment : Fragment() {
         val fillExpenseButtonCardView =
             view.findViewById<MaterialCardView>(R.id.addExpenseMainFillExpensesButtonCardView)
 
-        var adapter = ArrayAdapter<Any?>(requireContext(), R.layout.item_drop_down, cityList)
-        cityACTView.setAdapter(adapter)
 
-        adapter =
-            ArrayAdapter<Any?>(requireContext(), R.layout.item_drop_down, state)
-        stateACTView.setAdapter(adapter)
+        val profileTextView = view.findViewById<TextView>(R.id.addExpenseMainEmployeeIDTextView)
 
-        adapter =
+        val sp = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
+
+        profileTextView.text = sp.getString("userEmployeeID", "000")
+
+        Firebase.firestore.collection("projectDetails").get()
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+
+                    listOfProjects = it.result.toObjects(Project::class.java)
+
+                    val allStates = ArrayList<String>()
+
+                    for (item in listOfProjects) {
+                        allStates.add(item.state!!)
+                    }
+
+                    stateList = allStates.toSet()
+
+                    adapter =
+                        ArrayAdapter<Any?>(
+                            requireContext(), R.layout.item_drop_down,
+                            stateList as List<Any?>
+                        )
+                    stateACTView.setAdapter(adapter)
+
+                    loadingView.visibility = View.GONE
+
+                    stateSpinnerLayout.visibility = View.VISIBLE
+
+                    workSpinnerLayout.visibility = View.VISIBLE
+                    remarkTextInputLayout.visibility = View.VISIBLE
+
+                }
+            }
+
+        /*adapter =
             ArrayAdapter<Any?>(requireContext(), R.layout.item_drop_down, project)
         projectACTView.setAdapter(adapter)
 
@@ -103,44 +164,138 @@ class AddExpenseMainFragment : Fragment() {
 
         adapter =
             ArrayAdapter<Any?>(requireContext(), R.layout.item_drop_down, pour)
-        pourACTView.setAdapter(adapter)
+        pourACTView.setAdapter(adapter)*/
 
         adapter =
             ArrayAdapter<Any?>(requireContext(), R.layout.item_drop_down, work)
         workACTView.setAdapter(adapter)
 
+        stateACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
+            val selectedState = parent.getItemAtPosition(position).toString()
+            expenseDetails.state = selectedState
 
-        cityACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
-            val text = parent.getItemAtPosition(position).toString()
+            val allCities = ArrayList<String>()
 
-            expenseDetails.city = text
+            if (listOfProjects.isNotEmpty()) {
+                for (item in listOfProjects) {
+                    if (item.state!!.compareTo(selectedState) == 0) {
+                        allCities.add(item.city!!)
+                    }
+                }
+            }
+
+            cityList = allCities.toSet()
+
+            adapter = ArrayAdapter<Any?>(
+                requireContext(), R.layout.item_drop_down,
+                cityList as List<Any?>
+            )
+            cityACTView.setAdapter(adapter)
+
+            citySpinnerLayout.visibility = View.VISIBLE
+
         }
 
-        stateACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
-            val text = parent.getItemAtPosition(position).toString()
+        cityACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
+            val selectedCity = parent.getItemAtPosition(position).toString()
+            expenseDetails.city = selectedCity
 
-            expenseDetails.state = text
+            val allProjectNames = ArrayList<String>()
+            val allProjectNumber = ArrayList<String>()
+
+            if (listOfProjects.isNotEmpty()) {
+                for (item in listOfProjects) {
+                    if (item.state!!.compareTo(expenseDetails.state!!) == 0 && item.city!!.compareTo(
+                            selectedCity
+                        ) == 0
+                    ) {
+                        allProjectNames.add(item.projectName!!)
+                        allProjectNumber.add(item.projectNumber!!)
+                    }
+                }
+            }
+
+            projectNameList = allProjectNames.toSet()
+            projectNumberList = allProjectNumber.toSet()
+
+            adapter = ArrayAdapter<Any?>(
+                requireContext(), R.layout.item_drop_down,
+                projectNameList as List<Any?>
+            )
+            projectACTView.setAdapter(adapter)
+
+            projectSpinnerLayout.visibility = View.VISIBLE
         }
 
         projectACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
-            val text = parent.getItemAtPosition(position).toString()
+            val selectedProjectName = parent.getItemAtPosition(position).toString()
 
-            expenseDetails.projectName = text
-            expenseDetails.projectNumber = text
+            val allFloors = ArrayList<String>()
+
+            expenseDetails.projectName = selectedProjectName
+            expenseDetails.projectNumber =
+                projectNumberList.elementAt(projectNameList.indexOf(selectedProjectName))
+
+            if (listOfProjects.isNotEmpty()) {
+                for (item in listOfProjects) {
+                    if (item.state!!.compareTo(expenseDetails.state!!) == 0 &&
+                        item.city!!.compareTo(expenseDetails.city!!) == 0 &&
+                        item.projectName!!.compareTo(selectedProjectName) == 0
+                    ) {
+                        allFloors.add(item.floor!!)
+                    }
+                }
+            }
+
+            floorList = allFloors.toSet()
+
+            adapter = ArrayAdapter<Any?>(
+                requireContext(), R.layout.item_drop_down,
+                floorList as List<Any?>
+            )
+            floorACTView.setAdapter(adapter)
+
+            floorSpinnerLayout.visibility = View.VISIBLE
 
         }
 
         floorACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
-            val text = parent.getItemAtPosition(position).toString()
+            val selectedFloor = parent.getItemAtPosition(position).toString()
 
-            expenseDetails.floor = text
+            expenseDetails.floor = selectedFloor
+
+            val allPours = ArrayList<String>()
+
+
+
+            if (listOfProjects.isNotEmpty()) {
+                for (item in listOfProjects) {
+                    if (item.state!!.compareTo(expenseDetails.state!!) == 0 &&
+                        item.city!!.compareTo(expenseDetails.city!!) == 0 &&
+                        item.projectName!!.compareTo(expenseDetails.projectName!!) == 0 &&
+                        item.floor!!.compareTo(selectedFloor) == 0
+                    ) {
+                        allPours.add(item.pour!!)
+                    }
+                }
+            }
+
+            pourList = allPours.toSet()
+
+            adapter = ArrayAdapter<Any?>(
+                requireContext(), R.layout.item_drop_down,
+                pourList as List<Any?>
+            )
+            pourACTView.setAdapter(adapter)
+
+            pourSpinnerLayout.visibility = View.VISIBLE
 
         }
 
         pourACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
-            val text = parent.getItemAtPosition(position).toString()
+            val selectedPour = parent.getItemAtPosition(position).toString()
 
-            expenseDetails.pour = text
+            expenseDetails.pour = selectedPour
 
         }
 

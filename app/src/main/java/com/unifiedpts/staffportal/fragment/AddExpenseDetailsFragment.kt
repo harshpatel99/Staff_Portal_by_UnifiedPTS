@@ -89,7 +89,6 @@ class AddExpenseDetailsFragment : Fragment() {
         submitButtonCardView = view.findViewById(R.id.addExpenseDetailsSubmitButtonCardView)
         progressBar = view.findViewById(R.id.signInProgressBar)
 
-
         val cashWorkerTextView =
             layoutCashWorker.findViewById<TextView>(R.id.addExpenseDetailsItemLayoutTextView)
         val cashWorkerET =
@@ -173,6 +172,13 @@ class AddExpenseDetailsFragment : Fragment() {
             layoutOther.findViewById<TextInputEditText>(R.id.addExpenseDetailsItemLayoutTextInputEditText)
         val otherAttachImageView =
             layoutOther.findViewById<ImageView>(R.id.addExpenseDetailsItemLayoutAttachImageView)
+
+
+        val profileTextView = view.findViewById<TextView>(R.id.addExpenseDetailsEmployeeIDTextView)
+
+        val sp = requireActivity().getSharedPreferences("user",Context.MODE_PRIVATE)
+
+        profileTextView.text = sp.getString("userEmployeeID","000")
 
 
         cashWorkerTextView.text = getString(R.string.cash_worker)

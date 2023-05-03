@@ -1,11 +1,16 @@
 package com.unifiedpts.staffportal.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import com.google.android.material.card.MaterialCardView
+import com.google.gson.Gson
 import com.unifiedpts.staffportal.R
+import com.unifiedpts.staffportal.model.User
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +40,37 @@ class LeaveHomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_leave_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_leave_home, container, false)
+
+        val profileTextView = view.findViewById<TextView>(R.id.leaveHomeEmployeeIDTextView)
+        val sickLeaveTextView =
+            view.findViewById<TextView>(R.id.leaveHomeDetailsSickLeaveTotalTextView)
+        val casualLeaveTextView =
+            view.findViewById<TextView>(R.id.leaveHomeDetailsCasualLeaveTotalTextView)
+        val privilegeLeaveTextView =
+            view.findViewById<TextView>(R.id.leaveHomeDetailsPrivilegeLeaveTotalTextView)
+        val blLeaveTextView = view.findViewById<TextView>(R.id.leaveHomeDetailsBLLeaveTotalTextView)
+
+        val appleForLeaveButton = view.findViewById<MaterialCardView>(R.id.leaveHomeApplyLeaveButtonCardView)
+
+        val sp = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
+
+        val gson = Gson()
+        val json: String = sp.getString("user", "")!!
+        val user: User = gson.fromJson(json, User::class.java)
+
+        profileTextView.text = user.empID.toString()
+
+        sickLeaveTextView.text = user.sickLeave.toString()
+        casualLeaveTextView.text = user.casualLeave.toString()
+        privilegeLeaveTextView.text = user.privilegeLeave.toString()
+        blLeaveTextView.text = user.blLeave.toString()
+
+        appleForLeaveButton.setOnClickListener {
+
+        }
+
+        return view
     }
 
     companion object {

@@ -38,6 +38,24 @@
         app:layout_constraintTop_toBottomOf="@id/waitingForApprovalImageView"
         app:layout_constraintVertical_chainStyle="packed"/>
 
+    <TextView
+        android:id="@+id/waitingForApprovalEmployeeIDTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corners"
+        android:backgroundTint="@color/black"
+        android:textSize="20sp"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
+        android:text="EID002"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/waitingForApprovalPrimaryTexView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/waitingForApprovalRemindCardView" />
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/waitingForApprovalRemindCardView"
         android:layout_width="match_parent"

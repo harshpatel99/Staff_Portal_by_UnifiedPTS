@@ -1,11 +1,15 @@
 package com.unifiedpts.staffportal.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import com.google.gson.Gson
 import com.unifiedpts.staffportal.R
+import com.unifiedpts.staffportal.model.User
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +39,24 @@ class ApplyForLeaveFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_apply_for_leave, container, false)
+        val view = inflater.inflate(R.layout.fragment_apply_for_leave, container, false)
+
+        val profileTextView = view.findViewById<TextView>(R.id.balanceAmountEmployeeIDTextView)
+
+        val sp = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
+
+        val gson = Gson()
+        val json: String = sp.getString("user", "")!!
+        val user: User = gson.fromJson(json, User::class.java)
+
+        profileTextView.text = user.empID.toString()
+
+        val fromTitleTextView = view.findViewById<TextView>(R.id.appleForLeaveFromTitleTextView)
+        val fromSelectTextView = view.findViewById<TextView>(R.id.appleForLeaveFromSelectTextView)
+        val toTitleTextView = view.findViewById<TextView>(R.id.appleForLeaveToTitleTextView)
+        val toSelectTextView = view.findViewById<TextView>(R.id.appleForLeaveToSelectTextView)
+
+        return  view
     }
 
     companion object {

@@ -49,4 +49,6 @@
     <string name="your_account_is_being_verified">Your account is being verified</string>
     <string name="back">Back</string>
     <string name="under_development">Under Development</string>
+    <string name="leading">Leading</string>
+    <string name="reason">Reason</string>
 </resources>

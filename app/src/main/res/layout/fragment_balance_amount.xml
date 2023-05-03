@@ -14,8 +14,8 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="16dp"
-        android:tint="@color/white"
         android:src="@drawable/round_arrow_back_24"
+        android:tint="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/white" />
@@ -32,6 +32,23 @@
         app:layout_constraintBottom_toBottomOf="@id/balanceAmountBackImageView"
         app:layout_constraintStart_toEndOf="@id/balanceAmountBackImageView"
         app:layout_constraintTop_toTopOf="@id/balanceAmountBackImageView" />
+
+    <TextView
+        android:id="@+id/balanceAmountEmployeeIDTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/rounded_corners"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp"
+        android:text="EID002"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@id/balanceAmountPrimaryTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/balanceAmountPrimaryTextView" />
+
 
     <ImageView
         android:id="@+id/balanceAmountCornerImageView"
@@ -50,6 +67,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="120dp"
         android:layout_marginEnd="32dp"
+        android:visibility="gone"
         app:cardBackgroundColor="@color/secondary"
         app:cardCornerRadius="@dimen/corner_radius_card_button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,8 +100,8 @@
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/amount"
-                android:textSize="16sp"
                 android:textColor="@color/black"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -95,9 +113,8 @@
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="28dp"
-                app:dividerColor="@color/black"
+                app:dividerColor="@color/gray"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textColor="@color/black"
                 app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsCardHeaderTitleTextView" />
 
             <TextView
@@ -108,8 +125,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="Against Expenses"
-                android:textSize="16sp"
                 android:textColor="@color/black"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsCardHeaderDivider" />
@@ -121,11 +138,10 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
                 android:text="20000"
-                android:textSize="16sp"
                 android:textColor="@color/black"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
-                app:layout_constraintStart_toStartOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
                 app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsCardHeaderDivider" />
 
             <TextView
@@ -147,11 +163,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:textColor="@color/black"
                 android:text="7000"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
-                app:layout_constraintStart_toStartOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
                 app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsAgainstExpensesTitleTextView" />
 
             <TextView
@@ -177,16 +192,15 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
-                app:layout_constraintStart_toStartOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
                 app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsGratuityTotalTextView" />
 
             <TextView
-                android:id="@+id/balanceAmountDetailsLoanLeaveTitleTextView"
+                android:id="@+id/balanceAmountDetailsLoanTitleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="24dp"
                 android:text="Loan"
                 android:textColor="@color/black"
                 android:textSize="16sp"
@@ -195,21 +209,35 @@
                 app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsBonusTitleTextView" />
 
             <TextView
-                android:id="@+id/balanceAmountDetailsBLLeaveTotalTextView"
+                android:id="@+id/balanceAmountDetailsLoanTotalTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:textColor="@color/black"
                 android:text="5000"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
-                app:layout_constraintStart_toStartOf="@id/balanceAmountDetailsCardHeaderTotalTextView"
                 app:layout_constraintTop_toBottomOf="@id/balanceAmountDetailsBonusTotalTextView" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+    <include
+        android:id="@+id/balanceAmountDetailsLoadingView"
+        layout="@layout/layout_loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginEnd="32dp"
+        app:boxCornerRadiusBottomEnd="@dimen/corner_radius"
+        app:boxCornerRadiusBottomStart="@dimen/corner_radius"
+        app:boxCornerRadiusTopEnd="@dimen/corner_radius"
+        app:boxCornerRadiusTopStart="@dimen/corner_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

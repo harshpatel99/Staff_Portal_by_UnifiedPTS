@@ -1,5 +1,6 @@
 package com.unifiedpts.staffportal.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,6 +23,7 @@ import com.google.firebase.ktx.Firebase
 import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
 import com.unifiedpts.staffportal.activity.AuthenticationActivity
+import com.unifiedpts.staffportal.model.User
 import java.util.concurrent.TimeUnit
 
 
@@ -40,6 +42,7 @@ class SignInFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
 
     private var verificationId: String? = null
+    private lateinit var user : User
 
     private lateinit var otpET: TextInputEditText
     private lateinit var otpInputLayout: TextInputLayout
@@ -100,6 +103,8 @@ class SignInFragment : Fragment() {
                     Firebase.firestore.collection("users").whereEqualTo("phoneNumber",phone).get()
                         .addOnCompleteListener {
                             if (it.isSuccessful) {
+                                val listUsers = it.result.toObjects(User::class.java)
+                                user = listUsers.first()
                                 sendVerificationCode(phone)
                             }else{
                                 Toast.makeText(
@@ -190,9 +195,29 @@ class SignInFragment : Fragment() {
 
                     progressBar.visibility = View.GONE
 
-                    val i = Intent(activity, MainActivity::class.java)
-                    startActivity(i)
-                    requireActivity().finish()
+                    if(user.verifiedUser!!.compareTo("true") == 0){
+                        val sp = requireActivity().getSharedPreferences("user",Context.MODE_PRIVATE)
+                        val editor = sp.edit()
+                        editor.putString("userEmployeeID",user.empID)
+                        editor.putString("phoneNumber",user.phoneNumber)
+                        editor.apply()
+
+                        val i = Intent(activity, MainActivity::class.java)
+                        startActivity(i)
+                        requireActivity().finish()
+                    }else{
+
+                        val sp = requireActivity().getSharedPreferences("user",Context.MODE_PRIVATE)
+                        val editor = sp.edit()
+                        editor.putString("userEmployeeID",user.empID)
+                        editor.putString("phoneNumber",user.phoneNumber)
+                        editor.apply()
+
+                        AuthenticationActivity.openFragment(
+                            requireActivity(),
+                            WaitingForApprovalFragment()
+                        )
+                    }
 
 
                 } else {

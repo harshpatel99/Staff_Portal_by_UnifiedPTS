@@ -31,7 +31,7 @@
 
     <color name="primary">#0196AC</color>
     <color name="primaryLight">#ABF0FA</color>
-    <color name="secondary">#D1D2D3</color>
+    <color name="secondary">#EFEFEF</color>
     <color name="secondaryDark">#41576A</color>
     <color name="accent">#cf2e2e</color>
     <color name="accentVeryLight">#F6CFCF</color>

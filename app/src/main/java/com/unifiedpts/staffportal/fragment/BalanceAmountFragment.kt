@@ -1,11 +1,20 @@
 package com.unifiedpts.staffportal.fragment
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import com.google.android.material.card.MaterialCardView
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import com.unifiedpts.staffportal.R
+import com.unifiedpts.staffportal.model.User
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +44,51 @@ class BalanceAmountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_balance_amount, container, false)
+        val view = inflater.inflate(R.layout.fragment_balance_amount, container, false)
+
+        val profileTextView = view.findViewById<TextView>(R.id.balanceAmountEmployeeIDTextView)
+
+        val balancesCardView =
+            view.findViewById<MaterialCardView>(R.id.balanceAmountDetailsCardView)
+        val loadingView = view.findViewById<View>(R.id.balanceAmountDetailsLoadingView)
+
+        val againstExpensesTextView =
+            view.findViewById<TextView>(R.id.balanceAmountDetailsAgainstTotalTextView)
+        val gratuityTextView =
+            view.findViewById<TextView>(R.id.balanceAmountDetailsGratuityTotalTextView)
+        val bonusTextView = view.findViewById<TextView>(R.id.balanceAmountDetailsBonusTotalTextView)
+        val loanTextView = view.findViewById<TextView>(R.id.balanceAmountDetailsLoanTotalTextView)
+
+        val sp = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
+
+        val gson = Gson()
+        val json: String = sp.getString("user", "")!!
+        val user: User = gson.fromJson(json, User::class.java)
+
+        profileTextView.text = user.empID.toString()
+        gratuityTextView.text = user.gratuity.toString()
+        bonusTextView.text = user.bonus.toString()
+        loanTextView.text = user.loan.toString()
+
+        Firebase.firestore.collection("balanceDetails").document("againstExpenses").get()
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    againstExpensesTextView.text = it.result["total"].toString()
+
+                    loadingView.visibility = View.GONE
+                    balancesCardView.visibility = View.VISIBLE
+                } else {
+                    Toast.makeText(
+                        activity,
+                        "Problem fetching your details, Please try again later",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+
+
+        return view
     }
 
     companion object {

@@ -1,10 +1,12 @@
 package com.unifiedpts.staffportal.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.unifiedpts.staffportal.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -35,7 +37,15 @@ class WaitingForApprovalFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_waiting_for_approval, container, false)
+        val view = inflater.inflate(R.layout.fragment_waiting_for_approval, container, false)
+
+        val profileTextView = view.findViewById<TextView>(R.id.waitingForApprovalEmployeeIDTextView)
+
+        val sp = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
+
+        profileTextView.text = sp.getString("userEmployeeID","000")
+
+        return view
     }
 
     companion object {

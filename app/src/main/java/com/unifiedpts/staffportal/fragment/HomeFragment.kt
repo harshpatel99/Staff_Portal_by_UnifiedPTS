@@ -1,5 +1,6 @@
 package com.unifiedpts.staffportal.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -48,6 +49,11 @@ class HomeFragment : Fragment() {
         val expenseButtonCard = view.findViewById<MaterialCardView>(R.id.homeMenuExpenseButtonCardView)
         val hrDocumentsButtonCard = view.findViewById<MaterialCardView>(R.id.homeMenuHRDocumentsButtonCardView)
         val homeProfileImageView = view.findViewById<ImageView>(R.id.homeProfileImageView)
+        val homeProfileTextView = view.findViewById<TextView>(R.id.homeProfileTextView)
+
+        val sp = requireActivity().getSharedPreferences("user",Context.MODE_PRIVATE)
+
+        homeProfileTextView.text = sp.getString("userEmployeeID","000")
 
         homeProfileImageView.setOnClickListener {
             FirebaseAuth.getInstance().signOut()

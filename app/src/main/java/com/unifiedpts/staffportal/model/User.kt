@@ -8,5 +8,12 @@ data class User(
     val empID: String? = null,
     val userType: String? = null,
     val verifiedUser: String? = null,
-    val createdOn: Long? = null
+    val createdOn: Long? = null,
+    val gratuity: Double? = null,
+    val bonus: Double? = null,
+    val loan: Double? = null,
+    val sickLeave: Int? = null,
+    val casualLeave: Int? = null,
+    val privilegeLeave: Int? = null,
+    val blLeave: Int? = null
 )
