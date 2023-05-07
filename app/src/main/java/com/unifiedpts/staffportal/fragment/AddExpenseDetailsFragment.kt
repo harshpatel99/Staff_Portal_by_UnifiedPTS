@@ -2,12 +2,12 @@ package com.unifiedpts.staffportal.fragment
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.provider.OpenableColumns
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.firestore.FieldValue
@@ -27,13 +28,13 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
-import com.unifiedpts.staffportal.activity.AuthenticationActivity
-import com.unifiedpts.staffportal.model.AgainstExpenses
 import com.unifiedpts.staffportal.model.ExpenseDetails
-import kotlinx.coroutines.selects.select
+import java.io.ByteArrayOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -87,7 +88,7 @@ class AddExpenseDetailsFragment : Fragment() {
         val layoutOther = view.findViewById<View>(R.id.addExpenseDetailsLayoutOther)
 
         submitButtonCardView = view.findViewById(R.id.addExpenseDetailsSubmitButtonCardView)
-        progressBar = view.findViewById(R.id.signInProgressBar)
+        progressBar = view.findViewById(R.id.addExpenseDetailsProgressBar)
 
         val cashWorkerTextView =
             layoutCashWorker.findViewById<TextView>(R.id.addExpenseDetailsItemLayoutTextView)
@@ -176,9 +177,9 @@ class AddExpenseDetailsFragment : Fragment() {
 
         val profileTextView = view.findViewById<TextView>(R.id.addExpenseDetailsEmployeeIDTextView)
 
-        val sp = requireActivity().getSharedPreferences("user",Context.MODE_PRIVATE)
+        val sp = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
 
-        profileTextView.text = sp.getString("userEmployeeID","000")
+        profileTextView.text = sp.getString("userEmployeeID", "000")
 
 
         cashWorkerTextView.text = getString(R.string.cash_worker)
@@ -297,10 +298,6 @@ class AddExpenseDetailsFragment : Fragment() {
 
                         }
 
-                    Toast.makeText(
-                        context, "Data is updated: $expenseDetails", Toast.LENGTH_SHORT
-                    ).show()
-
                 }
                 .addOnFailureListener {
                     Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
@@ -344,17 +341,36 @@ class AddExpenseDetailsFragment : Fragment() {
                 // extract the file name with extension
                 val sd = getFileName(requireContext(), imageUri!!)
 
+                val bmp = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, imageUri)
+
+                val baos = ByteArrayOutputStream()
+
+                // here we can choose quality factor
+                // in third parameter(ex. here it is 25)
+                bmp.compress(Bitmap.CompressFormat.JPEG, 25, baos)
+
+                val fileInBytes: ByteArray = baos.toByteArray()
+
                 val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.US)
                 val currentDate = sdf.format(Date())
 
-                val directoryPath = "expenses/$currentDate/$selectedImage"
+                val directoryPath = "expenses/$currentDate/$selectedImage$sd"
+
+                Toast.makeText(
+                    context, "Uploading an attachment", Toast.LENGTH_SHORT
+                ).show()
 
                 // Upload Task with upload to directory 'file'
                 // and name of the file remains same
-                storageRef.child(directoryPath).putFile(imageUri).addOnSuccessListener {
+                storageRef.child(directoryPath).putBytes(fileInBytes).addOnSuccessListener {
+
+                    Toast.makeText(
+                        context, "Attachment is Added", Toast.LENGTH_SHORT
+                    ).show()
 
                     storageRef.child(directoryPath).downloadUrl.addOnSuccessListener {
                         expenseDetails.attachmentUrls!![selectedImage] = it.toString()
+                        progressBar.visibility = View.GONE
                     }
 
                     expenseDetails.isDocAttached = true
@@ -388,9 +404,12 @@ class AddExpenseDetailsFragment : Fragment() {
             galleryIntent.type = "image/*"
             imagePickerActivityResult.launch(galleryIntent)
 
-            Toast.makeText(
-                context, "Attachment is being Uploaded", Toast.LENGTH_SHORT
-            ).show()
+            progressBar.visibility = View.VISIBLE
+
+            imageView.setColorFilter(
+                ContextCompat.getColor(requireContext(), R.color.black),
+                android.graphics.PorterDuff.Mode.SRC_IN
+            );
 
         }
     }

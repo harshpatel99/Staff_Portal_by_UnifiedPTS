@@ -39,12 +39,12 @@ class AddExpenseMainFragment : Fragment() {
     private lateinit var adapter: ArrayAdapter<Any?>
 
     private lateinit var listOfProjects: List<Project>
-    private lateinit var stateList: Set<String>
-    private lateinit var cityList: Set<String>
-    private lateinit var projectNameList: Set<String>
-    private lateinit var projectNumberList: Set<String>
-    private lateinit var floorList: Set<String>
-    private lateinit var pourList: Set<String>
+    private lateinit var stateList: ArrayList<String>
+    private lateinit var cityList: ArrayList<String>
+    private lateinit var projectNameList: ArrayList<String>
+    private lateinit var projectNumberList: ArrayList<String>
+    private lateinit var floorList: ArrayList<String>
+    private lateinit var pourList: ArrayList<String>
 
     private lateinit var expenseDetails: ExpenseDetails
 
@@ -135,12 +135,16 @@ class AddExpenseMainFragment : Fragment() {
                         allStates.add(item.state!!)
                     }
 
-                    stateList = allStates.toSet()
+                    val set: Set<String> = HashSet<String>(allStates)
+                    allStates.clear()
+                    allStates.addAll(set)
+
+                    stateList = allStates
 
                     adapter =
                         ArrayAdapter<Any?>(
                             requireContext(), R.layout.item_drop_down,
-                            stateList as List<Any?>
+                            allStates as List<Any?>
                         )
                     stateACTView.setAdapter(adapter)
 
@@ -151,6 +155,7 @@ class AddExpenseMainFragment : Fragment() {
                     workSpinnerLayout.visibility = View.VISIBLE
                     remarkTextInputLayout.visibility = View.VISIBLE
 
+                    fillExpenseButtonCardView.visibility = View.VISIBLE
                 }
             }
 
@@ -184,7 +189,11 @@ class AddExpenseMainFragment : Fragment() {
                 }
             }
 
-            cityList = allCities.toSet()
+            val set: Set<String> = HashSet<String>(allCities)
+            allCities.clear()
+            allCities.addAll(set)
+
+            cityList = allCities
 
             adapter = ArrayAdapter<Any?>(
                 requireContext(), R.layout.item_drop_down,
@@ -215,8 +224,12 @@ class AddExpenseMainFragment : Fragment() {
                 }
             }
 
-            projectNameList = allProjectNames.toSet()
-            projectNumberList = allProjectNumber.toSet()
+            val set: Set<String> = HashSet<String>(allProjectNames)
+            allProjectNames.clear()
+            allProjectNames.addAll(set)
+
+            projectNameList = allProjectNames
+            projectNumberList = allProjectNumber
 
             adapter = ArrayAdapter<Any?>(
                 requireContext(), R.layout.item_drop_down,
@@ -247,7 +260,11 @@ class AddExpenseMainFragment : Fragment() {
                 }
             }
 
-            floorList = allFloors.toSet()
+            val set: Set<String> = HashSet<String>(allFloors)
+            allFloors.clear()
+            allFloors.addAll(set)
+
+            floorList = allFloors
 
             adapter = ArrayAdapter<Any?>(
                 requireContext(), R.layout.item_drop_down,
@@ -266,8 +283,6 @@ class AddExpenseMainFragment : Fragment() {
 
             val allPours = ArrayList<String>()
 
-
-
             if (listOfProjects.isNotEmpty()) {
                 for (item in listOfProjects) {
                     if (item.state!!.compareTo(expenseDetails.state!!) == 0 &&
@@ -280,7 +295,11 @@ class AddExpenseMainFragment : Fragment() {
                 }
             }
 
-            pourList = allPours.toSet()
+            val set: Set<String> = HashSet<String>(allPours)
+            allPours.clear()
+            allPours.addAll(set)
+
+            pourList = allPours
 
             adapter = ArrayAdapter<Any?>(
                 requireContext(), R.layout.item_drop_down,

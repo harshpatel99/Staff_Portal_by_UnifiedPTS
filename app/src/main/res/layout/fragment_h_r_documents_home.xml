@@ -33,6 +33,22 @@
         app:layout_constraintStart_toEndOf="@id/hrDocumentHomeBackImageView"
         app:layout_constraintTop_toTopOf="@id/hrDocumentHomeBackImageView" />
 
+    <TextView
+        android:id="@+id/hrDocumentHomeEmployeeIDTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/rounded_corners"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp"
+        android:text="EID002"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@id/hrDocumentHomeBackImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/hrDocumentHomeBackImageView" />
+
     <ImageView
         android:id="@+id/hrDocumentHomeCornerImageView"
         android:layout_width="match_parent"
@@ -55,9 +71,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:strokeColor="@color/black"
-        app:strokeWidth="2dp">
+        app:layout_constraintVertical_chainStyle="packed">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -71,7 +85,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:src="@drawable/round_account_circle_24"
+                android:src="@drawable/round_timelapse_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -104,9 +118,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/hrDocumentMenuLeavePolicyButtonCardView"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:strokeColor="@color/black"
-        app:strokeWidth="2dp">
+        app:layout_constraintVertical_chainStyle="packed">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -120,7 +132,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:src="@drawable/round_account_circle_24"
+                android:src="@drawable/round_calendar_month_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -153,9 +165,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/hrDocumentMenuAppointmentLetterButtonCardView"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:strokeColor="@color/black"
-        app:strokeWidth="2dp">
+        app:layout_constraintVertical_chainStyle="packed">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -169,7 +179,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:src="@drawable/round_account_circle_24"
+                android:src="@drawable/round_monetization_on_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -202,9 +212,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/hrDocumentMenuSalarySlipButtonCardView"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:strokeColor="@color/black"
-        app:strokeWidth="2dp">
+        app:layout_constraintVertical_chainStyle="packed">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -218,7 +226,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:src="@drawable/round_account_circle_24"
+                android:src="@drawable/round_insert_chart_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -251,9 +259,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/hrDocumentMenuIncrementLetterButtonCardView"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:strokeColor="@color/black"
-        app:strokeWidth="2dp">
+        app:layout_constraintVertical_chainStyle="packed">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -267,7 +273,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:src="@drawable/round_account_circle_24"
+                android:src="@drawable/round_next_plan_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -1,11 +1,17 @@
 package com.unifiedpts.staffportal.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import com.google.gson.Gson
+import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
+import com.unifiedpts.staffportal.model.User
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +41,24 @@ class HRDocumentsHomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_h_r_documents_home, container, false)
+        val view =  inflater.inflate(R.layout.fragment_h_r_documents_home, container, false)
+
+        val backButton = view.findViewById<ImageView>(R.id.hrDocumentHomeBackImageView)
+
+        backButton.setOnClickListener {
+            MainActivity.closeFragment(requireActivity())
+        }
+
+        val sp = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
+
+        val gson = Gson()
+        val json: String = sp.getString("user", "")!!
+        val user: User = gson.fromJson(json, User::class.java)
+
+        val profileTextView = view.findViewById<TextView>(R.id.hrDocumentHomeEmployeeIDTextView)
+        profileTextView.text = user.empID.toString()
+
+        return view
     }
 
     companion object {

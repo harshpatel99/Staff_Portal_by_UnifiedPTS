@@ -61,8 +61,8 @@ class HomeFragment : Fragment() {
         }
 
         leaveApplicationButtonCard.setOnClickListener {
-            MainActivity.openFragment(requireActivity(),UnderDevelopmentFragment())
-            //MainActivity.openFragment(requireActivity(),LeaveHomeFragment())
+            //MainActivity.openFragment(requireActivity(),UnderDevelopmentFragment())
+            MainActivity.openFragment(requireActivity(),LeaveHomeFragment())
         }
 
         attendanceButtonCard.setOnClickListener {
@@ -80,8 +80,8 @@ class HomeFragment : Fragment() {
         }
 
         hrDocumentsButtonCard.setOnClickListener {
-            MainActivity.openFragment(requireActivity(),UnderDevelopmentFragment())
-            //MainActivity.openFragment(requireActivity(),HRDocumentsHomeFragment())
+            //MainActivity.openFragment(requireActivity(),UnderDevelopmentFragment())
+            MainActivity.openFragment(requireActivity(),HRDocumentsHomeFragment())
         }
 
         return view

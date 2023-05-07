@@ -164,7 +164,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/appleForLeaveTypeOfLEaveSpinnerLayout"
+                android:id="@+id/appleForLeaveTypeOfLeaveSpinnerLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -180,7 +180,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                    android:id="@+id/addExpenseMainCityACTView"
+                    android:id="@+id/applyForLeaveTypeofLeaveACTView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
@@ -203,7 +203,7 @@
                 app:hintTextColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/appleForLeaveTypeOfLEaveSpinnerLayout">
+                app:layout_constraintTop_toBottomOf="@id/appleForLeaveTypeOfLeaveSpinnerLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/appleForLeaveReasonTextInputEditText"
@@ -219,8 +219,8 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginBottom="24dp"
-                android:gravity="center"
-                android:text="No Documents Attached"
+                android:text="No Document Attached"
+                android:maxEms="9"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -250,11 +250,21 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <ProgressBar
+        android:id="@+id/appleForLeaveProgressBar"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appleForLeaveOtherDetailsCardView" />
+
     <TextView
         android:id="@+id/appleForLeaveApplyButtonTextView"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/rounded_corners"
@@ -267,6 +277,6 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appleForLeaveOtherDetailsCardView" />
+        app:layout_constraintTop_toBottomOf="@id/appleForLeaveProgressBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -56,11 +56,9 @@
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
         android:src="@drawable/round_settings_24"
-        android:tint="@color/black"
         app:layout_constraintStart_toStartOf="@id/homeProfileTextView"
         app:layout_constraintBottom_toBottomOf="@id/homeProfileTextView"
-        app:layout_constraintTop_toTopOf="@id/homeProfileTextView"
-        app:tint="@color/black" />
+        app:layout_constraintTop_toTopOf="@id/homeProfileTextView" />
 
     <ImageView
         android:id="@+id/homeCornerImageView"
@@ -228,7 +226,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         app:cardBackgroundColor="@color/action_button_home"
         app:cardCornerRadius="@dimen/corner_radius_card_button"
@@ -275,7 +273,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         app:cardBackgroundColor="@color/action_button_home"
         app:cardCornerRadius="@dimen/corner_radius_card_button"

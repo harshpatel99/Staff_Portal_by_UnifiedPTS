@@ -8,8 +8,8 @@
         android:id="@+id/addExpenseDetailsItemLayoutTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:text="Cash Worker"
+        android:layout_marginStart="16dp"
+        android:maxEms="9"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@id/addExpenseDetailsItemLayoutTextInputLayout"
@@ -43,13 +43,12 @@
         android:id="@+id/addExpenseDetailsItemLayoutAttachImageView"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
         android:src="@drawable/round_attach_file_24"
         android:tint="@color/gray"
+        app:layout_constraintBottom_toBottomOf="@id/addExpenseDetailsItemLayoutTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/addExpenseDetailsItemLayoutTextView"
         app:tint="@color/gray" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
