@@ -19,6 +19,7 @@
     <string name="leave_application_new_line">Leave \nApplication</string>
     <string name="hr_documents">HR Documents</string>
     <string name="expense_details">Expense Details</string>
+    <string name="expense_details_new_line">Expense \nDetails</string>
     <string name="leave_type">Leave Type</string>
     <string name="total">Total</string>
     <string name="sick_leave">Sick Leave</string>

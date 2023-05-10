@@ -174,6 +174,11 @@ class AddExpenseDetailsFragment : Fragment() {
         val otherAttachImageView =
             layoutOther.findViewById<ImageView>(R.id.addExpenseDetailsItemLayoutAttachImageView)
 
+        val projectDetailsTextView =
+            view.findViewById<TextView>(R.id.addExpenseDetailsProjectDetailsTextView)
+
+        projectDetailsTextView.text =
+            expenseDetails.projectName + " - " + expenseDetails.floor + " - " + expenseDetails.pour
 
         val profileTextView = view.findViewById<TextView>(R.id.addExpenseDetailsEmployeeIDTextView)
 
@@ -341,7 +346,8 @@ class AddExpenseDetailsFragment : Fragment() {
                 // extract the file name with extension
                 val sd = getFileName(requireContext(), imageUri!!)
 
-                val bmp = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, imageUri)
+                val bmp =
+                    MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, imageUri)
 
                 val baos = ByteArrayOutputStream()
 

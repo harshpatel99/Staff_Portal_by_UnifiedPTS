@@ -37,9 +37,9 @@
         android:id="@+id/homeProfileTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corners"
         android:layout_marginTop="36dp"
         android:layout_marginEnd="20dp"
+        android:background="@drawable/rounded_corners"
         android:paddingStart="36dp"
         android:paddingTop="8dp"
         android:paddingEnd="12dp"
@@ -56,8 +56,8 @@
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
         android:src="@drawable/round_settings_24"
-        app:layout_constraintStart_toStartOf="@id/homeProfileTextView"
         app:layout_constraintBottom_toBottomOf="@id/homeProfileTextView"
+        app:layout_constraintStart_toStartOf="@id/homeProfileTextView"
         app:layout_constraintTop_toTopOf="@id/homeProfileTextView" />
 
     <ImageView
@@ -74,22 +74,22 @@
         android:id="@+id/homeMenuAttendanceButtonGridLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="horizontal"
         android:layout_marginStart="32dp"
         android:layout_marginTop="140dp"
         android:layout_marginEnd="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/homeMenuAttendanceButtonCardView"
             android:layout_width="0dp"
             android:layout_height="150dp"
+            android:layout_marginEnd="16dp"
             android:layout_weight="1"
             app:cardBackgroundColor="@color/action_button_home"
             app:cardCornerRadius="@dimen/corner_radius_card_button"
-            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toStartOf="@id/homeMenuLeaveApplicationButtonCardView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -128,13 +128,13 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/homeMenuLeaveApplicationButtonCardView"
+            android:id="@+id/homeMenuExpenseButtonCardView"
             android:layout_width="0dp"
             android:layout_height="150dp"
             android:layout_marginStart="16dp"
+            android:layout_weight="1"
             app:cardBackgroundColor="@color/action_button_home"
             app:cardCornerRadius="@dimen/corner_radius_card_button"
-            android:layout_weight="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/homeMenuAttendanceButtonCardView"
             app:layout_constraintTop_toTopOf="parent"
@@ -145,28 +145,28 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/homeMenuLeaveApplicationCardImageView"
+                    android:id="@+id/homeMenuExpenseCardImageView"
                     android:layout_width="@dimen/home_menu_item_big_image_size"
                     android:layout_height="@dimen/home_menu_item_big_image_size"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="20dp"
-                    android:src="@drawable/round_timelapse_24"
+                    android:src="@drawable/round_monetization_on_24"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/homeMenuLeaveApplicationCardTextView"
+                    android:id="@+id/homeMenuExpenseCardTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginBottom="20dp"
-                    android:text="@string/leave_application_new_line"
+                    android:text="@string/expense_details_new_line"
                     android:textSize="@dimen/home_menu_text_size"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/homeMenuLeaveApplicationCardImageView" />
+                    app:layout_constraintTop_toBottomOf="@id/homeMenuExpenseCardImageView" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -222,7 +222,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/homeMenuExpenseButtonCardView"
+        android:id="@+id/homeMenuLeaveApplicationButtonCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -240,29 +240,29 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/homeMenuExpenseCardImageView"
+                android:id="@+id/homeMenuLeaveApplicationCardImageView"
                 android:layout_width="@dimen/home_menu_item_small_image_size"
                 android:layout_height="@dimen/home_menu_item_small_image_size"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
-                android:src="@drawable/round_monetization_on_24"
+                android:src="@drawable/round_timelapse_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/homeMenuExpenseCardTextView"
+                android:id="@+id/homeMenuLeaveApplicationCardTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="@string/expense_details"
+                android:text="@string/leave_application"
                 android:textSize="@dimen/home_menu_text_size"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/homeMenuExpenseCardImageView"
-                app:layout_constraintStart_toEndOf="@id/homeMenuExpenseCardImageView"
-                app:layout_constraintTop_toTopOf="@id/homeMenuExpenseCardImageView" />
+                app:layout_constraintBottom_toBottomOf="@id/homeMenuLeaveApplicationCardImageView"
+                app:layout_constraintStart_toEndOf="@id/homeMenuLeaveApplicationCardImageView"
+                app:layout_constraintTop_toTopOf="@id/homeMenuLeaveApplicationCardImageView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -279,7 +279,7 @@
         app:cardCornerRadius="@dimen/corner_radius_card_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/homeMenuExpenseButtonCardView"
+        app:layout_constraintTop_toBottomOf="@id/homeMenuLeaveApplicationButtonCardView"
         app:layout_constraintVertical_chainStyle="packed">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -314,5 +314,27 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+    <ImageView
+        android:id="@+id/homeBrandLogoImageView"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="40dp"
+        android:src="@drawable/logo_unified_pts"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/homeBrandLogo2ImageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <ImageView
+        android:id="@+id/homeBrandLogo2ImageView"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:src="@drawable/logo_pramush"
+        app:layout_constraintBottom_toBottomOf="@id/homeBrandLogoImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/homeBrandLogoImageView"
+        app:layout_constraintTop_toTopOf="@id/homeBrandLogoImageView"
+        app:layout_constraintVertical_chainStyle="packed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -66,8 +66,8 @@ class HomeFragment : Fragment() {
         }
 
         attendanceButtonCard.setOnClickListener {
-            //MainActivity.openFragment(requireActivity(),AttendanceFragment())
-            MainActivity.openFragment(requireActivity(),UnderDevelopmentFragment())
+            MainActivity.openFragment(requireActivity(),AttendanceFragment())
+            //MainActivity.openFragment(requireActivity(),UnderDevelopmentFragment())
         }
 
         balanceButtonCard.setOnClickListener {
