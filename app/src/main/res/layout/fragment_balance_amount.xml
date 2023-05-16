@@ -67,7 +67,6 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="120dp"
         android:layout_marginEnd="32dp"
-        android:visibility="gone"
         app:cardBackgroundColor="@color/secondary"
         app:cardCornerRadius="@dimen/corner_radius_card_button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -224,7 +223,7 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <include
+    <!--<include
         android:id="@+id/balanceAmountDetailsLoadingView"
         layout="@layout/layout_loading"
         android:layout_width="match_parent"
@@ -238,6 +237,6 @@
         app:boxCornerRadiusTopStart="@dimen/corner_radius"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

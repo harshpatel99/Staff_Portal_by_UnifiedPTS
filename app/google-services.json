@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "873145271256-41n9bem20ia49i573388rgb1plsj0m3d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unifiedpts.staffportal",
+            "certificate_hash": "fd332257455158d49e1b73bed00630c943dd0da5"
+          }
+        },
+        {
           "client_id": "873145271256-vt9rcak39t2ishd6g9vt6rlmej9u2k73.apps.googleusercontent.com",
           "client_type": 3
         }

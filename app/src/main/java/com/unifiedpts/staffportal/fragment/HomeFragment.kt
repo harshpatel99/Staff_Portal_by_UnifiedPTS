@@ -43,45 +43,53 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        val leaveApplicationButtonCard = view.findViewById<MaterialCardView>(R.id.homeMenuLeaveApplicationButtonCardView)
-        val attendanceButtonCard = view.findViewById<MaterialCardView>(R.id.homeMenuAttendanceButtonCardView)
-        val balanceButtonCard = view.findViewById<MaterialCardView>(R.id.homeMenuBalanceButtonCardView)
-        val expenseButtonCard = view.findViewById<MaterialCardView>(R.id.homeMenuExpenseButtonCardView)
-        val hrDocumentsButtonCard = view.findViewById<MaterialCardView>(R.id.homeMenuHRDocumentsButtonCardView)
+        val leaveApplicationButtonCard =
+            view.findViewById<MaterialCardView>(R.id.homeMenuLeaveApplicationButtonCardView)
+        val attendanceButtonCard =
+            view.findViewById<MaterialCardView>(R.id.homeMenuAttendanceButtonCardView)
+        val balanceButtonCard =
+            view.findViewById<MaterialCardView>(R.id.homeMenuBalanceButtonCardView)
+        val expenseButtonCard =
+            view.findViewById<MaterialCardView>(R.id.homeMenuExpenseButtonCardView)
+        val hrDocumentsButtonCard =
+            view.findViewById<MaterialCardView>(R.id.homeMenuHRDocumentsButtonCardView)
         val homeProfileImageView = view.findViewById<ImageView>(R.id.homeProfileImageView)
         val homeProfileTextView = view.findViewById<TextView>(R.id.homeProfileTextView)
 
-        val sp = requireActivity().getSharedPreferences("user",Context.MODE_PRIVATE)
+        val sp = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
 
-        homeProfileTextView.text = sp.getString("userEmployeeID","000")
+        homeProfileTextView.text = sp.getString("userEmployeeID", "000")
 
+
+        homeProfileTextView.setOnClickListener {
+            MainActivity.openFragment(requireActivity(), ProfileFragment())
+        }
         homeProfileImageView.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            requireActivity().finish()
+            MainActivity.openFragment(requireActivity(), ProfileFragment())
         }
 
         leaveApplicationButtonCard.setOnClickListener {
             //MainActivity.openFragment(requireActivity(),UnderDevelopmentFragment())
-            MainActivity.openFragment(requireActivity(),LeaveHomeFragment())
+            MainActivity.openFragment(requireActivity(), LeaveHomeFragment())
         }
 
         attendanceButtonCard.setOnClickListener {
-            MainActivity.openFragment(requireActivity(),AttendanceFragment())
+            MainActivity.openFragment(requireActivity(), AttendanceFragment())
             //MainActivity.openFragment(requireActivity(),UnderDevelopmentFragment())
         }
 
         balanceButtonCard.setOnClickListener {
-            MainActivity.openFragment(requireActivity(),BalanceAmountFragment())
+            MainActivity.openFragment(requireActivity(), BalanceAmountFragment())
         }
 
         expenseButtonCard.setOnClickListener {
             //MainActivity.openFragment(requireActivity(),())
-            MainActivity.openFragment(requireActivity(),AddExpenseMainFragment())
+            MainActivity.openFragment(requireActivity(), AddExpenseMainFragment())
         }
 
         hrDocumentsButtonCard.setOnClickListener {
             //MainActivity.openFragment(requireActivity(),UnderDevelopmentFragment())
-            MainActivity.openFragment(requireActivity(),HRDocumentsHomeFragment())
+            MainActivity.openFragment(requireActivity(), HRDocumentsHomeFragment())
         }
 
         return view

@@ -49,6 +49,9 @@ class AttendanceFragment : Fragment() {
 
     private lateinit var attendanceWorker: AttendanceWorker
 
+    private lateinit var attachWorkerButton: TextView
+    private lateinit var attachEngineerButton: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -79,13 +82,14 @@ class AttendanceFragment : Fragment() {
         }
 
 
-        val checkInButton = view.findViewById<TextView>(R.id.attendanceCheckInCardTitleTextView)
+        val checkInButton =
+            view.findViewById<TextView>(R.id.attendanceCheckInCardCheckInTimeTextView)
         val checkOutButton =
             view.findViewById<TextView>(R.id.attendanceCheckInCardCheckOutTimeTextView)
 
-        val attachEngineerButton =
+        attachEngineerButton =
             view.findViewById<TextView>(R.id.attendanceAttachEngineerTextView)
-        val attachWorkerButton = view.findViewById<TextView>(R.id.attendanceAttachWorkerTextView)
+        attachWorkerButton = view.findViewById<TextView>(R.id.attendanceAttachWorkerTextView)
 
         val workerEditText =
             view.findViewById<TextInputEditText>(R.id.attendanceAttachWorkerTextInputEditText)
@@ -121,15 +125,15 @@ class AttendanceFragment : Fragment() {
         }
 
         if (sp.getString("checkOut", "")!!.compareTo(getDate()) == 0) {
-            checkInButton.text = sp.getString("checkInTime", "")
+            checkOutButton.text = sp.getString("checkInTime", "")
         }
 
         if (sp.getString("checkInWorker", "")!!.compareTo(getDate()) == 0) {
-            checkInButton.text = sp.getString("checkInTimeWorker", "")
+            checkInWorkerButton.text = sp.getString("checkInTimeWorker", "")
         }
 
         if (sp.getString("checkOutWorker", "")!!.compareTo(getDate()) == 0) {
-            checkInButton.text = sp.getString("checkOutTimeWorker", "")
+            checkOutWorkerButton.text = sp.getString("checkOutTimeWorker", "")
         }
 
         checkInButton.setOnClickListener {
@@ -206,6 +210,8 @@ class AttendanceFragment : Fragment() {
                 ) { _, _ ->
                     // User cancelled the dialog
                 }
+
+                builder.show()
             }
         }
 
@@ -223,62 +229,76 @@ class AttendanceFragment : Fragment() {
 
             } else {
 
-                val builder = AlertDialog.Builder(view.context)
+                if (sp.getString("checkIn", "").isNullOrEmpty()) {
 
-                val calendarTime = Calendar.getInstance().time
+                    Toast.makeText(
+                        requireContext(),
+                        "Please Check In!",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
 
-                builder.setTitle("Check Out")
-                val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
-                val currentTime: String = formatter.format(calendarTime)
+                } else {
 
-                val formatterDate = SimpleDateFormat("yyyyMMdd", Locale.US)
-                val currentDate: String = formatterDate.format(calendarTime)
+                    val builder = AlertDialog.Builder(view.context)
 
-                builder.setMessage("Time : $currentTime")
+                    val calendarTime = Calendar.getInstance().time
 
-                builder.setPositiveButton(
-                    "Done"
-                ) { _, _ ->
+                    builder.setTitle("Check Out")
+                    val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
+                    val currentTime: String = formatter.format(calendarTime)
 
-                    progressBar.visibility = View.VISIBLE
+                    val formatterDate = SimpleDateFormat("yyyyMMdd", Locale.US)
+                    val currentDate: String = formatterDate.format(calendarTime)
 
-                    val db = Firebase.firestore
+                    builder.setMessage("Time : $currentTime")
 
-                    db.collection("users").document(user.uid!!)
-                        .collection("attendance").document(currentDate)
-                        .update("checkOutTime", currentTime)
-                        .addOnSuccessListener {
+                    builder.setPositiveButton(
+                        "Done"
+                    ) { _, _ ->
 
-                            val timeFormatter = SimpleDateFormat("hh:mm a", Locale.US)
+                        progressBar.visibility = View.VISIBLE
 
-                            val editor = sp.edit()
-                            editor.putString("checkOut", currentDate)
-                            editor.putString("checkOutTime", timeFormatter.format(calendarTime))
-                            editor.apply()
+                        val db = Firebase.firestore
 
-                            checkOutButton.text = timeFormatter.format(calendarTime)
+                        db.collection("users").document(user.uid!!)
+                            .collection("attendance").document(currentDate)
+                            .update("checkOutTime", currentTime)
+                            .addOnSuccessListener {
 
-                            Toast.makeText(
-                                requireContext(),
-                                "Check Out Successful!",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                            progressBar.visibility = View.GONE
+                                val timeFormatter = SimpleDateFormat("hh:mm a", Locale.US)
 
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
-                                .show()
-                            progressBar.visibility = View.GONE
-                        }
-                }
+                                val editor = sp.edit()
+                                editor.putString("checkOut", currentDate)
+                                editor.putString("checkOutTime", timeFormatter.format(calendarTime))
+                                editor.apply()
 
-                //set positive button
-                builder.setNegativeButton(
-                    "Cancel"
-                ) { _, _ ->
-                    // User cancelled the dialog
+                                checkOutButton.text = timeFormatter.format(calendarTime)
+
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Check Out Successful!",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                progressBar.visibility = View.GONE
+
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
+                                    .show()
+                                progressBar.visibility = View.GONE
+                            }
+                    }
+
+                    //set positive button
+                    builder.setNegativeButton(
+                        "Cancel"
+                    ) { _, _ ->
+                        // User cancelled the dialog
+                    }
+
+                    builder.show()
                 }
             }
         }
@@ -350,6 +370,13 @@ class AttendanceFragment : Fragment() {
                     ).show()
                 } else {
 
+                    val totalWorker =
+                        if (workerEditText.text!!.isEmpty()) 0 else workerEditText.text!!.toString()
+                            .toLong()
+                    val totalOutsideWorker =
+                        if (workerEditText.text!!.isEmpty()) 0 else outsideWorkerEditText.text!!.toString()
+                            .toLong()
+
                     val builder = AlertDialog.Builder(view.context)
 
                     val calendarTime = Calendar.getInstance().time
@@ -363,8 +390,8 @@ class AttendanceFragment : Fragment() {
 
                     builder.setMessage(
                         "Time : $currentTime" + "\n"
-                                + "Workers : " + attendanceWorker.totalWorkers + "\n"
-                                + "Outside Workers : " + attendanceWorker.totalOutsideWorkers
+                                + "Workers : " + totalWorker + "\n"
+                                + "Outside Workers : " + totalOutsideWorker
                     )
 
                     builder.setPositiveButton(
@@ -375,13 +402,6 @@ class AttendanceFragment : Fragment() {
 
                         attendanceWorker.checkInTime = currentTime
                         attendanceWorker.date = getDate()
-
-                        val totalWorker =
-                            if (workerEditText.text!!.isEmpty()) 0 else workerEditText.text!!.toString()
-                                .toLong()
-                        val totalOutsideWorker =
-                            if (workerEditText.text!!.isEmpty()) 0 else outsideWorkerEditText.text!!.toString()
-                                .toLong()
 
                         Firebase.firestore.collection("workerAttendance").document("worker")
                             .update(
@@ -413,10 +433,27 @@ class AttendanceFragment : Fragment() {
                                                     "checkInTimeWorker",
                                                     timeFormatter.format(calendarTime)
                                                 )
+                                                editor.putLong("totalWorker", totalWorker)
+                                                editor.putLong(
+                                                    "totalOutsideWorker",
+                                                    totalOutsideWorker
+                                                )
                                                 editor.apply()
 
                                                 checkInWorkerButton.text =
                                                     timeFormatter.format(calendarTime)
+
+                                                val newTotalWorkers =
+                                                    workerTotalTextView.text.toString()
+                                                        .toLong() + totalWorker
+                                                val newTotalOutsideWorkers =
+                                                    outsideWorkerTotalTextView.text.toString()
+                                                        .toLong() + totalOutsideWorker
+
+                                                workerTotalTextView.text =
+                                                    newTotalWorkers.toString()
+                                                outsideWorkerTotalTextView.text =
+                                                    newTotalOutsideWorkers.toString()
 
                                                 Toast.makeText(
                                                     requireContext(),
@@ -437,6 +474,7 @@ class AttendanceFragment : Fragment() {
                         // User cancelled the dialog
                     }
 
+                    builder.show()
 
                 }
             }
@@ -455,64 +493,101 @@ class AttendanceFragment : Fragment() {
                     .show()
 
             } else {
-                val builder = AlertDialog.Builder(view.context)
 
-                val calendarTime = Calendar.getInstance().time
+                if (sp.getString("checkInWorker", "").isNullOrEmpty()) {
 
-                builder.setTitle("Check Out")
-                val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
-                val currentTime: String = formatter.format(calendarTime)
+                    Toast.makeText(
+                        requireContext(),
+                        "Please Check In!",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
 
-                val formatterDate = SimpleDateFormat("yyyyMMdd", Locale.US)
-                val currentDate: String = formatterDate.format(calendarTime)
+                } else {
 
-                builder.setMessage("Time : $currentTime")
+                    val builder = AlertDialog.Builder(view.context)
 
-                builder.setPositiveButton(
-                    "Done"
-                ) { _, _ ->
+                    val calendarTime = Calendar.getInstance().time
 
-                    progressBar.visibility = View.VISIBLE
+                    builder.setTitle("Check Out")
+                    val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
+                    val currentTime: String = formatter.format(calendarTime)
 
-                    val db = Firebase.firestore
+                    val formatterDate = SimpleDateFormat("yyyyMMdd", Locale.US)
+                    val currentDate: String = formatterDate.format(calendarTime)
 
-                    db.collection("workerAttendance").document(currentDate)
-                        .update("checkOutTime", currentTime)
-                        .addOnSuccessListener {
+                    builder.setMessage("Time : $currentTime")
 
-                            val timeFormatter = SimpleDateFormat("hh:mm a", Locale.US)
+                    builder.setPositiveButton(
+                        "Done"
+                    ) { _, _ ->
 
-                            val editor = sp.edit()
-                            editor.putString("checkOutWorker", currentDate)
-                            editor.putString(
-                                "checkOutTimeWorker",
-                                timeFormatter.format(calendarTime)
+                        progressBar.visibility = View.VISIBLE
+
+                        val db = Firebase.firestore
+
+                        val totalWorker = -sp.getLong("totalWorker", 0)
+                        val totalOutsideWorker = -sp.getLong("totalOutsideWorker", 0)
+
+                        Firebase.firestore.collection("workerAttendance").document("worker")
+                            .update(
+                                "totalWorkers",
+                                FieldValue.increment(totalWorker),
+                                "totalOutsideWorkers",
+                                FieldValue.increment(totalOutsideWorker)
                             )
-                            editor.apply()
+                            .addOnCompleteListener {
+                                if (it.isSuccessful) {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Check Out Successful!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
 
-                            checkOutWorkerButton.text = timeFormatter.format(calendarTime)
+                                    db.collection("workerAttendance").document(currentDate)
+                                        .update("checkOutTime", currentTime)
+                                        .addOnSuccessListener {
 
-                            Toast.makeText(
-                                requireContext(),
-                                "Check Out Successful!",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                            progressBar.visibility = View.GONE
+                                            val timeFormatter =
+                                                SimpleDateFormat("hh:mm a", Locale.US)
 
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
-                                .show()
-                            progressBar.visibility = View.GONE
-                        }
-                }
+                                            val editor = sp.edit()
+                                            editor.putString("checkOutWorker", currentDate)
+                                            editor.putString(
+                                                "checkOutTimeWorker",
+                                                timeFormatter.format(calendarTime)
+                                            )
+                                            editor.apply()
 
-                //set positive button
-                builder.setNegativeButton(
-                    "Cancel"
-                ) { _, _ ->
-                    // User cancelled the dialog
+                                            checkOutWorkerButton.text =
+                                                timeFormatter.format(calendarTime)
+
+                                            Toast.makeText(
+                                                requireContext(),
+                                                "Check Out Successful!",
+                                                Toast.LENGTH_SHORT
+                                            )
+                                                .show()
+                                            progressBar.visibility = View.GONE
+
+                                        }
+                                        .addOnFailureListener {
+                                            Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
+                                                .show()
+                                            progressBar.visibility = View.GONE
+                                        }
+                                }
+                            }
+                    }
+
+                    //set positive button
+                    builder.setNegativeButton(
+                        "Cancel"
+                    ) { _, _ ->
+                        // User cancelled the dialog
+                    }
+
+                    builder.show()
                 }
             }
         }
@@ -524,6 +599,15 @@ class AttendanceFragment : Fragment() {
     private val attachWorkerResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
             if (it.resultCode == Activity.RESULT_OK) {
+
+                val builder = AlertDialog.Builder(requireView().context)
+
+                builder.setTitle("Please Wait")
+                builder.setMessage("Uploading an Attachment")
+                builder.setCancelable(false)
+
+                val dialog = builder.create()
+                dialog.show()
 
                 val bitmap =
                     MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, imageUri);
@@ -539,21 +623,21 @@ class AttendanceFragment : Fragment() {
 
                 val directoryPath = "attendance/workers/$currentDate/worker"
 
-                Toast.makeText(
-                    context, "Uploading an attachment", Toast.LENGTH_SHORT
-                ).show()
-
                 val storageRef = Firebase.storage.reference
 
                 storageRef.child(directoryPath).putBytes(imageInBytes).addOnSuccessListener {
 
-                    Toast.makeText(
-                        context, "Attachment is Uploaded", Toast.LENGTH_SHORT
-                    ).show()
+                    storageRef.child(directoryPath).downloadUrl.addOnSuccessListener {
+                        Toast.makeText(
+                            context, "Attachment is Uploaded", Toast.LENGTH_SHORT
+                        ).show()
+                        attendanceWorker.workerUrl = it.toString()
+                        progressBar.visibility = View.GONE
 
-                    attendanceWorker.workerUrl = it.storage.downloadUrl.toString()
+                        attachWorkerButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.round_check_circle_24, 0, 0, 0);
 
-                    progressBar.visibility = View.GONE
+                        dialog.dismiss()
+                    }
 
                 }
 
@@ -563,6 +647,15 @@ class AttendanceFragment : Fragment() {
     private val attachEngineerResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
             if (it.resultCode == Activity.RESULT_OK) {
+
+                val builder = AlertDialog.Builder(requireView().context)
+
+                builder.setTitle("Please Wait")
+                builder.setMessage("Uploading an Attachment")
+                builder.setCancelable(false)
+
+                val dialog = builder.create()
+                dialog.show()
 
                 val bitmap =
                     MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, imageUri);
@@ -590,9 +683,14 @@ class AttendanceFragment : Fragment() {
                         context, "Attachment is Uploaded", Toast.LENGTH_SHORT
                     ).show()
 
-                    attendanceWorker.engineerUrl = it.storage.downloadUrl.toString()
+                    storageRef.child(directoryPath).downloadUrl.addOnSuccessListener {
+                        attendanceWorker.engineerUrl = it.toString()
+                        progressBar.visibility = View.GONE
 
-                    progressBar.visibility = View.GONE
+                        attachEngineerButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.round_check_circle_24, 0, 0, 0);
+
+                        dialog.dismiss()
+                    }
 
                 }
 

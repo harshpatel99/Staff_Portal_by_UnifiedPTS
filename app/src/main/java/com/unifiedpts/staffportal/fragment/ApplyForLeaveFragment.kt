@@ -1,5 +1,6 @@
 package com.unifiedpts.staffportal.fragment
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Context
@@ -232,37 +233,63 @@ class ApplyForLeaveFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result != null) {
                 // getting URI of selected Image
+
+                val builder = AlertDialog.Builder(requireView().context)
+
+                builder.setTitle("Please Wait")
+                builder.setMessage("Uploading an Attachment")
+                builder.setCancelable(false)
+
+                val dialog = builder.create()
+                dialog.show()
+
                 val imageUri: Uri? = result.data?.data
 
                 // val fileName = imageUri?.pathSegments?.last()
 
                 // extract the file name with extension
-                val sd = getFileName(requireContext(), imageUri!!)
 
-                val bmp = MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, imageUri)
+                if(imageUri != null) {
 
-                val baos = ByteArrayOutputStream()
+                    val sd = getFileName(requireContext(), imageUri)
 
-                // here we can choose quality factor
-                // in third parameter(ex. here it is 25)
-                bmp.compress(Bitmap.CompressFormat.JPEG, 25, baos)
+                    val bmp = MediaStore.Images.Media.getBitmap(
+                        requireActivity().contentResolver,
+                        imageUri
+                    )
 
-                val fileInBytes: ByteArray = baos.toByteArray()
+                    val baos = ByteArrayOutputStream()
 
-                val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.US)
-                val currentDate = sdf.format(Date())
+                    // here we can choose quality factor
+                    // in third parameter(ex. here it is 25)
+                    bmp.compress(Bitmap.CompressFormat.JPEG, 25, baos)
 
-                val directoryPath = "leave/${user.uid}/$currentDate/$sd"
+                    val fileInBytes: ByteArray = baos.toByteArray()
 
-                // Upload Task with upload to directory 'file'
-                // and name of the file remains same
-                storageRef.child(directoryPath).putBytes(fileInBytes).addOnSuccessListener {
-                    storageRef.child(directoryPath).downloadUrl.addOnSuccessListener {
-                        leave.attachmentUrl = it.toString()
-                        attachmentTitleTextView.text = "Document Attached"
+                    val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.US)
+                    val currentDate = sdf.format(Date())
 
-                        progressBar.visibility = View.GONE
+                    val directoryPath = "${user.empID}${user.uid}/leave/$currentDate/$sd"
+
+                    // Upload Task with upload to directory 'file'
+                    // and name of the file remains same
+                    storageRef.child(directoryPath).putBytes(fileInBytes).addOnSuccessListener {
+                        storageRef.child(directoryPath).downloadUrl.addOnSuccessListener {
+                            leave.attachmentUrl = it.toString()
+                            attachmentTitleTextView.text = "Document Attached"
+
+                            progressBar.visibility = View.GONE
+                            dialog.dismiss()
+                        }
                     }
+                }else{
+                    progressBar.visibility = View.GONE
+                    dialog.dismiss()
+                    Toast.makeText(
+                        context,
+                        "Attachment Cancelled",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }

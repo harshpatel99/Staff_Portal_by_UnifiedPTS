@@ -87,6 +87,7 @@ class ProfileFragment : Fragment() {
             ) { _, _ ->
             }
 
+            builder.show()
         }
 
         profileImageView.setOnClickListener {
@@ -106,6 +107,8 @@ class ProfileFragment : Fragment() {
                 "No"
             ) { _, _ ->
             }
+
+            builder.show()
         }
 
         val updateButton = view.findViewById<MaterialCardView>(R.id.profileUpdateButtonCardView)
@@ -139,13 +142,20 @@ class ProfileFragment : Fragment() {
                                 "Name is updated!",
                                 Toast.LENGTH_SHORT
                             ).show()
+
+                            val editor = sp.edit()
+                            user.firstName = firstNameET.text.toString()
+                            user.lastName = lastNameET.text.toString()
+                            editor.putString("user", Gson().toJson(user))
+                            editor.apply()
+
+                            initialsTextView.text = "${user.firstName.toString()[0]}${user.lastName.toString()[0]}"
+                            nameTextView.text = "${user.firstName} ${user.lastName}"
                         }
                         progressBar.visibility = View.GONE
                     }
             }
         }
-
-
 
         return view
     }

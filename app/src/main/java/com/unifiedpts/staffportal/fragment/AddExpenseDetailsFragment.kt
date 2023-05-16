@@ -1,5 +1,8 @@
 package com.unifiedpts.staffportal.fragment
 
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -21,14 +24,17 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import com.google.gson.Gson
 import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
 import com.unifiedpts.staffportal.model.ExpenseDetails
+import com.unifiedpts.staffportal.model.User
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -54,6 +60,12 @@ class AddExpenseDetailsFragment : Fragment() {
     private lateinit var selectedImage: String
     private lateinit var submitButtonCardView: MaterialCardView
     private lateinit var progressBar: ProgressBar
+
+    private lateinit var imageUri: Uri
+
+    private lateinit var selectedImageView: ImageView
+
+    private lateinit var user : User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -184,6 +196,10 @@ class AddExpenseDetailsFragment : Fragment() {
 
         val sp = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
 
+        val gson = Gson()
+        val json: String = sp.getString("user", "")!!
+        user = gson.fromJson(json, User::class.java)
+
         profileTextView.text = sp.getString("userEmployeeID", "000")
 
 
@@ -268,21 +284,44 @@ class AddExpenseDetailsFragment : Fragment() {
             submitButtonCardView.isClickable = false
             submitButtonCardView.isEnabled = false
 
-            db.collection("expenseDetails").document(timeInMillis)
+            db.collection("users").document(FirebaseAuth.getInstance().uid!!)
+                .collection("expenseDetails").document(timeInMillis)
                 .set(expenseDetails)
                 .addOnSuccessListener {
 
-                    db.collection("balanceDetails").document("againstExpenses")
-                        .update("total", FieldValue.increment(expenseDetails.totalSpent!!))
+                    db.collection("users").document(FirebaseAuth.getInstance().uid!!)
+                        .update("expenses", FieldValue.increment(expenseDetails.totalSpent!!))
                         .addOnSuccessListener {
+
+                            /*db.collection("expenseDetails").document(timeInMillis)
+                                .set(expenseDetails)
+                                .addOnSuccessListener {
+
+                                    db.collection("balanceDetails").document("againstExpenses")
+                                        .update("total", FieldValue.increment(expenseDetails.totalSpent!!))
+                                        .addOnSuccessListener {*/
 
                             Toast.makeText(
                                 context, "Balances Updated!", Toast.LENGTH_SHORT
                             ).show()
 
-                            MainActivity.closeFragment(requireActivity())
+                            //val sp = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
+
+                            val gson = Gson()
+                            val json: String = sp.getString("user", "")!!
+                            val user: User = gson.fromJson(json, User::class.java)
+
+                            val totalSpent = expenseDetails.totalSpent
+
+                            user.expenses = user.expenses!!.toDouble() + totalSpent!!.toDouble()
+
+                            val editor = sp.edit()
+                            editor.putString("user", Gson().toJson(user))
+                            editor.apply()
 
                             progressBar.visibility = View.GONE
+
+                            MainActivity.closeFragment(requireActivity())
 
                         }
                         .addOnFailureListener {
@@ -335,7 +374,7 @@ class AddExpenseDetailsFragment : Fragment() {
     }
 
 
-    private var imagePickerActivityResult: ActivityResultLauncher<Intent> =
+    /*private var imagePickerActivityResult: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result != null) {
                 // getting URI of selected Image
@@ -399,24 +438,113 @@ class AddExpenseDetailsFragment : Fragment() {
             }
         }
         return uri.path?.lastIndexOf('/')?.let { uri.path?.substring(it) }
-    }
+    }*/
 
     private fun uploadImage(imageView: ImageView, selection: String) {
+
         imageView.setOnClickListener {
 
             selectedImage = selection
+            selectedImageView = imageView
 
-            val galleryIntent = Intent(Intent.ACTION_PICK)
-            galleryIntent.type = "image/*"
-            imagePickerActivityResult.launch(galleryIntent)
+            val fileName = "$selection.jpg"
+            val values = ContentValues()
+            values.put(MediaStore.Images.Media.TITLE, fileName)
+            values.put(MediaStore.Images.Media.DESCRIPTION, "Image capture by camera")
+            imageUri = requireActivity().contentResolver.insert(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                values
+            )!!
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+
+            attachEngineerResultLauncher.launch(intent)
 
             progressBar.visibility = View.VISIBLE
 
             imageView.setColorFilter(
                 ContextCompat.getColor(requireContext(), R.color.black),
                 android.graphics.PorterDuff.Mode.SRC_IN
-            );
+            )
 
         }
+
     }
+
+    private val attachEngineerResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { it ->
+            if (it.resultCode == Activity.RESULT_OK) {
+
+                val builder = AlertDialog.Builder(requireView().context)
+
+                builder.setTitle("Please Wait")
+                builder.setMessage("Uploading an Attachment")
+                builder.setCancelable(false)
+
+                val dialog = builder.create()
+                dialog.show()
+
+                val bitmap =
+                    MediaStore.Images.Media.getBitmap(requireActivity().contentResolver, imageUri);
+
+                val baos = ByteArrayOutputStream()
+
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 30, baos)
+
+                val imageInBytes: ByteArray = baos.toByteArray()
+
+                val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.US)
+                val currentDate = sdf.format(Date())
+
+                val directoryPath = "${user.empID}${user.uid}/expenses/$currentDate/$selectedImage"
+
+                val storageRef = Firebase.storage.reference
+
+                storageRef.child(directoryPath).putBytes(imageInBytes).addOnSuccessListener {
+
+                    storageRef.child(directoryPath).downloadUrl.addOnSuccessListener {
+                        Toast.makeText(
+                            context, "Attachment is Added", Toast.LENGTH_SHORT
+                        ).show()
+                        expenseDetails.attachmentUrls!![selectedImage] = it.toString()
+                        progressBar.visibility = View.GONE
+
+                        selectedImageView.setColorFilter(
+                            ContextCompat.getColor(requireContext(), R.color.primary),
+                            android.graphics.PorterDuff.Mode.SRC_IN
+                        )
+
+                        dialog.dismiss()
+                    }
+
+                    expenseDetails.isDocAttached = true
+
+
+                }
+
+            }
+        }
+
+
 }
+
+/***private fun uploadImage(imageView: ImageView, selection: String) {
+
+imageView.setOnClickListener {
+
+selectedImage = selection
+
+val galleryIntent = Intent(Intent.ACTION_PICK)
+galleryIntent.type = "image/*"
+imagePickerActivityResult.launch(galleryIntent)
+
+progressBar.visibility = View.VISIBLE
+
+imageView.setColorFilter(
+ContextCompat.getColor(requireContext(), R.color.black),
+android.graphics.PorterDuff.Mode.SRC_IN
+);
+
+}
+}
+}***/

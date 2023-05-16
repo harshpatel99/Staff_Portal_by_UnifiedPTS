@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
 import com.unifiedpts.staffportal.activity.AuthenticationActivity
@@ -38,6 +40,8 @@ class SignupFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
 
     private lateinit var user: User
+
+    private var isVerificationCodeSent = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,6 +122,12 @@ class SignupFragment : Fragment() {
                 } else if (otp.length < 6) {
                     otpET.error = "Invalid OTP!"
                     progressBar.visibility = View.GONE
+                } else if (!isVerificationCodeSent) {
+                    Toast.makeText(
+                        activity,
+                        "Please Wait! Waiting for OTP to arrive.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
                     user = User(
                         "",
@@ -128,8 +138,8 @@ class SignupFragment : Fragment() {
                         "engineer",
                         "false",
                         System.currentTimeMillis(),
-                        0.0, 0.0, 0.0,
-                        0, 0, 0, 0
+                        0.0, 0.0, 0.0, 0.0,
+                        0, 0, 0, 0, ""
                     )
                     verifyCode(otp)
                 }
@@ -152,6 +162,7 @@ class SignupFragment : Fragment() {
             ) {
                 super.onCodeSent(s, forceResendingToken)
                 verificationId = s
+                isVerificationCodeSent = true
             }
 
             override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
@@ -170,6 +181,7 @@ class SignupFragment : Fragment() {
             override fun onVerificationFailed(e: FirebaseException) {
                 progressBar.visibility = View.GONE
                 Toast.makeText(activity, e.message, Toast.LENGTH_LONG).show()
+                Log.w("AppError", e.message.toString())
             }
         }
 
@@ -196,6 +208,7 @@ class SignupFragment : Fragment() {
                                 )
                                 val editor = sp.edit()
                                 editor.putString("userEmployeeID", user.empID)
+                                editor.putString("user", Gson().toJson(user))
                                 editor.apply()
 
                                 val i = Intent(activity, MainActivity::class.java)
@@ -209,6 +222,7 @@ class SignupFragment : Fragment() {
                                 )
                                 val editor = sp.edit()
                                 editor.putString("userEmployeeID", user.empID)
+                                editor.putString("user", Gson().toJson(user))
                                 editor.apply()
 
                                 AuthenticationActivity.openFragment(

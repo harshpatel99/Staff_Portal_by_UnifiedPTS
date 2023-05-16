@@ -1,422 +1,441 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    android:background="@color/primary_color_home"
     tools:context=".fragment.AttendanceFragment">
 
-    <ImageView
-        android:id="@+id/attendanceBackImageView"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="16dp"
-        android:src="@drawable/round_arrow_back_24"
-        android:tint="@color/white"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/white" />
-
-    <TextView
-        android:id="@+id/attendancePrimaryTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/attendance"
-        android:textColor="@color/white"
-        android:textSize="@dimen/app_title_text_size"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/attendanceBackImageView"
-        app:layout_constraintStart_toEndOf="@id/attendanceBackImageView"
-        app:layout_constraintTop_toTopOf="@id/attendanceBackImageView" />
-
-    <TextView
-        android:id="@+id/attendanceEmployeeIDTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/rounded_corners"
-        android:paddingStart="8dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="4dp"
-        android:text="EID002"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@id/attendanceBackImageView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/attendanceBackImageView" />
-
-
-    <ImageView
-        android:id="@+id/attendanceCornerImageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="80dp"
-        android:src="@drawable/top_rounded_corners"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toEndOf="@id/attendancePrimaryTextView"
-        app:layout_constraintTop_toBottomOf="@id/attendancePrimaryTextView" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/attendanceCheckDetailsCardView"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="120dp"
-        android:layout_marginEnd="32dp"
-        app:cardBackgroundColor="@color/secondary"
-        app:cardCornerRadius="@dimen/corner_radius_card_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:animateLayoutChanges="true"
+        android:background="@color/primary_color_home"
+        tools:context=".fragment.AttendanceFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageView
+            android:id="@+id/attendanceBackImageView"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/round_arrow_back_24"
+            android:tint="@color/white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/attendancePrimaryTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/attendance"
+            android:textColor="@color/white"
+            android:textSize="@dimen/app_title_text_size"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/attendanceBackImageView"
+            app:layout_constraintStart_toEndOf="@id/attendanceBackImageView"
+            app:layout_constraintTop_toTopOf="@id/attendanceBackImageView" />
+
+        <TextView
+            android:id="@+id/attendanceEmployeeIDTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/rounded_corners"
+            android:paddingStart="8dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="4dp"
+            android:text="EID002"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@id/attendanceBackImageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/attendanceBackImageView" />
+
+
+        <ImageView
+            android:id="@+id/attendanceCornerImageView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="800dp"
+            android:layout_marginTop="28dp"
+            android:src="@drawable/top_rounded_corners"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toEndOf="@id/attendancePrimaryTextView"
+            app:layout_constraintTop_toBottomOf="@id/attendancePrimaryTextView" />
 
-            <TextView
-                android:id="@+id/attendanceCheckInCardTitleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="Working Hours"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/attendanceCheckInCardCheckInTimeTextView"
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="24dp"
-                android:background="@drawable/rounded_corners"
-                android:backgroundTint="@color/secondaryDark"
-                android:gravity="center"
-                android:padding="12dp"
-                android:text="Check In"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/attendanceCheckInCardCheckOutTimeTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/attendanceCheckInCardTitleTextView" />
-
-            <TextView
-                android:id="@+id/attendanceCheckInCardCheckOutTimeTextView"
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="24dp"
-                android:background="@drawable/rounded_corners"
-                android:backgroundTint="@color/secondaryDark"
-                android:gravity="center"
-                android:padding="12dp"
-                android:text="Check Out"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/attendanceCheckInCardCheckInTimeTextView"
-                app:layout_constraintTop_toBottomOf="@id/attendanceCheckInCardTitleTextView" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/attendanceDetailsCardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        app:cardBackgroundColor="@color/secondary"
-        app:cardCornerRadius="@dimen/corner_radius_card_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/attendanceCheckDetailsCardView">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/attendanceCheckDetailsCardView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="120dp"
+            android:layout_marginEnd="32dp"
+            app:cardBackgroundColor="@color/secondary"
+            app:cardCornerRadius="@dimen/corner_radius_card_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/attendanceDetailsCardHeaderTitleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="16dp"
-                android:text="Type"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/attendanceDetailsCardHeaderTotalTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/total"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/attendanceDetailsCardHeaderDivider"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="28dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="28dp"
-                android:textColor="@color/black"
-                app:dividerColor="@color/black"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/attendanceDetailsCardHeaderTitleTextView" />
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/attendanceDetailsWorkerTitleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="Worker"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/attendanceDetailsCardHeaderDivider" />
+                <TextView
+                    android:id="@+id/attendanceCheckInCardTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Working Hours"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/attendanceDetailsWorkerTotalTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="18"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@id/attendanceDetailsCardHeaderTotalTextView"
-                app:layout_constraintStart_toStartOf="@id/attendanceDetailsCardHeaderTotalTextView"
-                app:layout_constraintTop_toBottomOf="@id/attendanceDetailsCardHeaderDivider" />
+                <TextView
+                    android:id="@+id/attendanceCheckInCardCheckInTimeTextView"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/rounded_corners"
+                    android:backgroundTint="@color/secondaryDark"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="Check In"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/attendanceCheckInCardCheckOutTimeTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/attendanceCheckInCardTitleTextView" />
 
-            <TextView
-                android:id="@+id/attendanceDetailsDetailsOutsideWorkerTitleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="20dp"
-                android:text="Outside Worker"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/attendanceDetailsWorkerTitleTextView" />
+                <TextView
+                    android:id="@+id/attendanceCheckInCardCheckOutTimeTextView"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/rounded_corners"
+                    android:backgroundTint="@color/secondaryDark"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="Check Out"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/attendanceCheckInCardCheckInTimeTextView"
+                    app:layout_constraintTop_toBottomOf="@id/attendanceCheckInCardTitleTextView" />
 
-            <TextView
-                android:id="@+id/balanceAmountDetailsOutsideWorkerTotalTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="20dp"
-                android:text="8"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/attendanceDetailsCardHeaderTotalTextView"
-                app:layout_constraintStart_toStartOf="@id/attendanceDetailsCardHeaderTotalTextView"
-                app:layout_constraintTop_toBottomOf="@id/attendanceDetailsWorkerTitleTextView" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-    </com.google.android.material.card.MaterialCardView>
-
-    <ProgressBar
-        android:id="@+id/attendanceProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="32dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/attendanceDetailsCardView" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/attendanceDetailsAttachCardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="32dp"
-        app:cardBackgroundColor="@color/secondary"
-        app:cardCornerRadius="@dimen/corner_radius_card_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/attendanceProgressBar">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/attendanceDetailsCardView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            app:cardBackgroundColor="@color/secondary"
+            app:cardCornerRadius="@dimen/corner_radius_card_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/attendanceCheckDetailsCardView">
 
-            <LinearLayout
-                android:id="@+id/attendanceAttachWorkerLinearLayout"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="match_parent">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/attendanceAttachWorkerTextInputLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/attendanceDetailsCardHeaderTitleTextView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    android:hint="Workers"
-                    app:boxCornerRadiusBottomEnd="@dimen/corner_radius_text_input_layout"
-                    app:boxCornerRadiusBottomStart="@dimen/corner_radius_text_input_layout"
-                    app:boxCornerRadiusTopEnd="@dimen/corner_radius_text_input_layout"
-                    app:boxCornerRadiusTopStart="@dimen/corner_radius_text_input_layout">
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="Type"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/attendanceAttachWorkerTextInputEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/attendanceAttachOutsideWorkerTextInputLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/attendanceDetailsCardHeaderTotalTextView"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_weight="1"
-                    android:hint="Outside Workers"
-                    app:boxCornerRadiusBottomEnd="@dimen/corner_radius_text_input_layout"
-                    app:boxCornerRadiusBottomStart="@dimen/corner_radius_text_input_layout"
-                    app:boxCornerRadiusTopEnd="@dimen/corner_radius_text_input_layout"
-                    app:boxCornerRadiusTopStart="@dimen/corner_radius_text_input_layout"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/total"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/attendanceDetailsCardHeaderDivider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="28dp"
+                    android:textColor="@color/black"
+                    app:dividerColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/attendanceDetailsCardHeaderTitleTextView" />
+
+                <TextView
+                    android:id="@+id/attendanceDetailsWorkerTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="Worker"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/attendanceDetailsCardHeaderDivider" />
+
+                <TextView
+                    android:id="@+id/attendanceDetailsWorkerTotalTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="0"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@id/attendanceDetailsCardHeaderTotalTextView"
+                    app:layout_constraintStart_toStartOf="@id/attendanceDetailsCardHeaderTotalTextView"
+                    app:layout_constraintTop_toBottomOf="@id/attendanceDetailsCardHeaderDivider" />
+
+                <TextView
+                    android:id="@+id/attendanceDetailsDetailsOutsideWorkerTitleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="Outside Worker"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/attendanceDetailsWorkerTitleTextView" />
+
+                <TextView
+                    android:id="@+id/balanceAmountDetailsOutsideWorkerTotalTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="20dp"
+                    android:text="0"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/attendanceDetailsCardHeaderTotalTextView"
+                    app:layout_constraintStart_toStartOf="@id/attendanceDetailsCardHeaderTotalTextView"
+                    app:layout_constraintTop_toBottomOf="@id/attendanceDetailsWorkerTitleTextView" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <ProgressBar
+            android:id="@+id/attendanceProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/attendanceDetailsCardView" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/attendanceDetailsAttachCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            app:cardBackgroundColor="@color/secondary"
+            app:cardCornerRadius="@dimen/corner_radius_card_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/attendanceProgressBar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/attendanceAttachWorkerLinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/attendanceAttachOutsideWorkerTextInputEditText"
-                        android:layout_width="match_parent"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/attendanceAttachWorkerTextInputLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:inputType="number" />
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:hint="Workers"
+                        app:boxCornerRadiusBottomEnd="@dimen/corner_radius_text_input_layout"
+                        app:boxCornerRadiusBottomStart="@dimen/corner_radius_text_input_layout"
+                        app:boxCornerRadiusTopEnd="@dimen/corner_radius_text_input_layout"
+                        app:boxCornerRadiusTopStart="@dimen/corner_radius_text_input_layout">
 
-                </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/attendanceAttachWorkerTextInputEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number" />
 
-            </LinearLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/attendanceAttachWorkerTextView"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="24dp"
-                android:background="@drawable/rounded_corners"
-                android:backgroundTint="@color/primary"
-                android:gravity="center"
-                android:padding="12dp"
-                android:text="Attach Photo (Worker)"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@id/attendanceAttachEngineerTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/attendanceAttachWorkerLinearLayout" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/attendanceAttachOutsideWorkerTextInputLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_weight="1"
+                        android:hint="Outside Workers"
+                        app:boxCornerRadiusBottomEnd="@dimen/corner_radius_text_input_layout"
+                        app:boxCornerRadiusBottomStart="@dimen/corner_radius_text_input_layout"
+                        app:boxCornerRadiusTopEnd="@dimen/corner_radius_text_input_layout"
+                        app:boxCornerRadiusTopStart="@dimen/corner_radius_text_input_layout"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/attendanceAttachEngineerTextView"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="24dp"
-                android:background="@drawable/rounded_corners"
-                android:backgroundTint="@color/primary"
-                android:gravity="center"
-                android:padding="12dp"
-                android:text="Attach Photo (Engineer)"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/attendanceAttachWorkerTextView"
-                app:layout_constraintTop_toBottomOf="@id/attendanceAttachWorkerLinearLayout" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/attendanceAttachOutsideWorkerTextInputEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/attendanceAttachWorkerTextView"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/rounded_corners"
+                    android:backgroundTint="@color/primary"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="Attach Photo (Worker)"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@id/attendanceAttachEngineerTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/attendanceAttachWorkerLinearLayout" />
+
+                <TextView
+                    android:id="@+id/attendanceAttachEngineerTextView"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/rounded_corners"
+                    android:backgroundTint="@color/primary"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="Attach Photo (Engineer)"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/attendanceAttachWorkerTextView"
+                    app:layout_constraintTop_toBottomOf="@id/attendanceAttachWorkerLinearLayout" />
 
 
-            <TextView
-                android:id="@+id/attendanceCheckInWorkerTextView"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="24dp"
-                android:background="@drawable/rounded_corners"
-                android:backgroundTint="@color/secondaryDark"
-                android:gravity="center"
-                android:padding="12dp"
-                android:text="Check In"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/attendanceCheckOutWorkerTextView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/attendanceAttachWorkerTextView" />
+                <TextView
+                    android:id="@+id/attendanceCheckInWorkerTextView"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/rounded_corners"
+                    android:backgroundTint="@color/secondaryDark"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="Check In"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/attendanceCheckOutWorkerTextView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/attendanceAttachWorkerTextView" />
 
-            <TextView
-                android:id="@+id/attendanceCheckOutWorkerTextView"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="24dp"
-                android:background="@drawable/rounded_corners"
-                android:backgroundTint="@color/secondaryDark"
-                android:gravity="center"
-                android:padding="12dp"
-                android:text="Check Out"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/attendanceCheckInWorkerTextView"
-                app:layout_constraintTop_toBottomOf="@id/attendanceAttachWorkerTextView" />
+                <TextView
+                    android:id="@+id/attendanceCheckOutWorkerTextView"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/rounded_corners"
+                    android:backgroundTint="@color/secondaryDark"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="Check Out"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/attendanceCheckInWorkerTextView"
+                    app:layout_constraintTop_toBottomOf="@id/attendanceAttachWorkerTextView" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

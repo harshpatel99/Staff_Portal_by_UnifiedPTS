@@ -1,18 +1,14 @@
 package com.unifiedpts.staffportal.fragment
 
-import android.content.Context
 import android.os.Bundle
+import android.os.FileUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import com.google.android.material.card.MaterialCardView
-import com.google.gson.Gson
-import com.unifiedpts.staffportal.MainActivity
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import com.unifiedpts.staffportal.R
-import com.unifiedpts.staffportal.model.User
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,10 +17,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [HRDocumentsHomeFragment.newInstance] factory method to
+ * Use the [LeavePolicyFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class HRDocumentsHomeFragment : Fragment() {
+class LeavePolicyFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -42,29 +38,16 @@ class HRDocumentsHomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_h_r_documents_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_leave_policy, container, false)
 
-        val backButton = view.findViewById<ImageView>(R.id.hrDocumentHomeBackImageView)
+        val webView = view.findViewById<WebView>(R.id.leavePolicyWebView)
 
-        backButton.setOnClickListener {
-            MainActivity.closeFragment(requireActivity())
-        }
-
-        val sp = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
-
-        val gson = Gson()
-        val json: String = sp.getString("user", "")!!
-        val user: User = gson.fromJson(json, User::class.java)
-
-        val profileTextView = view.findViewById<TextView>(R.id.hrDocumentHomeEmployeeIDTextView)
-        profileTextView.text = user.empID.toString()
-
-        val leavePolicyCardView =
-            view.findViewById<MaterialCardView>(R.id.hrDocumentMenuLeavePolicyButtonCardView)
-
-        leavePolicyCardView.setOnClickListener {
-            MainActivity.openFragment(requireActivity(), LeavePolicyFragment())
-        }
+        webView.webViewClient = WebViewClient()
+        webView.settings.setSupportZoom(true)
+        webView.settings.javaScriptEnabled = true
+        val url =
+            "https://mindorks.s3.ap-south-1.amazonaws.com/courses/MindOrks_Android_Online_Professional_Course-Syllabus.pdf"
+        webView.loadUrl("https://docs.google.com/gview?embedded=true&url=$url")
 
         return view
     }
@@ -76,12 +59,12 @@ class HRDocumentsHomeFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment HRDocumentsHomeFragment.
+         * @return A new instance of fragment LeavePolicyFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            HRDocumentsHomeFragment().apply {
+            LeavePolicyFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

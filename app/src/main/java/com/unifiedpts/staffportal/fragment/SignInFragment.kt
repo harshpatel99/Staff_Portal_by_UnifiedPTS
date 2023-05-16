@@ -11,6 +11,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -20,6 +21,7 @@ import com.google.firebase.auth.PhoneAuthProvider.ForceResendingToken
 import com.google.firebase.auth.PhoneAuthProvider.OnVerificationStateChangedCallbacks
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
 import com.unifiedpts.staffportal.activity.AuthenticationActivity
@@ -42,11 +44,13 @@ class SignInFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
 
     private var verificationId: String? = null
-    private lateinit var user : User
+    private lateinit var user: User
 
     private lateinit var otpET: TextInputEditText
     private lateinit var otpInputLayout: TextInputLayout
     private lateinit var progressBar: ProgressBar
+
+    private var isVerificationCodeSent = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,18 +104,31 @@ class SignInFragment : Fragment() {
                     otpInputLayout.visibility = View.VISIBLE
                     val phone = "+91$phoneNumber"
 
-                    Firebase.firestore.collection("users").whereEqualTo("phoneNumber",phone).get()
+                    Firebase.firestore.collection("users").whereEqualTo("phoneNumber", phone).get()
                         .addOnCompleteListener {
                             if (it.isSuccessful) {
                                 val listUsers = it.result.toObjects(User::class.java)
-                                user = listUsers.first()
-                                sendVerificationCode(phone)
-                            }else{
+                                if (listUsers.isEmpty()) {
+                                    Toast.makeText(
+                                        activity,
+                                        "New User? Please sign up first",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    progressBar.visibility = View.GONE
+                                    otpInputLayout.visibility = View.GONE
+                                } else {
+                                    user = listUsers.first()
+                                    sendVerificationCode(phone)
+                                }
+
+                            } else {
                                 Toast.makeText(
                                     activity,
                                     "New User? Please sign up first",
                                     Toast.LENGTH_SHORT
                                 ).show()
+                                progressBar.visibility = View.GONE
+                                otpInputLayout.visibility = View.GONE
                             }
                         }
 
@@ -127,6 +144,12 @@ class SignInFragment : Fragment() {
                 } else if (otp.length < 6) {
                     otpET.error = "Invalid OTP!"
                     progressBar.visibility = View.GONE
+                } else if (!isVerificationCodeSent) {
+                    Toast.makeText(
+                        activity,
+                        "Please Wait! Waiting for OTP to arrive.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
                     verifyCode(otp)
                 }
@@ -165,6 +188,7 @@ class SignInFragment : Fragment() {
             override fun onCodeSent(s: String, forceResendingToken: ForceResendingToken) {
                 super.onCodeSent(s, forceResendingToken)
                 verificationId = s
+                isVerificationCodeSent = true
             }
 
             override fun onVerificationCompleted(phoneAuthCredential: PhoneAuthCredential) {
@@ -195,22 +219,26 @@ class SignInFragment : Fragment() {
 
                     progressBar.visibility = View.GONE
 
-                    if(user.verifiedUser!!.compareTo("true") == 0){
-                        val sp = requireActivity().getSharedPreferences("user",Context.MODE_PRIVATE)
+                    if (user.verifiedUser!!.compareTo("true") == 0) {
+                        val sp =
+                            requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
                         val editor = sp.edit()
-                        editor.putString("userEmployeeID",user.empID)
-                        editor.putString("phoneNumber",user.phoneNumber)
+                        editor.putString("userEmployeeID", user.empID)
+                        editor.putString("phoneNumber", user.phoneNumber)
+                        editor.putString("user", Gson().toJson(user))
                         editor.apply()
 
                         val i = Intent(activity, MainActivity::class.java)
                         startActivity(i)
                         requireActivity().finish()
-                    }else{
+                    } else {
 
-                        val sp = requireActivity().getSharedPreferences("user",Context.MODE_PRIVATE)
+                        val sp =
+                            requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
                         val editor = sp.edit()
-                        editor.putString("userEmployeeID",user.empID)
-                        editor.putString("phoneNumber",user.phoneNumber)
+                        editor.putString("userEmployeeID", user.empID)
+                        editor.putString("phoneNumber", user.phoneNumber)
+                        editor.putString("user", Gson().toJson(user))
                         editor.apply()
 
                         AuthenticationActivity.openFragment(

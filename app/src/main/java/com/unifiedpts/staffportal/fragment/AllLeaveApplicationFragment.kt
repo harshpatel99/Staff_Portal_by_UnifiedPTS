@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
@@ -72,7 +73,8 @@ class AllLeaveApplicationFragment : Fragment() {
         val list = ArrayList<Leave>()
         val adapter = AllLeavesRecyclerAdapter(list)
 
-        Firebase.firestore.collection("leave").whereEqualTo("uid", user.uid).get()
+        Firebase.firestore.collection("leave").whereEqualTo("uid", user.uid)
+            .orderBy("appliedDate", Query.Direction.DESCENDING).get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     for (document in it.result.documents) {

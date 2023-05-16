@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -101,7 +102,8 @@ class LeaveHomeFragment : Fragment() {
             MainActivity.openFragment(requireActivity(), ApplyForLeaveFragment())
         }
 
-        Firebase.firestore.collection("leave").whereEqualTo("uid", user.uid).get()
+        Firebase.firestore.collection("leave").whereEqualTo("uid", user.uid)
+            .orderBy("appliedDate", Query.Direction.DESCENDING).limit(1).get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
 
