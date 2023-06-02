@@ -2,12 +2,17 @@ package com.unifiedpts.staffportal.fragment
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import com.google.android.material.card.MaterialCardView
+import com.google.gson.Gson
 import com.unifiedpts.staffportal.R
+import com.unifiedpts.staffportal.model.User
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,16 +25,10 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class WaitingForApprovalFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
@@ -43,7 +42,45 @@ class WaitingForApprovalFragment : Fragment() {
 
         val sp = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
 
-        profileTextView.text = sp.getString("userEmployeeID","000")
+        val gson = Gson()
+        val json: String = sp.getString("user", "")!!
+        val user: User = gson.fromJson(json, User::class.java)
+
+        profileTextView.text = user.empID
+
+        val sendReminderCard =
+            view.findViewById<MaterialCardView>(R.id.waitingForApprovalRemindCardView)
+
+        sendReminderCard.setOnClickListener {
+            /*BackgroundMail.newBuilder(this)
+                .withUsername("Your Email")
+                .withPassword("Your App Password")
+                .withSenderName("Sender Name")
+                .withMailTo("mail-to@gmail.com")
+                .withMailCc("mail-cc@gmail.com")
+                .withMailBcc("mail-bcc@gmail.com")
+                .withType(BackgroundMail.TYPE_PLAIN)
+                .withSubject("Email Subject")
+                .withBody("Email Body")
+                .withSendingMessage(R.string.sending_email)
+                .withOnSuccessCallback(object : OnSendingCallback() {
+                    fun onSuccess() {
+                        Toast.makeText(getApplicationContext(), "Email Sent", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+                    fun onFail(e: Exception?) {
+                        Toast.makeText(
+                            getApplicationContext(),
+                            "Email Not Sent",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                })
+                .send()*/
+        }
+
+
 
         return view
     }

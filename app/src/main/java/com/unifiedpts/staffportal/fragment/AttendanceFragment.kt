@@ -19,6 +19,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -52,6 +53,8 @@ class AttendanceFragment : Fragment() {
     private lateinit var attachWorkerButton: TextView
     private lateinit var attachEngineerButton: TextView
 
+    private lateinit var user : User
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -70,7 +73,7 @@ class AttendanceFragment : Fragment() {
 
         val gson = Gson()
         val json: String = sp.getString("user", "")!!
-        val user = gson.fromJson(json, User::class.java)
+        user = gson.fromJson(json, User::class.java)
 
         val profileTextView = view.findViewById<TextView>(R.id.attendanceEmployeeIDTextView)
         profileTextView.text = user.empID.toString()
@@ -88,8 +91,8 @@ class AttendanceFragment : Fragment() {
             view.findViewById<TextView>(R.id.attendanceCheckInCardCheckOutTimeTextView)
 
         attachEngineerButton =
-            view.findViewById<TextView>(R.id.attendanceAttachEngineerTextView)
-        attachWorkerButton = view.findViewById<TextView>(R.id.attendanceAttachWorkerTextView)
+            view.findViewById(R.id.attendanceAttachEngineerTextView)
+        attachWorkerButton = view.findViewById(R.id.attendanceAttachWorkerTextView)
 
         val workerEditText =
             view.findViewById<TextInputEditText>(R.id.attendanceAttachWorkerTextInputEditText)
@@ -109,7 +112,8 @@ class AttendanceFragment : Fragment() {
 
         progressBar.visibility = View.VISIBLE
 
-        Firebase.firestore.collection("workerAttendance").document("worker").get()
+        Firebase.firestore.collection("users").document(FirebaseAuth.getInstance().uid!!)
+            .collection("workerAttendance").document("worker").get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     workerTotalTextView.text = it.result.data!!["totalWorkers"].toString()
@@ -174,8 +178,7 @@ class AttendanceFragment : Fragment() {
 
                     val attendance = Attendance(user.uid, currentTime, "", currentDate)
 
-                    db.collection("users").document(user.uid!!)
-                        .collection("attendance").document(currentDate)
+                    db.collection("attendance").document("${user.uid}$currentDate")
                         .set(attendance)
                         .addOnSuccessListener {
 
@@ -261,8 +264,7 @@ class AttendanceFragment : Fragment() {
 
                         val db = Firebase.firestore
 
-                        db.collection("users").document(user.uid!!)
-                            .collection("attendance").document(currentDate)
+                        db.collection("attendance").document("${user.uid}$currentDate")
                             .update("checkOutTime", currentTime)
                             .addOnSuccessListener {
 
@@ -362,12 +364,24 @@ class AttendanceFragment : Fragment() {
                         "Please attach worker's image",
                         Toast.LENGTH_SHORT
                     ).show()
-                } else if (attendanceWorker.workerUrl.isNullOrEmpty()) {
+                    attachWorkerButton.setCompoundDrawablesWithIntrinsicBounds(
+                        R.drawable.round_info_24,
+                        0,
+                        0,
+                        0
+                    )
+                } else if (attendanceWorker.engineerUrl.isNullOrEmpty()) {
                     Toast.makeText(
                         requireContext(),
                         "Please attach engineer's image",
                         Toast.LENGTH_SHORT
                     ).show()
+                    attachEngineerButton.setCompoundDrawablesWithIntrinsicBounds(
+                        R.drawable.round_info_24,
+                        0,
+                        0,
+                        0
+                    )
                 } else {
 
                     val totalWorker =
@@ -401,9 +415,13 @@ class AttendanceFragment : Fragment() {
                         progressBar.visibility = View.VISIBLE
 
                         attendanceWorker.checkInTime = currentTime
+                        attendanceWorker.totalWorkers = totalWorker.toInt()
+                        attendanceWorker.totalOutsideWorkers = totalOutsideWorker.toInt()
                         attendanceWorker.date = getDate()
 
-                        Firebase.firestore.collection("workerAttendance").document("worker")
+                        Firebase.firestore
+                            .collection("users").document(FirebaseAuth.getInstance().uid!!)
+                            .collection("workerAttendance").document("worker")
                             .update(
                                 "totalWorkers",
                                 FieldValue.increment(totalWorker),
@@ -418,8 +436,9 @@ class AttendanceFragment : Fragment() {
                                         Toast.LENGTH_SHORT
                                     ).show()
 
-                                    Firebase.firestore.collection("workerAttendance")
-                                        .document(currentDate)
+                                    Firebase.firestore
+                                        .collection("workerAttendance")
+                                        .document("${user.uid}$currentDate")
                                         .set(attendanceWorker)
                                         .addOnCompleteListener {
                                             if (it.isSuccessful) {
@@ -529,7 +548,9 @@ class AttendanceFragment : Fragment() {
                         val totalWorker = -sp.getLong("totalWorker", 0)
                         val totalOutsideWorker = -sp.getLong("totalOutsideWorker", 0)
 
-                        Firebase.firestore.collection("workerAttendance").document("worker")
+                        Firebase.firestore
+                            .collection("users").document(FirebaseAuth.getInstance().uid!!)
+                            .collection("workerAttendance").document("worker")
                             .update(
                                 "totalWorkers",
                                 FieldValue.increment(totalWorker),
@@ -544,7 +565,8 @@ class AttendanceFragment : Fragment() {
                                         Toast.LENGTH_SHORT
                                     ).show()
 
-                                    db.collection("workerAttendance").document(currentDate)
+                                    db.collection("workerAttendance")
+                                        .document("${user.uid}$currentDate")
                                         .update("checkOutTime", currentTime)
                                         .addOnSuccessListener {
 
@@ -621,7 +643,7 @@ class AttendanceFragment : Fragment() {
                 val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.US)
                 val currentDate = sdf.format(Date())
 
-                val directoryPath = "attendance/workers/$currentDate/worker"
+                val directoryPath = "${user.empID}${user.uid}/attendance/workers/$currentDate/worker"
 
                 val storageRef = Firebase.storage.reference
 
@@ -634,7 +656,12 @@ class AttendanceFragment : Fragment() {
                         attendanceWorker.workerUrl = it.toString()
                         progressBar.visibility = View.GONE
 
-                        attachWorkerButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.round_check_circle_24, 0, 0, 0);
+                        attachWorkerButton.setCompoundDrawablesWithIntrinsicBounds(
+                            R.drawable.round_check_circle_24,
+                            0,
+                            0,
+                            0
+                        );
 
                         dialog.dismiss()
                     }
@@ -669,7 +696,7 @@ class AttendanceFragment : Fragment() {
                 val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.US)
                 val currentDate = sdf.format(Date())
 
-                val directoryPath = "attendance/workers/$currentDate/engineer"
+                val directoryPath = "${user.empID}${user.uid}/attendance/workers/$currentDate/engineer"
 
                 Toast.makeText(
                     context, "Uploading an attachment", Toast.LENGTH_SHORT
@@ -687,7 +714,12 @@ class AttendanceFragment : Fragment() {
                         attendanceWorker.engineerUrl = it.toString()
                         progressBar.visibility = View.GONE
 
-                        attachEngineerButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.round_check_circle_24, 0, 0, 0);
+                        attachEngineerButton.setCompoundDrawablesWithIntrinsicBounds(
+                            R.drawable.round_check_circle_24,
+                            0,
+                            0,
+                            0
+                        );
 
                         dialog.dismiss()
                     }

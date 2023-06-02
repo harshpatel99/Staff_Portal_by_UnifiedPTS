@@ -8,6 +8,8 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.view.LayoutInflater
@@ -25,12 +27,15 @@ import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import com.google.gson.Gson
+import com.unifiedpts.staffportal.GMailSender
 import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
+import com.unifiedpts.staffportal.model.Admin
 import com.unifiedpts.staffportal.model.Leave
 import com.unifiedpts.staffportal.model.User
 import org.w3c.dom.Text
@@ -39,6 +44,18 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import java.util.Properties
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
+import javax.mail.Authenticator
+import javax.mail.Message
+import javax.mail.MessagingException
+import javax.mail.PasswordAuthentication
+import javax.mail.Session
+import javax.mail.Transport
+import javax.mail.internet.InternetAddress
+import javax.mail.internet.MimeMessage
 
 
 /**
@@ -94,7 +111,13 @@ class ApplyForLeaveFragment : Fragment() {
 
         progressBar = view.findViewById(R.id.appleForLeaveProgressBar)
 
-        val work = arrayOf("Sick Leave", "Casual Leave", "Privilege Leave", "BL Leave")
+        val work = arrayOf(
+            "Sick Leave",
+            "Casual Leave",
+            "Privilege Leave",
+            "BL Leave",
+            "Leave Without Pay"
+        )
 
         val backButton = view.findViewById<ImageView>(R.id.appleForLeaveBackImageView)
 
@@ -147,8 +170,13 @@ class ApplyForLeaveFragment : Fragment() {
                 requireContext(),
                 { _, year, monthOfYear, dayOfMonth ->
                     fromSelectTextView.text =
-                        dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
+                        "$dayOfMonth-${monthOfYear + 1}-$year"
                     isFromSelected = true
+
+                    fromYear = year
+                    fromMonth = (monthOfYear + 1)
+                    fromDate = dayOfMonth
+
                 }, fromYear, fromMonth, fromDate
             )
             datePickerDialog.show()
@@ -163,9 +191,13 @@ class ApplyForLeaveFragment : Fragment() {
             val datePickerDialog = DatePickerDialog(
                 requireContext(),
                 { _, year, monthOfYear, dayOfMonth ->
-                    toSelectTextView.text =
-                        dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year
+                    toSelectTextView.text = "$dayOfMonth-${monthOfYear + 1}-$year"
                     isToSelected = true
+
+                    toYear = year
+                    toMonth = (monthOfYear + 1)
+                    toDate = dayOfMonth
+
                 }, toYear, toMonth, toDate
             )
             datePickerDialog.show()
@@ -196,32 +228,237 @@ class ApplyForLeaveFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
-                val timeInMillis = System.currentTimeMillis()
 
-                leave.reason = reason
-                leave.fromDate = fromSelectTextView.text.toString()
-                leave.toDate = toSelectTextView.text.toString()
-                leave.appliedDate = timeInMillis
-                leave.lastReminded = timeInMillis
-                leave.status = Leave.STATUS_PENDING
+                if (leave.leaveType!!.compareTo("Leave Without Pay") != 0) {
 
-                Firebase.firestore.collection("leave").document()
-                    .set(leave)
-                    .addOnSuccessListener {
-                        Toast.makeText(
-                            context,
-                            "Application is submitted successfully",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                    val reqDate = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+                    val fromDay = reqDate.parse("$fromDate/$fromMonth/$fromYear")
+                    val toDay = reqDate.parse("$toDate/$toMonth/$toYear")
 
-                        MainActivity.closeFragment(requireActivity())
-                    }.addOnFailureListener {
-                        Toast.makeText(
-                            context,
-                            "Error while applying : ${it.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                    var dayDifference = TimeUnit.MILLISECONDS.toDays(toDay!!.time - fromDay!!.time)
+
+                    dayDifference += 1
+
+                    val leaveTypeDayBalance = when (leave.leaveType) {
+                        "Sick Leave" -> user.sickLeave
+                        "Casual Leave" -> user.casualLeave
+                        "Privilege Leave" -> user.privilegeLeave
+                        else -> user.blLeave
                     }
+
+                    if (dayDifference > leaveTypeDayBalance!!) {
+                        Toast.makeText(
+                            context,
+                            "You do not have balance of $dayDifference for ${leave.leaveType}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else if (leave.leaveType!!.compareTo("Sick Leave") == 0 && dayDifference > 2 && leave.attachmentUrl == null) {
+                        Toast.makeText(
+                            context,
+                            "Attachment is required!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        val timeInMillis = System.currentTimeMillis()
+
+                        leave.reason = reason
+                        leave.fromDate = fromSelectTextView.text.toString()
+                        leave.toDate = toSelectTextView.text.toString()
+                        leave.appliedDate = timeInMillis
+                        leave.lastReminded = timeInMillis
+                        leave.status = Leave.STATUS_PENDING
+
+                        Firebase.firestore.collection("leave").document()
+                            .set(leave)
+                            .addOnSuccessListener {
+
+                                Firebase.firestore.collection("admin").document("email")
+                                    .get().addOnCompleteListener {
+                                        if (it.isSuccessful) {
+
+                                            val admin = it.result.toObject<Admin>()
+
+                                            val email = admin!!.email
+                                            val password = admin.password
+                                            val recipient = user.superiorEmail
+
+                                            val props = Properties()
+                                            props["mail.smtp.auth"] = "true"
+                                            props["mail.smtp.starttls.enable"] = "true"
+                                            props["mail.smtp.host"] = "smtp.gmail.com"
+                                            props["mail.smtp.port"] = "587"
+
+                                            val session: Session = Session.getInstance(props,
+                                                object : Authenticator() {
+                                                    override fun getPasswordAuthentication(): PasswordAuthentication {
+                                                        return PasswordAuthentication(
+                                                            email,
+                                                            password
+                                                        )
+                                                    }
+                                                })
+
+                                            try {
+                                                val message: Message = MimeMessage(session)
+                                                message.setFrom(InternetAddress(email))
+                                                message.setRecipients(
+                                                    Message.RecipientType.TO,
+                                                    InternetAddress.parse(recipient)
+                                                )
+                                                message.subject =
+                                                    "Action Required (Staff Portal App) - New Leave Application Created"
+                                                message.setText(
+                                                    "Leave application is created by the user with below details:\n" +
+                                                            "Name: " + user.firstName + " " + user.lastName + "\n" +
+                                                            "Phone Number: " + user.phoneNumber + "\n\n" +
+                                                            "Leave Details:\n" +
+                                                            "From Date: " + leave.fromDate + "\n" +
+                                                            "Till Date: " + leave.toDate + "\n" +
+                                                            "Type: " + leave.leaveType + "\n" +
+                                                            "Reason: " + leave.reason + "\n" +
+                                                            "Attachment URL: " + (if (leave.attachmentUrl.isNullOrEmpty()) "No Documents Attached" else leave.attachmentUrl) + "\n" +
+                                                            "Click the link below to verify it." +
+                                                            "Update it - URL Comes here",
+                                                )
+                                                val executor: ExecutorService =
+                                                    Executors.newSingleThreadExecutor()
+                                                val handler = Handler(Looper.getMainLooper())
+
+                                                executor.execute {
+                                                    Transport.send(message);
+                                                    handler.post(Runnable {
+                                                        //UI Thread work here
+                                                    })
+                                                }
+                                            } catch (mex: MessagingException) {
+                                                mex.printStackTrace()
+                                            }
+
+
+                                        } else {
+                                            Toast.makeText(
+                                                requireContext(),
+                                                "Error: " + it.exception!!.message,
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        }
+                                    }
+
+                                Toast.makeText(
+                                    context,
+                                    "Application is submitted successfully",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                MainActivity.closeFragment(requireActivity())
+                            }.addOnFailureListener {
+                                Toast.makeText(
+                                    context,
+                                    "Error while applying : ${it.message}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                    }
+                } else {
+                    val timeInMillis = System.currentTimeMillis()
+
+                    leave.reason = reason
+                    leave.fromDate = fromSelectTextView.text.toString()
+                    leave.toDate = toSelectTextView.text.toString()
+                    leave.appliedDate = timeInMillis
+                    leave.lastReminded = timeInMillis
+                    leave.status = Leave.STATUS_PENDING
+
+                    Firebase.firestore.collection("leave").document()
+                        .set(leave)
+                        .addOnSuccessListener {
+
+                            Firebase.firestore.collection("admin").document("email")
+                                .get().addOnCompleteListener {
+                                    if (it.isSuccessful) {
+
+                                        val admin = it.result.toObject<Admin>()
+
+                                        val email = admin!!.email
+                                        val password = admin.password
+                                        val recipient = user.superiorEmail
+
+                                        val props = Properties()
+                                        props["mail.smtp.auth"] = "true"
+                                        props["mail.smtp.starttls.enable"] = "true"
+                                        props["mail.smtp.host"] = "smtp.gmail.com"
+                                        props["mail.smtp.port"] = "587"
+
+                                        val session: Session = Session.getInstance(props,
+                                            object : Authenticator() {
+                                                override fun getPasswordAuthentication(): PasswordAuthentication {
+                                                    return PasswordAuthentication(
+                                                        email,
+                                                        password
+                                                    )
+                                                }
+                                            })
+
+                                        try {
+                                            val message: Message = MimeMessage(session)
+                                            message.setFrom(InternetAddress(email))
+                                            message.setRecipients(
+                                                Message.RecipientType.TO,
+                                                InternetAddress.parse(recipient)
+                                            )
+                                            message.subject =
+                                                "Action Required (Staff Portal App) - New Leave Application Created"
+                                            message.setText(
+                                                "Leave application is created by the user with below details:\n" +
+                                                        "Name: " + user.firstName + " " + user.lastName + "\n" +
+                                                        "Phone Number: " + user.phoneNumber + "\n\n" +
+                                                        "Leave Details:\n" +
+                                                        "From Date: " + leave.fromDate + "\n" +
+                                                        "Till Date: " + leave.toDate + "\n" +
+                                                        "Type: " + leave.leaveType + "\n" +
+                                                        "Reason: " + leave.reason + "\n" +
+                                                        "Attachment URL: " + (if (leave.attachmentUrl.isNullOrEmpty()) "No Documents Attached" else leave.attachmentUrl) + "\n" +
+                                                        "Click the link below to verify it." +
+                                                        "Update it - URL Comes here",
+                                            )
+                                            val executor: ExecutorService =
+                                                Executors.newSingleThreadExecutor()
+                                            val handler = Handler(Looper.getMainLooper())
+
+                                            executor.execute {
+                                                Transport.send(message);
+                                                handler.post(Runnable {
+                                                    //UI Thread work here
+                                                })
+                                            }
+                                        } catch (mex: MessagingException) {
+                                            mex.printStackTrace()
+                                        }
+
+                                    } else {
+                                        Toast.makeText(
+                                            requireContext(),
+                                            "Error: " + it.exception!!.message,
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
+                                }
+
+                            Toast.makeText(
+                                requireActivity(),
+                                "Application is submitted successfully",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                            MainActivity.closeFragment(requireActivity())
+                        }.addOnFailureListener {
+                            Toast.makeText(
+                                requireActivity(),
+                                "Error while applying : ${it.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                }
 
             }
         }
@@ -249,7 +486,7 @@ class ApplyForLeaveFragment : Fragment() {
 
                 // extract the file name with extension
 
-                if(imageUri != null) {
+                if (imageUri != null) {
 
                     val sd = getFileName(requireContext(), imageUri)
 
@@ -282,7 +519,7 @@ class ApplyForLeaveFragment : Fragment() {
                             dialog.dismiss()
                         }
                     }
-                }else{
+                } else {
                     progressBar.visibility = View.GONE
                     dialog.dismiss()
                     Toast.makeText(

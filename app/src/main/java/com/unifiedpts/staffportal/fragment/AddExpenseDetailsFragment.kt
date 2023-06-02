@@ -65,7 +65,7 @@ class AddExpenseDetailsFragment : Fragment() {
 
     private lateinit var selectedImageView: ImageView
 
-    private lateinit var user : User
+    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,6 +101,12 @@ class AddExpenseDetailsFragment : Fragment() {
 
         submitButtonCardView = view.findViewById(R.id.addExpenseDetailsSubmitButtonCardView)
         progressBar = view.findViewById(R.id.addExpenseDetailsProgressBar)
+
+        val backButton = view.findViewById<ImageView>(R.id.addExpenseDetailsBackImageView)
+
+        backButton.setOnClickListener {
+            MainActivity.closeFragment(requireActivity())
+        }
 
         val cashWorkerTextView =
             layoutCashWorker.findViewById<TextView>(R.id.addExpenseDetailsItemLayoutTextView)
@@ -190,7 +196,7 @@ class AddExpenseDetailsFragment : Fragment() {
             view.findViewById<TextView>(R.id.addExpenseDetailsProjectDetailsTextView)
 
         projectDetailsTextView.text =
-            expenseDetails.projectName + " - " + expenseDetails.floor + " - " + expenseDetails.pour
+            "${expenseDetails.projectName} - ${expenseDetails.floorName} - ${expenseDetails.pour}"
 
         val profileTextView = view.findViewById<TextView>(R.id.addExpenseDetailsEmployeeIDTextView)
 
@@ -200,7 +206,7 @@ class AddExpenseDetailsFragment : Fragment() {
         val json: String = sp.getString("user", "")!!
         user = gson.fromJson(json, User::class.java)
 
-        profileTextView.text = sp.getString("userEmployeeID", "000")
+        profileTextView.text = user.empID
 
 
         cashWorkerTextView.text = getString(R.string.cash_worker)

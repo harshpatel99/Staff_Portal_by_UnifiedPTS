@@ -2,10 +2,11 @@ package com.unifiedpts.staffportal.fragment
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -22,13 +24,29 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
+import com.unifiedpts.staffportal.GMailSender
 import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
 import com.unifiedpts.staffportal.activity.AuthenticationActivity
+import com.unifiedpts.staffportal.model.Admin
 import com.unifiedpts.staffportal.model.User
+import com.unifiedpts.staffportal.model.WorkersAttendance
+import java.util.Properties
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
+import javax.mail.Authenticator
+import javax.mail.Message
+import javax.mail.MessagingException
+import javax.mail.PasswordAuthentication
+import javax.mail.Session
+import javax.mail.Transport
+import javax.mail.internet.InternetAddress
+import javax.mail.internet.MimeMessage
+
 
 class SignupFragment : Fragment() {
 
@@ -134,12 +152,13 @@ class SignupFragment : Fragment() {
                         firstName,
                         lastName,
                         "+91$phoneNumber",
-                        "",
+                        "NewID" + (0..1000).random(),
                         "engineer",
                         "false",
                         System.currentTimeMillis(),
                         0.0, 0.0, 0.0, 0.0,
-                        0, 0, 0, 0, ""
+                        0, 0, 0, 0,
+                        "", "", "", ""
                     )
                     verifyCode(otp)
                 }
@@ -196,60 +215,151 @@ class SignupFragment : Fragment() {
 
                     user.uid = auth.uid
 
-                    db.collection("users").document(auth.uid!!).get().addOnCompleteListener {
-                        if (it.isSuccessful) {
+                    db.collection("users").document(auth.uid!!).get()
+                        .addOnCompleteListener { userTask ->
+                            if (userTask.isSuccessful) {
+                                if (userTask.result.exists()) {
+                                    Toast.makeText(activity, "Welcome Back!", Toast.LENGTH_LONG)
+                                        .show()
 
-                            Toast.makeText(activity, "Welcome Back!", Toast.LENGTH_LONG).show()
+                                    if (user.verifiedUser!!.compareTo("true") == 0) {
+                                        val sp = requireActivity().getSharedPreferences(
+                                            "user",
+                                            Context.MODE_PRIVATE
+                                        )
+                                        val editor = sp.edit()
+                                        editor.putString("userEmployeeID", user.empID)
+                                        editor.putString("user", Gson().toJson(user))
+                                        editor.apply()
 
-                            if (user.verifiedUser!!.compareTo("true") == 0) {
-                                val sp = requireActivity().getSharedPreferences(
-                                    "user",
-                                    Context.MODE_PRIVATE
-                                )
-                                val editor = sp.edit()
-                                editor.putString("userEmployeeID", user.empID)
-                                editor.putString("user", Gson().toJson(user))
-                                editor.apply()
+                                        val i = Intent(activity, MainActivity::class.java)
+                                        startActivity(i)
+                                        requireActivity().finish()
 
-                                val i = Intent(activity, MainActivity::class.java)
-                                startActivity(i)
-                                requireActivity().finish()
-                            } else {
-
-                                val sp = requireActivity().getSharedPreferences(
-                                    "user",
-                                    Context.MODE_PRIVATE
-                                )
-                                val editor = sp.edit()
-                                editor.putString("userEmployeeID", user.empID)
-                                editor.putString("user", Gson().toJson(user))
-                                editor.apply()
-
-                                AuthenticationActivity.openFragment(
-                                    requireActivity(),
-                                    WaitingForApprovalFragment()
-                                )
-                            }
-
-                            val i = Intent(activity, MainActivity::class.java)
-                            startActivity(i)
-                            requireActivity().finish()
-                        } else {
-                            db.collection("users").document(auth.uid!!)
-                                .set(user)
-                                .addOnSuccessListener {
+                                    }
 
                                     AuthenticationActivity.openFragment(
                                         requireActivity(),
                                         WaitingForApprovalFragment()
                                     )
+
+                                } else {
+
+                                    db.collection("users").document(auth.uid!!)
+                                        .set(user)
+                                        .addOnSuccessListener {
+
+                                            db.collection("users").document(auth.uid!!)
+                                                .collection("workerAttendance").document("worker")
+                                                .set(WorkersAttendance(0, 0))
+                                                .addOnSuccessListener {
+
+                                                    val sp = requireActivity().getSharedPreferences(
+                                                        "user",
+                                                        Context.MODE_PRIVATE
+                                                    )
+                                                    val editor = sp.edit()
+                                                    editor.putString("userEmployeeID", user.empID)
+                                                    editor.putString("user", Gson().toJson(user))
+                                                    editor.apply()
+
+                                                    db.collection("admin").document("email")
+                                                        .get().addOnSuccessListener {
+                                                            if (it != null) {
+
+                                                                val admin = it.toObject<Admin>()
+
+                                                                val email = admin!!.email
+                                                                val password = admin.password
+                                                                val recipient = admin.recipientEmail
+
+                                                                val props = Properties()
+                                                                props["mail.smtp.auth"] = "true"
+                                                                props["mail.smtp.starttls.enable"] =
+                                                                    "true"
+                                                                props["mail.smtp.host"] =
+                                                                    "smtp.gmail.com"
+                                                                props["mail.smtp.port"] = "587"
+
+                                                                val session: Session =
+                                                                    Session.getInstance(props,
+                                                                        object : Authenticator() {
+                                                                            override fun getPasswordAuthentication(): PasswordAuthentication {
+                                                                                return PasswordAuthentication(
+                                                                                    email,
+                                                                                    password
+                                                                                )
+                                                                            }
+                                                                        })
+
+                                                                try {
+                                                                    val message: Message =
+                                                                        MimeMessage(session)
+                                                                    message.setFrom(
+                                                                        InternetAddress(
+                                                                            email
+                                                                        )
+                                                                    )
+                                                                    message.setRecipients(
+                                                                        Message.RecipientType.TO,
+                                                                        InternetAddress.parse(
+                                                                            recipient
+                                                                        )
+                                                                    )
+                                                                    message.subject =
+                                                                        "Action Required (Staff Portal App) - New User Account Created"
+                                                                    message.setText(
+                                                                        "New User Account is created through the app. Please verify the user from the Verify User section of the Web Portal\n" + "\n" +
+                                                                                "User Account Details:" +
+                                                                                "Name: " + user.firstName + " " + user.lastName + "\n" +
+                                                                                "Phone Number: " + user.phoneNumber
+                                                                    )
+                                                                    val executor: ExecutorService =
+                                                                        Executors.newSingleThreadExecutor()
+                                                                    val handler =
+                                                                        Handler(Looper.getMainLooper())
+
+                                                                    executor.execute {
+                                                                        Transport.send(message);
+                                                                        handler.post(Runnable {
+                                                                            //UI Thread work here
+                                                                        })
+                                                                    }
+                                                                } catch (mex: MessagingException) {
+                                                                    mex.printStackTrace()
+                                                                }
+
+                                                            }
+                                                        }
+
+                                                    AuthenticationActivity.openFragment(
+                                                        requireActivity(),
+                                                        WaitingForApprovalFragment()
+                                                    )
+                                                }.addOnFailureListener {
+                                                    Toast.makeText(
+                                                        activity,
+                                                        it.message,
+                                                        Toast.LENGTH_LONG
+                                                    )
+                                                        .show()
+                                                }
+                                        }
+                                        .addOnFailureListener {
+                                            Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
+                                                .show()
+                                        }
+
                                 }
-                                .addOnFailureListener {
-                                    Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
-                                        .show()
-                                }
+
+                            } else {
+                                Toast.makeText(
+                                    activity,
+                                    userTask.exception!!.message,
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
                         }
-                    }
 
                 } else {
                     Toast.makeText(activity, task.exception!!.message, Toast.LENGTH_LONG)

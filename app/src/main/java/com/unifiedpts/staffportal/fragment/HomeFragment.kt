@@ -10,8 +10,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
 import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
+import com.unifiedpts.staffportal.model.User
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,8 +60,11 @@ class HomeFragment : Fragment() {
 
         val sp = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
 
-        homeProfileTextView.text = sp.getString("userEmployeeID", "000")
+        val gson = Gson()
+        val json: String = sp.getString("user", "")!!
+        val user: User = gson.fromJson(json, User::class.java)
 
+        homeProfileTextView.text = user.empID
 
         homeProfileTextView.setOnClickListener {
             MainActivity.openFragment(requireActivity(), ProfileFragment())

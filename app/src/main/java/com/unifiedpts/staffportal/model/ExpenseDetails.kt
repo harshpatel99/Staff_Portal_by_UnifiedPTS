@@ -8,6 +8,7 @@ data class ExpenseDetails(
     var projectName: String? = null,
     var projectNumber: String? = null,
     var floor: String? = null,
+    var floorName: String? = null,
     var pour: String? = null,
     var work: String? = null,
     var remark: String? = null,

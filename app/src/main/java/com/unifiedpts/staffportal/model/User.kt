@@ -17,5 +17,8 @@ data class User(
     val casualLeave: Int? = null,
     val privilegeLeave: Int? = null,
     val blLeave: Int? = null,
-    val superiorEmail: String? = null
+    val superiorEmail: String? = null,
+    val appointmentLetterURL: String? = null,
+    val incrementLetterURL: String? = null,
+    val transferLetterURL: String? = null
 )

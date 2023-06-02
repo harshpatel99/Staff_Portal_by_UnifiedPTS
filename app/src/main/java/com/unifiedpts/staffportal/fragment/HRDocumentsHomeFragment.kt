@@ -66,6 +66,34 @@ class HRDocumentsHomeFragment : Fragment() {
             MainActivity.openFragment(requireActivity(), LeavePolicyFragment())
         }
 
+        val appointmentLetterCardView =
+            view.findViewById<MaterialCardView>(R.id.hrDocumentMenuAppointmentLetterButtonCardView)
+
+        appointmentLetterCardView.setOnClickListener {
+            MainActivity.openFragment(requireActivity(), AppointmentLetterFragment())
+        }
+
+        val salarySlipCardView =
+            view.findViewById<MaterialCardView>(R.id.hrDocumentMenuSalarySlipButtonCardView)
+
+        salarySlipCardView.setOnClickListener {
+            MainActivity.openFragment(requireActivity(), UnderDevelopmentFragment())
+        }
+
+        val transferLetterCardView =
+            view.findViewById<MaterialCardView>(R.id.hrDocumentMenuTransferLetterButtonCardView)
+
+        transferLetterCardView.setOnClickListener {
+            MainActivity.openFragment(requireActivity(), TransferLetterFragment())
+        }
+
+        val incrementLetterCardView =
+            view.findViewById<MaterialCardView>(R.id.hrDocumentMenuIncrementLetterButtonCardView)
+
+        incrementLetterCardView.setOnClickListener {
+            MainActivity.openFragment(requireActivity(), IncrementLetterFragment())
+        }
+
         return view
     }
 

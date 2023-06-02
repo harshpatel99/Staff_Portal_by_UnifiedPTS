@@ -35,7 +35,7 @@
     <string name="increment_letter">Increment Letter</string>
     <string name="transfer_letter">Transfer Letter</string>
     <string name="remarks">Remarks</string>
-    <string name="cash_worker">Cash Worker</string>
+    <string name="cash_worker">Outside Worker</string>
     <string name="worker_auto">Worker Auto</string>
     <string name="worker_food">Worker Food</string>
     <string name="engineer_food">Engineer Food</string>

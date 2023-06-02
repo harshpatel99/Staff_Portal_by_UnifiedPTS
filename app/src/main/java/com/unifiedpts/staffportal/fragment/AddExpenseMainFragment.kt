@@ -18,10 +18,12 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
 import com.unifiedpts.staffportal.model.ExpenseDetails
 import com.unifiedpts.staffportal.model.Project
+import com.unifiedpts.staffportal.model.User
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -44,9 +46,12 @@ class AddExpenseMainFragment : Fragment() {
     private lateinit var projectNameList: ArrayList<String>
     private lateinit var projectNumberList: ArrayList<String>
     private lateinit var floorList: ArrayList<String>
+    private lateinit var floorNameList: ArrayList<String>
     private lateinit var pourList: ArrayList<String>
 
     private lateinit var expenseDetails: ExpenseDetails
+
+    private lateinit var user : User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -121,7 +126,11 @@ class AddExpenseMainFragment : Fragment() {
 
         val sp = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
 
-        profileTextView.text = sp.getString("userEmployeeID", "000")
+        val gson = Gson()
+        val json: String = sp.getString("user", "")!!
+        user = gson.fromJson(json, User::class.java)
+
+        profileTextView.text = user.empID
 
         Firebase.firestore.collection("projectDetails").get()
             .addOnCompleteListener {
@@ -244,6 +253,7 @@ class AddExpenseMainFragment : Fragment() {
             val selectedProjectName = parent.getItemAtPosition(position).toString()
 
             val allFloors = ArrayList<String>()
+            val allFloorsName = ArrayList<String>()
 
             expenseDetails.projectName = selectedProjectName
             expenseDetails.projectNumber =
@@ -256,6 +266,7 @@ class AddExpenseMainFragment : Fragment() {
                         item.projectName!!.compareTo(selectedProjectName) == 0
                     ) {
                         allFloors.add(item.floor!!)
+                        allFloorsName.add(item.floorName!!)
                     }
                 }
             }
@@ -265,10 +276,11 @@ class AddExpenseMainFragment : Fragment() {
             allFloors.addAll(set)
 
             floorList = allFloors
+            floorNameList = allFloorsName
 
             adapter = ArrayAdapter<Any?>(
                 requireContext(), R.layout.item_drop_down,
-                floorList as List<Any?>
+                floorNameList as List<Any?>
             )
             floorACTView.setAdapter(adapter)
 
@@ -279,7 +291,10 @@ class AddExpenseMainFragment : Fragment() {
         floorACTView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
             val selectedFloor = parent.getItemAtPosition(position).toString()
 
-            expenseDetails.floor = selectedFloor
+
+            expenseDetails.floorName = selectedFloor
+            expenseDetails.floor =
+                floorNameList.elementAt(floorNameList.indexOf(selectedFloor))
 
             val allPours = ArrayList<String>()
 
@@ -288,7 +303,7 @@ class AddExpenseMainFragment : Fragment() {
                     if (item.state!!.compareTo(expenseDetails.state!!) == 0 &&
                         item.city!!.compareTo(expenseDetails.city!!) == 0 &&
                         item.projectName!!.compareTo(expenseDetails.projectName!!) == 0 &&
-                        item.floor!!.compareTo(selectedFloor) == 0
+                        item.floorName!!.compareTo(selectedFloor) == 0
                     ) {
                         allPours.add(item.pour!!)
                     }
@@ -357,7 +372,14 @@ class AddExpenseMainFragment : Fragment() {
                     "Please select Pour",
                     Toast.LENGTH_SHORT
                 ).show()
+            }else if (expenseDetails.work == null) {
+                Toast.makeText(
+                    context,
+                    "Please select Work",
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
+                expenseDetails.isDocAttached = false
                 expenseDetails.attachmentUrls = HashMap()
                 val bundle = Bundle()
                 bundle.putSerializable("expenseDetails", expenseDetails)
