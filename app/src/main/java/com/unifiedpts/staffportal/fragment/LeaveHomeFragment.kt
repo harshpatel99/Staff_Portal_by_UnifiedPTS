@@ -2,11 +2,14 @@ package com.unifiedpts.staffportal.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -19,8 +22,22 @@ import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
+import com.unifiedpts.staffportal.model.Admin
 import com.unifiedpts.staffportal.model.Leave
 import com.unifiedpts.staffportal.model.User
+import java.util.Calendar
+import java.util.Properties
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
+import javax.mail.Authenticator
+import javax.mail.Message
+import javax.mail.MessagingException
+import javax.mail.PasswordAuthentication
+import javax.mail.Session
+import javax.mail.Transport
+import javax.mail.internet.InternetAddress
+import javax.mail.internet.MimeMessage
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -48,6 +65,7 @@ class LeaveHomeFragment : Fragment() {
 
     lateinit var appliedLeaveTypeTextView: TextView
     lateinit var appliedDateTextView: TextView
+    lateinit var remindTextView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -102,9 +120,10 @@ class LeaveHomeFragment : Fragment() {
             MainActivity.openFragment(requireActivity(), ApplyForLeaveFragment())
         }
 
-        Firebase.firestore.collection("leave").whereEqualTo("uid", user.uid)
-            .orderBy("appliedDate", Query.Direction.DESCENDING).limit(1).get()
-            .addOnCompleteListener {
+        val document = Firebase.firestore.collection("leave").whereEqualTo("uid", user.uid)
+            .orderBy("appliedDate", Query.Direction.DESCENDING).limit(1)
+
+        document.get().addOnCompleteListener {
                 if (it.isSuccessful) {
 
                     if (it.result.isEmpty) {
@@ -114,6 +133,8 @@ class LeaveHomeFragment : Fragment() {
 
                         val listOfLeaves = it.result.first()
                         val leave = listOfLeaves.toObject<Leave>()
+
+                        val documentID = it.result.first().id
 
                         if (leave.status!!.compareTo(Leave.STATUS_APPROVED) == 0) {
                             leaveApplicationApprovedView.visibility = View.VISIBLE
@@ -133,10 +154,112 @@ class LeaveHomeFragment : Fragment() {
                                 leaveApplicationPendingView.findViewById(R.id.leaveHomePreviousApplicationTypeTextView)
                             appliedDateTextView =
                                 leaveApplicationPendingView.findViewById(R.id.leaveHomePreviousApplicationDateTextView)
+                            remindTextView =
+                                leaveApplicationPendingView.findViewById(R.id.leaveHomePreviousApplicationRemindTextView)
                         }
 
                         appliedLeaveTypeTextView.text = leave.leaveType
                         appliedDateTextView.text = "${leave.fromDate} - ${leave.toDate}"
+
+                        remindTextView.setOnClickListener {
+                            val dayDifference =
+                                TimeUnit.MILLISECONDS.toDays(Calendar.getInstance().timeInMillis - leave.lastReminded!!)
+                                    .toInt()
+
+                            if (dayDifference != 0) {
+
+                                Toast.makeText(
+                                    activity,
+                                    "Sending Reminder, Please Wait!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                Firebase.firestore.collection("admin").document("email")
+                                    .get().addOnSuccessListener {
+                                        if (it != null) {
+
+                                            val admin = it.toObject<Admin>()
+
+                                            val email = admin!!.email
+                                            val password = admin.password
+                                            val recipient = user.superiorEmail
+
+                                            val props = Properties()
+                                            props["mail.smtp.auth"] = "true"
+                                            props["mail.smtp.starttls.enable"] = "true"
+                                            props["mail.smtp.host"] = "smtp.gmail.com"
+                                            props["mail.smtp.port"] = "587"
+
+                                            val session: Session = Session.getInstance(props,
+                                                object : Authenticator() {
+                                                    override fun getPasswordAuthentication(): PasswordAuthentication {
+                                                        return PasswordAuthentication(
+                                                            email,
+                                                            password
+                                                        )
+                                                    }
+                                                })
+
+                                            try {
+                                                val message: Message = MimeMessage(session)
+                                                message.setFrom(InternetAddress(email))
+                                                message.setRecipients(
+                                                    Message.RecipientType.TO,
+                                                    InternetAddress.parse(recipient)
+                                                )
+                                                message.subject =
+                                                    "Reminder: Action Required (UPPTS App) - New Leave Application Created"
+                                                message.setText(
+                                                    "Leave application is created by the user with below details:\n" +
+                                                            "Name: " + user.firstName + " " + user.lastName + "\n" +
+                                                            "Phone Number: " + user.phoneNumber + "\n\n" +
+                                                            "Leave Details:\n" +
+                                                            "From Date: " + leave.fromDate + "\n" +
+                                                            "Till Date: " + leave.toDate + "\n" +
+                                                            "Type: " + leave.leaveType + "\n" +
+                                                            "Reason: " + leave.reason + "\n" +
+                                                            "Attachment URL: " + (if (leave.attachmentUrl.isNullOrEmpty()) "No Documents Attached" else leave.attachmentUrl) + "\n" +
+                                                            "Click the link below to verify it." + " \n" +
+                                                            "https://staffportal.unifiedpts.com/js/leave-approval.html?uid=" + user.uid + "&docId=" + documentID,
+                                                )
+                                                val executor: ExecutorService =
+                                                    Executors.newSingleThreadExecutor()
+                                                val handler = Handler(Looper.getMainLooper())
+
+                                                executor.execute {
+                                                    Transport.send(message);
+                                                    handler.post {
+                                                        Toast.makeText(
+                                                            activity,
+                                                            "Reminder Sent!",
+                                                            Toast.LENGTH_SHORT
+                                                        )
+                                                            .show()
+
+                                                        Firebase.firestore.collection("leave")
+                                                            .document(documentID)
+                                                            .update(
+                                                                "lastReminded",
+                                                                System.currentTimeMillis()
+                                                            )
+                                                        leave.lastReminded = System.currentTimeMillis()
+                                                    }
+                                                }
+                                            } catch (mex: MessagingException) {
+                                                mex.printStackTrace()
+                                            }
+
+                                        }
+                                    }
+                            } else {
+                                Toast.makeText(
+                                    activity,
+                                    "You can send only one reminder in 24 hours",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
+                        }
 
 
                     }

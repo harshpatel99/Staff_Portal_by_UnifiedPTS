@@ -54,9 +54,9 @@
 
    <ImageView
        android:id="@+id/selectAuthTypPeopleImageView"
-       android:layout_width="300dp"
-       android:layout_height="300dp"
-       android:src="@drawable/select_auth"
+       android:layout_width="250dp"
+       android:layout_height="250dp"
+       android:src="@drawable/unified_logo"
        app:layout_constraintBottom_toTopOf="@id/selectAuthTypeSignInCardView"
        app:layout_constraintLeft_toLeftOf="parent"
        app:layout_constraintRight_toRightOf="parent"
@@ -68,7 +68,7 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:layout_marginStart="32dp"
-       android:layout_marginTop="50dp"
+       android:layout_marginTop="100dp"
        android:layout_marginEnd="32dp"
        app:cardBackgroundColor="@color/primary_color_home"
        app:cardCornerRadius="@dimen/corner_radius_card_button"

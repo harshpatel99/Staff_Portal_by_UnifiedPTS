@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
@@ -97,6 +98,8 @@ class AddExpenseDetailsFragment : Fragment() {
         val layoutMaterialTransportation =
             view.findViewById<View>(R.id.addExpenseDetailsLayoutMaterialTransportation)
         val layoutPrinting = view.findViewById<View>(R.id.addExpenseDetailsLayoutPrintingStationary)
+        val layoutICR = view.findViewById<View>(R.id.addExpenseDetailsLayoutICR)
+        val layoutSCR = view.findViewById<View>(R.id.addExpenseDetailsLayoutSCR)
         val layoutOther = view.findViewById<View>(R.id.addExpenseDetailsLayoutOther)
 
         submitButtonCardView = view.findViewById(R.id.addExpenseDetailsSubmitButtonCardView)
@@ -185,6 +188,22 @@ class AddExpenseDetailsFragment : Fragment() {
         val printingAttachImageView =
             layoutPrinting.findViewById<ImageView>(R.id.addExpenseDetailsItemLayoutAttachImageView)
 
+        val icrTextView =
+            layoutICR.findViewById<TextView>(R.id.addExpenseDetailsItemLayoutTextView)
+        val icrET =
+            layoutICR.findViewById<TextInputEditText>(R.id.addExpenseDetailsItemLayoutTextInputEditText)
+        val icrImageView =
+            layoutICR.findViewById<ImageView>(R.id.addExpenseDetailsItemLayoutAttachImageView)
+        layoutICR.findViewById<TextInputLayout>(R.id.addExpenseDetailsItemLayoutTextInputLayout).visibility = View.INVISIBLE
+
+        val scrTextView =
+            layoutSCR.findViewById<TextView>(R.id.addExpenseDetailsItemLayoutTextView)
+        val scrET =
+            layoutSCR.findViewById<TextInputEditText>(R.id.addExpenseDetailsItemLayoutTextInputEditText)
+        val scrImageView =
+            layoutSCR.findViewById<ImageView>(R.id.addExpenseDetailsItemLayoutAttachImageView)
+        layoutSCR.findViewById<TextInputLayout>(R.id.addExpenseDetailsItemLayoutTextInputLayout).visibility = View.INVISIBLE
+
         val otherTextView =
             layoutOther.findViewById<TextView>(R.id.addExpenseDetailsItemLayoutTextView)
         val otherET =
@@ -220,8 +239,12 @@ class AddExpenseDetailsFragment : Fragment() {
         fuelTextView.text = getString(R.string.petrol_diesel)
         materialTransportationTextView.text = getString(R.string.material_transportation)
         printingTextView.text = getString(R.string.printing_stationary)
+        icrTextView.text = getString(R.string.installation_cr)
+        scrTextView.text = getString(R.string.stressing_cr)
         otherTextView.text = getString(R.string.other)
 
+        icrET.visibility = View.INVISIBLE
+        scrET.visibility = View.INVISIBLE
 
 
         storageRef = Firebase.storage.reference
@@ -237,6 +260,8 @@ class AddExpenseDetailsFragment : Fragment() {
         uploadImage(fuelAttachImageView, "fuel")
         uploadImage(materialTransportationAttachImageView, "materialTransportation")
         uploadImage(printingAttachImageView, "printingAttach")
+        uploadImage(icrImageView, "icrAttach")
+        uploadImage(scrImageView, "scrAttach")
         uploadImage(otherAttachImageView, "other")
 
 
@@ -296,7 +321,7 @@ class AddExpenseDetailsFragment : Fragment() {
                 .addOnSuccessListener {
 
                     db.collection("users").document(FirebaseAuth.getInstance().uid!!)
-                        .update("expenses", FieldValue.increment(expenseDetails.totalSpent!!))
+                        .update("expenses", FieldValue.increment(-(expenseDetails.totalSpent)!!))
                         .addOnSuccessListener {
 
                             /*db.collection("expenseDetails").document(timeInMillis)
@@ -307,27 +332,59 @@ class AddExpenseDetailsFragment : Fragment() {
                                         .update("total", FieldValue.increment(expenseDetails.totalSpent!!))
                                         .addOnSuccessListener {*/
 
-                            Toast.makeText(
-                                context, "Balances Updated!", Toast.LENGTH_SHORT
-                            ).show()
+                            db.collection("expenseDetails").document(timeInMillis)
+                                .set(expenseDetails).addOnSuccessListener {
+                                Toast.makeText(
+                                    context, "Balances Updated!", Toast.LENGTH_SHORT
+                                ).show()
 
-                            //val sp = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
+                                //val sp = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
 
-                            val gson = Gson()
-                            val json: String = sp.getString("user", "")!!
-                            val user: User = gson.fromJson(json, User::class.java)
+                                val gson = Gson()
+                                val json: String = sp.getString("user", "")!!
+                                val user: User = gson.fromJson(json, User::class.java)
 
-                            val totalSpent = expenseDetails.totalSpent
+                                val totalSpent = expenseDetails.totalSpent
 
-                            user.expenses = user.expenses!!.toDouble() + totalSpent!!.toDouble()
+                                user.expenses = user.expenses!!.toDouble() - totalSpent!!.toDouble()
 
-                            val editor = sp.edit()
-                            editor.putString("user", Gson().toJson(user))
-                            editor.apply()
+                                val editor = sp.edit()
+                                editor.putString("user", Gson().toJson(user))
+                                editor.apply()
 
-                            progressBar.visibility = View.GONE
+                                progressBar.visibility = View.GONE
 
-                            MainActivity.closeFragment(requireActivity())
+                                MainActivity.closeFragment(requireActivity())
+                            }.addOnFailureListener {
+                                Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
+                                    .show()
+
+                                progressBar.visibility = View.GONE
+
+                                db.collection("expenseDetails").document(timeInMillis)
+                                    .delete().addOnSuccessListener {
+
+                                        db.collection("users")
+                                            .document(FirebaseAuth.getInstance().uid!!)
+                                            .update(
+                                                "expenses",
+                                                FieldValue.increment(expenseDetails.totalSpent!!)
+                                            )
+                                            .addOnSuccessListener {
+                                                submitButtonCardView.isClickable = true
+                                                submitButtonCardView.isEnabled = true
+
+                                                Toast.makeText(
+                                                    activity,
+                                                    "Please try again!",
+                                                    Toast.LENGTH_LONG
+                                                )
+                                                    .show()
+                                            }
+
+                                    }
+                            }
+
 
                         }
                         .addOnFailureListener {

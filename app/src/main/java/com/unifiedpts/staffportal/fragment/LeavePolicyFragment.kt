@@ -61,10 +61,10 @@ class LeavePolicyFragment : Fragment() {
         webView.settings.setSupportZoom(true)
         webView.settings.javaScriptEnabled = true
 
-        Firebase.firestore.collection("admin").document("policy")
+        Firebase.firestore.collection("leavePolicy").document("recent")
             .get().addOnSuccessListener {
                 if (it != null) {
-                    val url = it["leavePolicyUrl"].toString()
+                    val url = it["url"].toString()
                     webView.loadUrl("https://docs.google.com/gview?embedded=true&url=$url")
                 }
             }

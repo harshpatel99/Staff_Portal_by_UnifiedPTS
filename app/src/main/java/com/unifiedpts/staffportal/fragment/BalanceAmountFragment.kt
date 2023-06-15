@@ -66,7 +66,7 @@ class BalanceAmountFragment : Fragment() {
         val gratuityTextView =
             view.findViewById<TextView>(R.id.balanceAmountDetailsGratuityTotalTextView)
         val bonusTextView = view.findViewById<TextView>(R.id.balanceAmountDetailsBonusTotalTextView)
-        val loanTextView = view.findViewById<TextView>(R.id.balanceAmountDetailsLoanTotalTextView)
+        //val loanTextView = view.findViewById<TextView>(R.id.balanceAmountDetailsLoanTotalTextView)
 
         val sp = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
 
@@ -78,7 +78,7 @@ class BalanceAmountFragment : Fragment() {
         againstExpensesTextView.text = user.expenses.toString()
         gratuityTextView.text = user.gratuity.toString()
         bonusTextView.text = user.bonus.toString()
-        loanTextView.text = user.loan.toString()
+        //loanTextView.text = user.loan.toString()
 
         /*Firebase.firestore.collection("users").document(user.uid!!)
             .collection("balanceDetails").document("againstExpenses").get()

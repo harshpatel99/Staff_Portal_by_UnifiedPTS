@@ -24,6 +24,9 @@ import com.unifiedpts.staffportal.R
 import com.unifiedpts.staffportal.model.ExpenseDetails
 import com.unifiedpts.staffportal.model.Project
 import com.unifiedpts.staffportal.model.User
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -51,7 +54,7 @@ class AddExpenseMainFragment : Fragment() {
 
     private lateinit var expenseDetails: ExpenseDetails
 
-    private lateinit var user : User
+    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +72,14 @@ class AddExpenseMainFragment : Fragment() {
 
         val auth = FirebaseAuth.getInstance().currentUser
 
-        expenseDetails = ExpenseDetails(auth!!.uid, System.currentTimeMillis())
+        val calendar: Calendar = Calendar.getInstance()
+
+
+        expenseDetails = ExpenseDetails(
+            auth!!.uid,
+            System.currentTimeMillis(),
+            dateText = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(calendar.time).toString()
+        )
 
 
         //val cityList = arrayOf("Pune", "Mumbai", "Ahmedabad")
@@ -131,6 +141,7 @@ class AddExpenseMainFragment : Fragment() {
         user = gson.fromJson(json, User::class.java)
 
         profileTextView.text = user.empID
+        expenseDetails.empID = user.empID
 
         Firebase.firestore.collection("projectDetails").get()
             .addOnCompleteListener {
@@ -372,7 +383,7 @@ class AddExpenseMainFragment : Fragment() {
                     "Please select Pour",
                     Toast.LENGTH_SHORT
                 ).show()
-            }else if (expenseDetails.work == null) {
+            } else if (expenseDetails.work == null) {
                 Toast.makeText(
                     context,
                     "Please select Work",

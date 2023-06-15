@@ -20,5 +20,6 @@ data class User(
     val superiorEmail: String? = null,
     val appointmentLetterURL: String? = null,
     val incrementLetterURL: String? = null,
-    val transferLetterURL: String? = null
+    val transferLetterURL: String? = null,
+    val lastReminderDate: Long? = null
 )

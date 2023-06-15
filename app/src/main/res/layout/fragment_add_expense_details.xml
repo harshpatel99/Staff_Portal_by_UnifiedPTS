@@ -71,7 +71,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Project -> Floor -> Pour"
+            android:maxEms="15"
             android:textColor="@color/black"
+            android:textAlignment="center"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -167,12 +169,28 @@
             app:layout_constraintTop_toBottomOf="@id/addExpenseDetailsLayoutMaterialTransportation" />
 
         <include
-            android:id="@+id/addExpenseDetailsLayoutOther"
+            android:id="@+id/addExpenseDetailsLayoutICR"
             layout="@layout/layout_item_expense_details"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/addExpenseDetailsLayoutPrintingStationary" />
+
+        <include
+            android:id="@+id/addExpenseDetailsLayoutSCR"
+            layout="@layout/layout_item_expense_details"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addExpenseDetailsLayoutICR" />
+
+        <include
+            android:id="@+id/addExpenseDetailsLayoutOther"
+            layout="@layout/layout_item_expense_details"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addExpenseDetailsLayoutSCR" />
 
         <ProgressBar
             android:id="@+id/addExpenseDetailsProgressBar"

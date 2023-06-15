@@ -102,7 +102,7 @@ class SignupFragment : Fragment() {
             if (firstName.isEmpty()) {
                 firstNameET.error = "Required"
                 Toast.makeText(
-                    activity,
+                    requireActivity(),
                     "Please enter your first name.",
                     Toast.LENGTH_SHORT
                 ).show()
@@ -110,7 +110,7 @@ class SignupFragment : Fragment() {
             } else if (lastName.isEmpty()) {
                 lastNameET.error = "Required"
                 Toast.makeText(
-                    activity,
+                    requireActivity(),
                     "Please enter your last name.",
                     Toast.LENGTH_SHORT
                 ).show()
@@ -118,7 +118,7 @@ class SignupFragment : Fragment() {
             } else if (phoneNumber.isEmpty()) {
                 phoneNumberET.error = "Required"
                 Toast.makeText(
-                    activity,
+                    requireActivity(),
                     "Please enter a valid phone number.",
                     Toast.LENGTH_SHORT
                 ).show()
@@ -128,11 +128,24 @@ class SignupFragment : Fragment() {
                 if (otpInputLayout.visibility == View.GONE) {
                     otpInputLayout.visibility = View.VISIBLE
                     val phone = "+91$phoneNumber"
+                    user = User(
+                        "",
+                        firstName,
+                        lastName,
+                        "+91$phoneNumber",
+                        "NewID" + (0..1000).random(),
+                        "engineer",
+                        "false",
+                        System.currentTimeMillis(),
+                        0.0, 0.0, 0.0, 0.0,
+                        0, 0, 0, 0,
+                        "", "", "", "", System.currentTimeMillis()
+                    )
                     sendVerificationCode(phone)
                 } else if (otp.isEmpty()) {
                     otpET.error = "Required"
                     Toast.makeText(
-                        activity,
+                        requireActivity(),
                         "Please enter OTP.",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -142,7 +155,7 @@ class SignupFragment : Fragment() {
                     progressBar.visibility = View.GONE
                 } else if (!isVerificationCodeSent) {
                     Toast.makeText(
-                        activity,
+                        requireActivity(),
                         "Please Wait! Waiting for OTP to arrive.",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -158,7 +171,7 @@ class SignupFragment : Fragment() {
                         System.currentTimeMillis(),
                         0.0, 0.0, 0.0, 0.0,
                         0, 0, 0, 0,
-                        "", "", "", ""
+                        "", "", "", "", System.currentTimeMillis()
                     )
                     verifyCode(otp)
                 }
@@ -199,7 +212,7 @@ class SignupFragment : Fragment() {
             // sends our OTP code due to any error or issue.
             override fun onVerificationFailed(e: FirebaseException) {
                 progressBar.visibility = View.GONE
-                Toast.makeText(activity, e.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(requireActivity(), e.message, Toast.LENGTH_LONG).show()
                 Log.w("AppError", e.message.toString())
             }
         }
@@ -219,7 +232,11 @@ class SignupFragment : Fragment() {
                         .addOnCompleteListener { userTask ->
                             if (userTask.isSuccessful) {
                                 if (userTask.result.exists()) {
-                                    Toast.makeText(activity, "Welcome Back!", Toast.LENGTH_LONG)
+                                    Toast.makeText(
+                                        requireActivity(),
+                                        "Welcome Back!",
+                                        Toast.LENGTH_LONG
+                                    )
                                         .show()
 
                                     if (user.verifiedUser!!.compareTo("true") == 0) {
@@ -232,7 +249,7 @@ class SignupFragment : Fragment() {
                                         editor.putString("user", Gson().toJson(user))
                                         editor.apply()
 
-                                        val i = Intent(activity, MainActivity::class.java)
+                                        val i = Intent(requireActivity(), MainActivity::class.java)
                                         startActivity(i)
                                         requireActivity().finish()
 
@@ -307,7 +324,7 @@ class SignupFragment : Fragment() {
                                                                         )
                                                                     )
                                                                     message.subject =
-                                                                        "Action Required (Staff Portal App) - New User Account Created"
+                                                                        "Action Required (UPPTS App) - New User Account Created"
                                                                     message.setText(
                                                                         "New User Account is created through the app. Please verify the user from the Verify User section of the Web Portal\n" + "\n" +
                                                                                 "User Account Details:" +
@@ -338,7 +355,7 @@ class SignupFragment : Fragment() {
                                                     )
                                                 }.addOnFailureListener {
                                                     Toast.makeText(
-                                                        activity,
+                                                        requireActivity(),
                                                         it.message,
                                                         Toast.LENGTH_LONG
                                                     )
@@ -346,7 +363,11 @@ class SignupFragment : Fragment() {
                                                 }
                                         }
                                         .addOnFailureListener {
-                                            Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
+                                            Toast.makeText(
+                                                requireActivity(),
+                                                it.message,
+                                                Toast.LENGTH_LONG
+                                            )
                                                 .show()
                                         }
 
@@ -354,7 +375,7 @@ class SignupFragment : Fragment() {
 
                             } else {
                                 Toast.makeText(
-                                    activity,
+                                    requireActivity(),
                                     userTask.exception!!.message,
                                     Toast.LENGTH_LONG
                                 ).show()
@@ -362,7 +383,7 @@ class SignupFragment : Fragment() {
                         }
 
                 } else {
-                    Toast.makeText(activity, task.exception!!.message, Toast.LENGTH_LONG)
+                    Toast.makeText(requireActivity(), task.exception!!.message, Toast.LENGTH_LONG)
                         .show()
                 }
             }

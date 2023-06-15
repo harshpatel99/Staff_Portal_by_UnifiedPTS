@@ -39,6 +39,9 @@ class AuthenticationActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setContentView(R.layout.activity_authentication)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
         val isUserSignedIn = FirebaseAuth.getInstance().currentUser != null
         if (isUserSignedIn) {
 
@@ -47,69 +50,34 @@ class AuthenticationActivity : FragmentActivity() {
                 .addOnSuccessListener { result ->
                     val user = result.toObject<User>()
 
-                    Firebase.firestore.collection("admin").document("email")
-                        .get().addOnCompleteListener {
-                            if (it.isSuccessful) {
+                    if (user != null) {
+                        val sp = getSharedPreferences("user", MODE_PRIVATE)
+                        val editor = sp.edit()
+                        editor.putString("user", Gson().toJson(user))
+                        editor.apply()
 
-
-
-
-
-                                /*val sender = GMailSender(
-                                    "unifiedptsyt@gmail.com",
-                                    "tqdqznjbbfbflgte"
-                                )
-                                sender.sendMail(
-                                    "Action Required (Staff Portal App) - New Leave Application Created",
-                                    "Leave application is created by the user with below details:\n" +
-                                            "Name: " + user!!.firstName + " " + user.lastName + "\n" +
-                                            "Phone Number: " + user.phoneNumber + "\n\n" +
-                                            "Leave Details:\n" +
-                                            /*"From Date: " + leave.fromDate + "\n" +
-                                            "Till Date: " + leave.toDate + "\n" +
-                                            "Type: " + leave.leaveType + "\n" +
-                                            "Reason: " + leave.reason + "\n" +
-                                            "Attachment URL: " + leave.attachmentUrl + "\n" +*/
-                                            "Click the link below to verify it." +
-                                            "Update it - URL Comes here",
-
-                                    admin.email,
-                                    admin.recipientEmail
-                                )*/
-
-
-                            } else {
-                                Toast.makeText(
-                                    this,
-                                    "Error: " + it.exception!!.message,
-                                    Toast.LENGTH_LONG
-                                ).show()
-                            }
+                        if (user.verifiedUser != "true") {
+                            openFragment(
+                                this,
+                                WaitingForApprovalFragment()
+                            )
+                        } else {
+                            startActivity(Intent(this, MainActivity::class.java))
+                            finish()
                         }
-
-                    val sp = getSharedPreferences("user", MODE_PRIVATE)
-                    val editor = sp.edit()
-                    editor.putString("user", Gson().toJson(user))
-                    editor.apply()
-
-                    if (user!!.verifiedUser != "true") {
-                        openFragment(
-                            this,
-                            WaitingForApprovalFragment()
-                        )
                     } else {
-                        startActivity(Intent(this, MainActivity::class.java))
-                        finish()
+                        Toast.makeText(
+                            this,
+                            "Error retrieving your information. Please login in again.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        FirebaseAuth.getInstance().signOut()
+                        openFragment(this, SelectAuthTypeFragment())
                     }
                 }
         } else {
             openFragment(this, SelectAuthTypeFragment())
         }
-
-        setContentView(R.layout.activity_authentication)
-
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
 
     }
 

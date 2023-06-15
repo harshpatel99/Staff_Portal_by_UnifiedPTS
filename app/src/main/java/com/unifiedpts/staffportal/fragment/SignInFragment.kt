@@ -87,7 +87,7 @@ class SignInFragment : Fragment() {
             if (phoneNumber.isEmpty()) {
                 phoneNumberET.error = "Required"
                 Toast.makeText(
-                    activity,
+                    requireActivity(),
                     "Please enter a valid phone number.",
                     Toast.LENGTH_SHORT
                 ).show()
@@ -109,11 +109,13 @@ class SignInFragment : Fragment() {
                             if (it.isSuccessful) {
                                 val listUsers = it.result.toObjects(User::class.java)
                                 if (listUsers.isEmpty()) {
-                                    Toast.makeText(
-                                        activity,
-                                        "New User? Please sign up first",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                                    checkIfFragmentAttached {
+                                        Toast.makeText(
+                                            requireActivity(),
+                                            "New User? Please sign up first",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
                                     progressBar.visibility = View.GONE
                                     otpInputLayout.visibility = View.GONE
                                 } else {
@@ -122,11 +124,13 @@ class SignInFragment : Fragment() {
                                 }
 
                             } else {
-                                Toast.makeText(
-                                    activity,
-                                    "New User? Please sign up first",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                checkIfFragmentAttached {
+                                    Toast.makeText(
+                                        requireActivity(),
+                                        "New User? Please sign up first",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                                 progressBar.visibility = View.GONE
                                 otpInputLayout.visibility = View.GONE
                             }
@@ -135,21 +139,25 @@ class SignInFragment : Fragment() {
 
                 } else if (otp.isEmpty()) {
                     otpET.error = "Required"
-                    Toast.makeText(
-                        activity,
-                        "Please enter OTP.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    checkIfFragmentAttached {
+                        Toast.makeText(
+                            requireActivity(),
+                            "Please enter OTP.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                     progressBar.visibility = View.GONE
                 } else if (otp.length < 6) {
                     otpET.error = "Invalid OTP!"
                     progressBar.visibility = View.GONE
                 } else if (!isVerificationCodeSent) {
-                    Toast.makeText(
-                        activity,
-                        "Please Wait! Waiting for OTP to arrive.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    checkIfFragmentAttached {
+                        Toast.makeText(
+                            requireActivity(),
+                            "Please Wait! Waiting for OTP to arrive.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 } else {
                     verifyCode(otp)
                 }
@@ -207,7 +215,7 @@ class SignInFragment : Fragment() {
             override fun onVerificationFailed(e: FirebaseException) {
                 progressBar.visibility = View.GONE
                 otpInputLayout.visibility = View.GONE
-                Toast.makeText(activity, e.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(requireActivity(), e.message, Toast.LENGTH_LONG).show()
             }
         }
 
@@ -228,7 +236,7 @@ class SignInFragment : Fragment() {
                         editor.putString("user", Gson().toJson(user))
                         editor.apply()
 
-                        val i = Intent(activity, MainActivity::class.java)
+                        val i = Intent(requireActivity(), MainActivity::class.java)
                         startActivity(i)
                         requireActivity().finish()
                     } else {
@@ -250,7 +258,7 @@ class SignInFragment : Fragment() {
 
                 } else {
                     progressBar.visibility = View.GONE
-                    Toast.makeText(activity, task.exception!!.message, Toast.LENGTH_LONG)
+                    Toast.makeText(requireActivity(), task.exception!!.message, Toast.LENGTH_LONG)
                         .show()
                 }
             }
@@ -271,6 +279,12 @@ class SignInFragment : Fragment() {
     private fun verifyCode(code: String) {
         val credential = PhoneAuthProvider.getCredential(verificationId!!, code)
         signInWithCredential(credential)
+    }
+
+    fun checkIfFragmentAttached(operation: Context.() -> Unit) {
+        if (isAdded && context != null) {
+            operation(requireContext())
+        }
     }
 
 }

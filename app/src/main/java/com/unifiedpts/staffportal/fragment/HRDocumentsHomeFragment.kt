@@ -77,7 +77,7 @@ class HRDocumentsHomeFragment : Fragment() {
             view.findViewById<MaterialCardView>(R.id.hrDocumentMenuSalarySlipButtonCardView)
 
         salarySlipCardView.setOnClickListener {
-            MainActivity.openFragment(requireActivity(), UnderDevelopmentFragment())
+            MainActivity.openFragment(requireActivity(), SalarySlipFragment())
         }
 
         val transferLetterCardView =

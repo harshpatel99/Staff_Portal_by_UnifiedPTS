@@ -26,5 +26,7 @@ data class ExpenseDetails(
     var otherExpenses: Double? = null,
     var isDocAttached: Boolean? = null,
     var attachmentUrls: HashMap<String, String>? = null,
-    var totalSpent: Double? = null
+    var totalSpent: Double? = null,
+    var dateText: String? = null,
+    var empID: String? = null
 ) : java.io.Serializable

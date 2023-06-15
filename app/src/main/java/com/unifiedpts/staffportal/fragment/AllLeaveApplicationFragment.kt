@@ -71,7 +71,8 @@ class AllLeaveApplicationFragment : Fragment() {
         }
 
         val list = ArrayList<Leave>()
-        val adapter = AllLeavesRecyclerAdapter(list)
+        val docIdList = ArrayList<String>()
+        val adapter = AllLeavesRecyclerAdapter(list,requireActivity(),user,docIdList)
 
         Firebase.firestore.collection("leave").whereEqualTo("uid", user.uid)
             .orderBy("appliedDate", Query.Direction.DESCENDING).get()
@@ -79,6 +80,7 @@ class AllLeaveApplicationFragment : Fragment() {
                 if (it.isSuccessful) {
                     for (document in it.result.documents) {
                         list.add(document.toObject(Leave::class.java)!!)
+                        docIdList.add(document.id)
                     }
                     adapter.notifyDataSetChanged()
                 } else {
