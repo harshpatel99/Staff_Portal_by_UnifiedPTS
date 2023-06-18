@@ -18,6 +18,7 @@ import com.google.firebase.ktx.Firebase
 import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
 import com.unifiedpts.staffportal.model.Admin
+import java.net.URLEncoder
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -64,9 +65,9 @@ class LeavePolicyFragment : Fragment() {
         Firebase.firestore.collection("leavePolicy").document("recent")
             .get().addOnSuccessListener {
                 if (it != null) {
-                    val url = it["url"].toString()
-                    webView.loadUrl("https://docs.google.com/gview?embedded=true&url=$url")
-                }
+                    var url = URLEncoder.encode(it["url"].toString(), "UTF-8")
+                    webView.loadUrl("https://docs.google.com/viewer?embedded=true&url=$url")
+                    }
             }
 
         return view

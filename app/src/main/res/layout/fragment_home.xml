@@ -332,7 +332,7 @@
         android:id="@+id/homeBrandLogo2ImageView"
         android:layout_width="150dp"
         android:layout_height="60dp"
-        android:src="@drawable/logo_pramush"
+        android:src="@drawable/logo_pramukh"
         app:layout_constraintBottom_toBottomOf="@id/homeBrandLogoImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/homeBrandLogoImageView"

@@ -16,6 +16,7 @@ import com.google.gson.Gson
 import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
 import com.unifiedpts.staffportal.model.User
+import java.net.URLEncoder
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -65,7 +66,7 @@ class AppointmentLetterFragment : Fragment() {
         val json: String = sp.getString("user", "")!!
         val user: User = gson.fromJson(json, User::class.java)
 
-        val url = user.appointmentLetterURL
+        val url = URLEncoder.encode(user.appointmentLetterURL, "UTF-8")
 
         if (url.isNullOrEmpty()) {
             Toast.makeText(

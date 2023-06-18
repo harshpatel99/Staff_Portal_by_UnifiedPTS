@@ -28,5 +28,19 @@ data class ExpenseDetails(
     var attachmentUrls: HashMap<String, String>? = null,
     var totalSpent: Double? = null,
     var dateText: String? = null,
-    var empID: String? = null
+    var empID: String? = null,
+    var cashWorkerUrl: String? = null,
+    var workerAutoUrl: String? = null,
+    var workerFoodUrl: String? = null,
+    var workerHotelUrl: String? = null,
+    var engineerFoodUrl: String? = null,
+    var engineerAutoCabUrl: String? = null,
+    var engineerHotelUrl: String? = null,
+    var busTrainFareUrl: String? = null,
+    var fuelUrl: String? = null,
+    var materialTransportationUrl: String? = null,
+    var printingStationaryUrl: String? = null,
+    var icrUrl: String? = null,
+    var scrUrl: String? = null,
+    var otherExpensesUrl: String? = null
 ) : java.io.Serializable

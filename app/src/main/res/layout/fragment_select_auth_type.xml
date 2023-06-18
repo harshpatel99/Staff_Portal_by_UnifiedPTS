@@ -22,7 +22,7 @@
         android:layout_width="150dp"
         android:layout_height="60dp"
         android:layout_marginBottom="32dp"
-        android:src="@drawable/logo_pramush"
+        android:src="@drawable/logo_pramukh"
         app:layout_constraintBottom_toTopOf="@id/selectAuthTypPeopleImageView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -54,8 +54,8 @@
 
    <ImageView
        android:id="@+id/selectAuthTypPeopleImageView"
-       android:layout_width="250dp"
-       android:layout_height="250dp"
+       android:layout_width="230dp"
+       android:layout_height="230dp"
        android:src="@drawable/unified_logo"
        app:layout_constraintBottom_toTopOf="@id/selectAuthTypeSignInCardView"
        app:layout_constraintLeft_toLeftOf="parent"

@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -213,7 +214,6 @@ class SignupFragment : Fragment() {
             override fun onVerificationFailed(e: FirebaseException) {
                 progressBar.visibility = View.GONE
                 Toast.makeText(requireActivity(), e.message, Toast.LENGTH_LONG).show()
-                Log.w("AppError", e.message.toString())
             }
         }
 
@@ -226,9 +226,11 @@ class SignupFragment : Fragment() {
 
                     val db = Firebase.firestore
 
-                    user.uid = auth.uid
+                    val uid = FirebaseAuth.getInstance().uid
 
-                    db.collection("users").document(auth.uid!!).get()
+                    user.uid = uid
+
+                    db.collection("users").document(uid!!).get()
                         .addOnCompleteListener { userTask ->
                             if (userTask.isSuccessful) {
                                 if (userTask.result.exists()) {

@@ -78,7 +78,21 @@ class AddExpenseMainFragment : Fragment() {
         expenseDetails = ExpenseDetails(
             auth!!.uid,
             System.currentTimeMillis(),
-            dateText = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(calendar.time).toString()
+            dateText = SimpleDateFormat("dd/MM/yyyy", Locale.US).format(calendar.time).toString(),
+            cashWorkerUrl = "",
+            workerAutoUrl = "",
+            workerFoodUrl = "",
+            workerHotelUrl = "",
+            engineerFoodUrl = "",
+            engineerAutoCabUrl = "",
+            engineerHotelUrl = "",
+            busTrainFareUrl = "",
+            fuelUrl = "",
+            materialTransportationUrl = "",
+            printingStationaryUrl = "",
+            icrUrl = "",
+            scrUrl = "",
+            otherExpensesUrl = ""
         )
 
 

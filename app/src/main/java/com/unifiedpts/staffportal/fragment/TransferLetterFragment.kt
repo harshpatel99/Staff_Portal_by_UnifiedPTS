@@ -16,6 +16,7 @@ import com.google.gson.Gson
 import com.unifiedpts.staffportal.MainActivity
 import com.unifiedpts.staffportal.R
 import com.unifiedpts.staffportal.model.User
+import java.net.URLEncoder
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -63,7 +64,7 @@ class TransferLetterFragment : Fragment() {
         val json: String = sp.getString("user", "")!!
         val user: User = gson.fromJson(json, User::class.java)
 
-        val url = user.transferLetterURL
+        val url = URLEncoder.encode(user.transferLetterURL, "UTF-8")
 
         if(url.isNullOrEmpty()){
             Toast.makeText(

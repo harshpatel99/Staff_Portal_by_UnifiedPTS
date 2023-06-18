@@ -194,7 +194,8 @@ class AddExpenseDetailsFragment : Fragment() {
             layoutICR.findViewById<TextInputEditText>(R.id.addExpenseDetailsItemLayoutTextInputEditText)
         val icrImageView =
             layoutICR.findViewById<ImageView>(R.id.addExpenseDetailsItemLayoutAttachImageView)
-        layoutICR.findViewById<TextInputLayout>(R.id.addExpenseDetailsItemLayoutTextInputLayout).visibility = View.INVISIBLE
+        layoutICR.findViewById<TextInputLayout>(R.id.addExpenseDetailsItemLayoutTextInputLayout).visibility =
+            View.INVISIBLE
 
         val scrTextView =
             layoutSCR.findViewById<TextView>(R.id.addExpenseDetailsItemLayoutTextView)
@@ -202,7 +203,8 @@ class AddExpenseDetailsFragment : Fragment() {
             layoutSCR.findViewById<TextInputEditText>(R.id.addExpenseDetailsItemLayoutTextInputEditText)
         val scrImageView =
             layoutSCR.findViewById<ImageView>(R.id.addExpenseDetailsItemLayoutAttachImageView)
-        layoutSCR.findViewById<TextInputLayout>(R.id.addExpenseDetailsItemLayoutTextInputLayout).visibility = View.INVISIBLE
+        layoutSCR.findViewById<TextInputLayout>(R.id.addExpenseDetailsItemLayoutTextInputLayout).visibility =
+            View.INVISIBLE
 
         val otherTextView =
             layoutOther.findViewById<TextView>(R.id.addExpenseDetailsItemLayoutTextView)
@@ -334,56 +336,57 @@ class AddExpenseDetailsFragment : Fragment() {
 
                             db.collection("expenseDetails").document(timeInMillis)
                                 .set(expenseDetails).addOnSuccessListener {
-                                Toast.makeText(
-                                    context, "Balances Updated!", Toast.LENGTH_SHORT
-                                ).show()
+                                    Toast.makeText(
+                                        context, "Balances Updated!", Toast.LENGTH_SHORT
+                                    ).show()
 
-                                //val sp = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
+                                    //val sp = requireActivity().getSharedPreferences("user", Context.MODE_PRIVATE)
 
-                                val gson = Gson()
-                                val json: String = sp.getString("user", "")!!
-                                val user: User = gson.fromJson(json, User::class.java)
+                                    val gson = Gson()
+                                    val json: String = sp.getString("user", "")!!
+                                    val user: User = gson.fromJson(json, User::class.java)
 
-                                val totalSpent = expenseDetails.totalSpent
+                                    val totalSpent = expenseDetails.totalSpent
 
-                                user.expenses = user.expenses!!.toDouble() - totalSpent!!.toDouble()
+                                    user.expenses =
+                                        user.expenses!!.toDouble() - totalSpent!!.toDouble()
 
-                                val editor = sp.edit()
-                                editor.putString("user", Gson().toJson(user))
-                                editor.apply()
+                                    val editor = sp.edit()
+                                    editor.putString("user", Gson().toJson(user))
+                                    editor.apply()
 
-                                progressBar.visibility = View.GONE
+                                    progressBar.visibility = View.GONE
 
-                                MainActivity.closeFragment(requireActivity())
-                            }.addOnFailureListener {
-                                Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
-                                    .show()
+                                    MainActivity.closeFragment(requireActivity())
+                                }.addOnFailureListener {
+                                    Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
+                                        .show()
 
-                                progressBar.visibility = View.GONE
+                                    progressBar.visibility = View.GONE
 
-                                db.collection("expenseDetails").document(timeInMillis)
-                                    .delete().addOnSuccessListener {
+                                    db.collection("expenseDetails").document(timeInMillis)
+                                        .delete().addOnSuccessListener {
 
-                                        db.collection("users")
-                                            .document(FirebaseAuth.getInstance().uid!!)
-                                            .update(
-                                                "expenses",
-                                                FieldValue.increment(expenseDetails.totalSpent!!)
-                                            )
-                                            .addOnSuccessListener {
-                                                submitButtonCardView.isClickable = true
-                                                submitButtonCardView.isEnabled = true
-
-                                                Toast.makeText(
-                                                    activity,
-                                                    "Please try again!",
-                                                    Toast.LENGTH_LONG
+                                            db.collection("users")
+                                                .document(FirebaseAuth.getInstance().uid!!)
+                                                .update(
+                                                    "expenses",
+                                                    FieldValue.increment(expenseDetails.totalSpent!!)
                                                 )
-                                                    .show()
-                                            }
+                                                .addOnSuccessListener {
+                                                    submitButtonCardView.isClickable = true
+                                                    submitButtonCardView.isEnabled = true
 
-                                    }
-                            }
+                                                    Toast.makeText(
+                                                        activity,
+                                                        "Please try again!",
+                                                        Toast.LENGTH_LONG
+                                                    )
+                                                        .show()
+                                                }
+
+                                        }
+                                }
 
 
                         }
@@ -569,7 +572,65 @@ class AddExpenseDetailsFragment : Fragment() {
                         Toast.makeText(
                             context, "Attachment is Added", Toast.LENGTH_SHORT
                         ).show()
-                        expenseDetails.attachmentUrls!![selectedImage] = it.toString()
+                        //expenseDetails.attachmentUrls!![selectedImage] = it.toString()
+                        when {
+                            selectedImage.compareTo("cashWorker") == 0 -> {
+                                expenseDetails.cashWorkerUrl = it.toString()
+                            }
+
+                            selectedImage.compareTo("workerAuto") == 0 -> {
+                                expenseDetails.workerAutoUrl = it.toString()
+                            }
+
+                            selectedImage.compareTo("workerFood") == 0 -> {
+                                expenseDetails.workerFoodUrl = it.toString()
+                            }
+
+                            selectedImage.compareTo("workerHotel") == 0 -> {
+                                expenseDetails.workerHotelUrl = it.toString()
+                            }
+
+                            selectedImage.compareTo("engineerFood") == 0 -> {
+                                expenseDetails.engineerFoodUrl = it.toString()
+                            }
+
+                            selectedImage.compareTo("engineerAutoCab") == 0 -> {
+                                expenseDetails.engineerAutoCabUrl = it.toString()
+                            }
+
+                            selectedImage.compareTo("engineerHotel") == 0 -> {
+                                expenseDetails.engineerHotelUrl = it.toString()
+                            }
+
+                            selectedImage.compareTo("busTrainFare") == 0 -> {
+                                expenseDetails.busTrainFareUrl = it.toString()
+                            }
+
+                            selectedImage.compareTo("fuel") == 0 -> {
+                                expenseDetails.fuelUrl = it.toString()
+                            }
+
+                            selectedImage.compareTo("materialTransportation") == 0 -> {
+                                expenseDetails.materialTransportationUrl = it.toString()
+                            }
+
+                            selectedImage.compareTo("printingAttach") == 0 -> {
+                                expenseDetails.printingStationaryUrl = it.toString()
+                            }
+
+                            selectedImage.compareTo("icrAttach") == 0 -> {
+                                expenseDetails.icrUrl = it.toString()
+                            }
+
+                            selectedImage.compareTo("scrAttach") == 0 -> {
+                                expenseDetails.scrUrl = it.toString()
+                            }
+
+                            selectedImage.compareTo("other") == 0 -> {
+                                expenseDetails.otherExpensesUrl = it.toString()
+                            }
+                        }
+
                         progressBar.visibility = View.GONE
 
                         selectedImageView.setColorFilter(
